@@ -37,6 +37,7 @@
 	 * Scripts and styles
 	 */
 	function theme_name_scripts() {
+		wp_enqueue_style( 'style-main', get_stylesheet_uri() );
 		wp_enqueue_script( 'scripts-all', get_template_directory_uri() . '/js/dist/scripts.min.js', array(), '1.0.0', true );
 	}
 
