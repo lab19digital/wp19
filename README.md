@@ -1,7 +1,7 @@
 # wp19
 Scaffold a Wordpress project with a minimal starter theme in Bootstrap using Gulp.
 
-	git clone https://github.com/lab19digital/wp19.git . && npm install
+	git clone https://github.com/lab19digital/wp19.git . && npm install gulp -g && npm install
 
 * Latest wordpress
 * Latest wp-cli
