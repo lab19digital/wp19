@@ -185,13 +185,13 @@ gulp.task("build", ["scripts", "sass"] );
 gulp.task('php', function() {
 
   connect.server({
-    port : 8000,
+    port : 8888,
     open : false,
     hostname : "0.0.0.0",
     base : 'wordpress'
   }, function (){
     browserSync({
-      proxy: '127.0.0.1:8000',
+      proxy: '127.0.0.1:8888',
       open : true
     });
   });

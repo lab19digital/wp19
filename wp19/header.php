@@ -16,16 +16,6 @@
 
 	<header>
 
-		<div class="nav-control">
-			<a href="javascript:;" data-toggle-menu>
-				<span class="burger">
-					<em></em>
-					<em></em>
-					<em></em>
-				</span>
-			</a>
-		</div>
-		
 		<div class="container">
 			<div class="logo-bar">
 				<a href="<?php bloginfo("siteurl"); ?>" class="logo">
@@ -43,6 +33,7 @@
 				</div>
 			</div>
 		</div>
+		
 	</header>
 
 	<div id="content" class="site-content">
