@@ -1,7 +1,7 @@
 {
   "name": "lab-boilerplate",
   "version": "1.0.0",
-  "description": "",
+  "description": "Scaffolding for Wordpress sites using Gulp and wp-cli",
   "main": "gulpfile.js",
   "dependencies": {
     "browser-sync": "^2.9.1",
@@ -25,6 +25,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall" : "gulp wpinit && gulp wpsetup && gulp php"
   },
-  "author": "",
+  "author": "Lab19 Digital",
   "license": "ISC"
 }
