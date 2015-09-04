@@ -1,0 +1,9 @@
+*.sublime-project
+*.sublime-workspace
+mailoutput
+npm-debug.log
+/wp-config.php
+/wp-cli.yml
+/node_modules
+/wordpress
+wp-cli.phar

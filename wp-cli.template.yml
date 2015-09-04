@@ -1,0 +1,25 @@
+path: ./wordpress/
+url: http://localhost:8000
+user: {WP_USER}
+skip-plugins:
+  - hello
+skip-themes:
+  - twentyfifteen
+  - twentyfourteen
+  - twentythirteen
+core download:
+  locale: en_GB
+core config:
+    dbname: {DB_NAME}
+    dbuser: {DB_USER}
+    dbpass: {DB_PASSWORD}
+    extra-php: |
+        define( 'WP_DEBUG', true );
+        define( 'WP_POST_REVISIONS', 10 );
+core install:
+    title: CHANGE THIS
+    admin_user: {WP_USER}
+    admin_password: {WP_PASSWORD}
+    admin_email: {WP_EMAIL}
+plugin install:
+  - seo
