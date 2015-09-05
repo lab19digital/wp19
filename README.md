@@ -7,7 +7,7 @@ Scaffold a Wordpress project with a minimal starter theme in Bootstrap using Gul
 * Latest wp-cli
 * Gulp for compiling JavaScript and Sass (or whatever else you need)
 
-After installation the server will run automatically. A theme called "default" is generated. To start the server in future, run <code>gulp serve</code> from the root.
+After installation the server will run automatically. A theme called "default" is generated. To start the server in future, run <code>gulp php</code> from the root.
 
 **JavaScript**
 JavaScript requirements are stored in the [theme_directory]/js/require.json and are compiled to ./js/dist/scripts.min.js
