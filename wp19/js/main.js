@@ -1,7 +1,7 @@
 ;( function( $ ){
 
     var s,
-        win,
+        win = $( window ),
         main = {
 
             // settings & vars
@@ -12,8 +12,7 @@
 
             // init function
             init: function(){
-                s = this.settings;
-                win = $( window );
+                s = main.settings;
                 win.resize( function(){
                     main.resize();
                 }).trigger('resize');
@@ -22,6 +21,7 @@
             generic: function(){},
 
             resize : function(){
+
                 var winWidth = win.width();
                 if( s.prevWindowSize > s.mobileWinSize 
                         && winWidth <= s.mobileWinSize ){
@@ -44,16 +44,16 @@
             sliders : function(){
                 return;
 
-            	var slider = $("div.slider");
-            	slider.slick({
-            		dots : true,
-            		arrows : true,
+                var slider = $("div.slider");
+                slider.slick({
+                    dots : true,
+                    arrows : true,
                     fade : true,
                     cssEase : 'linear',
                     autoplay: true,
                     autoplaySpeed: 2000,
                     infinite : true
-            	});
+                });
             },
 
             nestedLinks : function(){
@@ -91,8 +91,8 @@
 
     $( document ).ready( main.init );
     $( window ).load( main.windowLoad );
-
-    window.msie 	   = window.navigator.userAgent.indexOf("MSIE") > -1;
+    
+    window.msie        = window.navigator.userAgent.indexOf("MSIE") > -1;
     window.firefox     = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 
 })( jQuery );

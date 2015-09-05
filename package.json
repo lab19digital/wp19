@@ -4,7 +4,6 @@
   "description": "Scaffolding for Wordpress sites using Gulp and wp-cli",
   "main": "gulpfile.js",
   "dependencies": {
-    "browser-sync": "^2.9.1",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
     "gulp-connect-php": "^0.0.5",

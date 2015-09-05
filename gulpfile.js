@@ -4,7 +4,6 @@ var wpCli       = 'https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.pha
 // Include gulp
 var gulp 	      = require('gulp'); 
 var connect     = require('gulp-connect-php');
-var browserSync = require('browser-sync');
 var run         = require('gulp-run');
 var prompt      = require('gulp-prompt');
 var replace     = require('gulp-replace');
@@ -189,15 +188,6 @@ gulp.task('php', function() {
     open : false,
     hostname : "0.0.0.0",
     base : 'wordpress'
-  }, function (){
-    browserSync({
-      proxy: '127.0.0.1:8888',
-      open : true
-    });
-  });
-
-  gulp.watch(['**/*.php', '**/*.css']).on('change', function () {
-    browserSync.reload();
   });
 
   gulp.watch( themeUrl + '/js/*.js', ['lint', 'scripts']);
