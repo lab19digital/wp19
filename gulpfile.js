@@ -3,6 +3,7 @@ var wpCli       = 'https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.pha
 
 // Include gulp
 var gulp 	      = require('gulp'); 
+var rimraf      = require('rimraf');
 var connect     = require('gulp-connect-php');
 var run         = require('gulp-run');
 var prompt      = require('gulp-prompt');
@@ -132,7 +133,12 @@ gulp.task('wpsetup', function(){
     'php wp-cli.phar plugin uninstall hello',
     'php wp-cli.phar theme delete twentythirteen',
     'php wp-cli.phar theme delete twentyfourteen',
-    'php wp-cli.phar theme delete twentyfifteen'
+    'php wp-cli.phar theme delete twentyfifteen',
+
+    // Bower components
+    'cd wordpress/wp-content/themes/default && bower install',
+    'cd ../../../../',
+    'gulp cleanup'
 
   ].join(" && ");
   return run( cmd ).exec();
@@ -177,6 +183,11 @@ gulp.task('scripts', function() {
 gulp.task('watch', function() {
     gulp.watch( themeUrl + '/js/*.js', ['lint', 'scripts']);
     gulp.watch( themeUrl + '/css/*.scss', ['sass']);
+});
+
+gulp.task('cleanup', function(cb) {
+    rimraf('.git', cb);
+    rimraf('wp19', cb);
 });
 
 gulp.task("build", ["scripts", "sass"] );
