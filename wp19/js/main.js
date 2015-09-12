@@ -18,15 +18,29 @@
 
             // init function
             init: function(){
+
                 s = main.settings;
+                
                 win.resize( function(){
                     main.resize();
                 }).trigger('resize');
+
+                main.nestedLinks();
+                main.formValidation();
+                main.responsiveNav();
+            },
+
+            windowLoad : function(){
+                main.sliders();
             },
 
             generic: function(){},
 
             resize : function(){
+
+                /*
+                    Basic resize behaviour
+                */
 
                 var winWidth = win.width();
                 if( s.prevWindowSize > s.mobileWinSize 
@@ -39,30 +53,13 @@
                 s.prevWindowSize = winWidth;
             },
 
-            // Removes desktop effects
-            becomeMobile : function(){},
-
-            // Restores desktop effects
-            becomeDesktop : function(){},
-
-            windowLoad : function(){},
-
-            sliders : function(){
-                /*
-                var slider = $("div.slider");
-                slider.slick({
-                    dots : true,
-                    arrows : true,
-                    fade : true,
-                    cssEase : 'linear',
-                    autoplay: true,
-                    autoplaySpeed: 2000,
-                    infinite : true
-                  });
-                */
-            },
-
             nestedLinks : function(){
+
+                /*
+                    Allows cursor/CTA behaviour on large
+                    elements like heroes.
+                */
+
                 $("[data-nested-link]").each( function(){
                     var link = $(this).find("a").first();
                     $(this).css({
@@ -73,25 +70,55 @@
                 }); 
             },
 
-            formValidation : function(){
-                $("#contact").validate().on("validsubmission", function(){
-                    $(this).get(0).submit();
-                }).on("failedsubmission", function(){
-                    $(this).addClass("form-has-error");
-                });
+            // Removes desktop effects
+            becomeMobile : function(){},
+
+            // Restores desktop effects
+            becomeDesktop : function(){},
+
+            sliders : function(){
+                /*
+    
+                    Basic slider behaviour
+
+                    var slider = $("div.slider");
+                    slider.slick({
+                        dots : true,
+                        arrows : true,
+                        fade : true,
+                        cssEase : 'linear',
+                        autoplay: true,
+                        autoplaySpeed: 2000,
+                        infinite : true
+                      });
+                */
             },
 
-            nav : function(){
+            formValidation : function(){
                 /*
-                var toggleMenu = $("a[data-toggle-menu]").click( function(){
-                    $("#main-nav").toggleClass("in");
-                    $("#nav-bg").toggleClass("in");
-                });
+                    Basic form validation
 
-                $("#main-nav a.has-children").click( function( e ){
-                    $(this).siblings("ul").toggleClass("active");
-                    $(this).toggleClass("active");
-                });
+                    $("#contact").validate().on("validsubmission", function(){
+                        $(this).get(0).submit();
+                    }).on("failedsubmission", function(){
+                        $(this).addClass("form-has-error");
+                    });
+                */
+            },
+
+            responsiveNav : function(){
+                /*
+                    Typical nav behaviour
+
+                    var toggleMenu = $("a[data-toggle-menu]").click( function(){
+                        $("#main-nav").toggleClass("in");
+                        $("#nav-bg").toggleClass("in");
+                    });
+
+                    $("#main-nav a.has-children").click( function( e ){
+                        $(this).siblings("ul").toggleClass("active");
+                        $(this).toggleClass("active");
+                    });
                 */
             }
 
@@ -102,5 +129,8 @@
     
     window.msie        = window.navigator.userAgent.indexOf("MSIE") > -1;
     window.firefox     = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+
+
+    window.main = main;
 
 })( jQuery );
