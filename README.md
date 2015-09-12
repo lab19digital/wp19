@@ -6,6 +6,8 @@ Make sure you're running the latest version of NodeJS: [https://nodejs.org/en/do
 
 	git clone https://github.com/lab19digital/wp19.git . && npm install gulp -g && npm install
 
+This generator includes:
+
 * Latest wordpress
 * Latest wp-cli
 * Gulp for compiling JavaScript and Sass (or whatever else you need)
