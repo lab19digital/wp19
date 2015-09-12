@@ -1,3 +1,9 @@
+/*
+    Dependencies are loaded automatically
+    via require.json in this directory, minified 
+    to dist/scripts.min.js
+*/
+
 ;( function( $ ){
 
     var s,
@@ -42,8 +48,7 @@
             windowLoad : function(){},
 
             sliders : function(){
-                return;
-
+                /*
                 var slider = $("div.slider");
                 slider.slick({
                     dots : true,
@@ -53,7 +58,8 @@
                     autoplay: true,
                     autoplaySpeed: 2000,
                     infinite : true
-                });
+                  });
+                */
             },
 
             nestedLinks : function(){
@@ -76,6 +82,7 @@
             },
 
             nav : function(){
+                /*
                 var toggleMenu = $("a[data-toggle-menu]").click( function(){
                     $("#main-nav").toggleClass("in");
                     $("#nav-bg").toggleClass("in");
@@ -85,6 +92,7 @@
                     $(this).siblings("ul").toggleClass("active");
                     $(this).toggleClass("active");
                 });
+                */
             }
 
         };  // end
