@@ -145,7 +145,8 @@ gulp.task('wpsetup', function(){
 
     // Bower components
     'cd wordpress/wp-content/themes/default && bower install',
-    'cd ../../../../'
+    'cd ../../../../',
+    'gulp cleanup'
   );
 
   return run( cmd.join(" && ") ).exec();
