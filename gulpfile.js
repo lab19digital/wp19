@@ -3,7 +3,6 @@ var wpCli       = 'https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.pha
 
 // Include gulp
 var gulp 	      = require('gulp'); 
-var rimraf      = require('rimraf');
 var connect     = require('gulp-connect-php');
 var run         = require('gulp-run');
 var prompt      = require('gulp-prompt');
@@ -18,6 +17,7 @@ var untar 	    = require('gulp-untar');
 var request     = require('request');
 var source      = require('vinyl-source-stream');
 var fs          = require('fs');
+var del         = require('del');
 
 // Get Wordpress latest
 gulp.task('wpcli', function () {
@@ -102,6 +102,13 @@ gulp.task('wpcopytheme', function(){
 
 gulp.task('wpsetup', function(){
 
+  var packageJS = require('./package.json');
+  var plugins = packageJS.wpcli.plugins;
+
+  for( var x in plugins ){
+    plugins[x] = "php wp-cli.phar plugin install " + plugins[x] + ' --activate';
+  }
+
   var cmd = [
 
     'gulp wpinit',
@@ -122,14 +129,14 @@ gulp.task('wpsetup', function(){
     // Example menu
     'php wp-cli.phar menu create main-menu',
     'php wp-cli.phar menu location assign main-menu main-menu',
-    'php wp-cli.phar menu item add-custom main-menu Home / --porcelain',
+    'php wp-cli.phar menu item add-custom main-menu Home / --porcelain'
+  ];
 
-    // Get Plugins
-    'php wp-cli.phar plugin install advanced-custom-fields --activate',
-    'php wp-cli.phar plugin install yoast-seo --activate',
-    'php wp-cli.phar plugin install wordfence --activate',
+  cmd = cmd.concat( plugins );
 
-    // Cleanup
+  cmd = cmd.concat(
+
+    // Post install cleanup
     'php wp-cli.phar plugin uninstall hello',
     'php wp-cli.phar theme delete twentythirteen',
     'php wp-cli.phar theme delete twentyfourteen',
@@ -139,16 +146,11 @@ gulp.task('wpsetup', function(){
     'cd wordpress/wp-content/themes/default && bower install',
     'cd ../../../../',
     'gulp cleanup'
+  );
 
-  ].join(" && ");
-  return run( cmd ).exec();
+  return run( cmd.join(" && ") ).exec();
+
 });
-
-// Get ACF latest
-// Get ACF premium plugins
-// Get Yoast latest
-// Get security plugins
-// Get/run wpscan?
 
 // Lint Task
 gulp.task('lint', function() {
@@ -167,7 +169,7 @@ gulp.task('sass', function() {
 
 // Concatenate & Minify JS
 gulp.task('scripts', function() {
-    var paths = JSON.parse( fs.readFileSync( themeUrl + '/js/require.json', 'utf8') );
+    var paths = require('./' + themeUrl + '/js/require.json');
     for(var x in paths){
       paths[x] = themeUrl + paths[x];
     }
@@ -186,8 +188,12 @@ gulp.task('watch', function() {
 });
 
 gulp.task('cleanup', function(cb) {
-    rimraf('.git', cb);
-    rimraf('wp19', cb);
+    return del([
+      '.git/**/*',
+      'wp19/**/*',
+      'wp-cli.template.yml',
+      'wp-config.template.php'
+    ]);
 });
 
 gulp.task("build", ["scripts", "sass"] );

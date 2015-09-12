@@ -18,6 +18,17 @@
  * @package WordPress
  */
 
+/*
+	Security 
+	http://codex.wordpress.org/Hardening_WordPress
+*/
+
+define('DISALLOW_FILE_EDIT', true);
+
+/*
+	Environments
+*/
+
 switch( $_SERVER['HTTP_HOST'] ):
 	case 'prod.domain.com' :
 	break;

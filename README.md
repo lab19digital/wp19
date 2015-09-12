@@ -2,9 +2,10 @@
 
 Scaffold a Wordpress project with a minimal starter theme in Bootstrap using Gulp.
 
-Make sure you're running the latest version of NodeJS: [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
-
-	git clone https://github.com/lab19digital/wp19.git . && npm install gulp -g && npm install
+Make sure you're running the latest version of NodeJS: [https://nodejs.org/en/download/](https://nodejs.org/en/download/). You should also have gulp and bower installed.
+	
+	npm install -g gulp bower
+	git clone https://github.com/lab19digital/wp19.git . && npm install
 
 This generator includes:
 
