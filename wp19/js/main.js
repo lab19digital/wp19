@@ -20,7 +20,7 @@
             init: function(){
 
                 s = main.settings;
-                
+
                 win.resize( function(){
                     main.resize();
                 }).trigger('resize');
@@ -40,16 +40,19 @@
 
                 /*
                     Basic resize behaviour
+
+                    Triggers 2 events for when changing between mobile / desktop, 
+                    typicall for development only (i.e. resizing browser windows)
                 */
 
                 var winWidth = win.width();
-                if( s.prevWindowSize > s.mobileWinSize 
-                        && winWidth <= s.mobileWinSize ){
-                    main.becomeMobile();
-                } else if( s.prevWindowSize <= s.mobileWinSize 
-                    && winWidth > s.mobileWinSize ){
-                    main.becomeDesktop();
-                }
+                var becomesMobile = s.prevWindowSize > s.mobileWinSize && winWidth <= s.mobileWinSize;
+                var becomesDesktop = s.prevWindowSize <= s.mobileWinSize && winWidth > s.mobileWinSize;
+
+                // Execute events
+                becomesMobile && main.becomeMobile();
+                becomesDesktop && main.becomeDesktop();
+
                 s.prevWindowSize = winWidth;
             },
 
@@ -119,6 +122,45 @@
                         $(this).siblings("ul").toggleClass("active");
                         $(this).toggleClass("active");
                     });
+                */
+            },
+
+            parallax : function(){
+
+                /*
+
+                    Typical parallax example (Scrollmagic)
+
+                    var wh = win.height();
+                    $(".full-width-image img").each( function(){
+                        var each = $(this);
+
+                        var controller = new ScrollMagic.Controller();
+                        var scene = new ScrollMagic.Scene({
+                          offset: each.offset().top - wh, // start scene after scrolling for x px amount
+                          duration: wh*2 // pin the element for x px amount of scrolling
+                        });
+
+                        var tween = new TweenMax.to(each.get(0), 1, {
+                            transform : "translate(0,-300px)"
+                        });
+
+                        var timeline = new TimelineMax();
+                        timeline.add( tween, 0 );            
+                        scene.setTween(timeline).addTo(controller);
+
+                        each.on("destroyscrollmagic", function(){
+                            scene.destroy();
+                        });
+                    });
+                        
+                    
+                    main.destroyParallax : function(){
+                        $(".full-width-image img").trigger("destroyscrollmagic").css({
+                            transform: "translate(0,0)"
+                        });
+                    };
+
                 */
             }
 
