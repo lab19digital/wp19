@@ -50,9 +50,9 @@
                 var becomesDesktop = s.prevWindowSize <= s.mobileWinSize && winWidth > s.mobileWinSize;
 
                 // Execute events
-                becomesMobile && main.becomeMobile();
-                becomesDesktop && main.becomeDesktop();
-
+                becomesMobile && main.onBecomeMobile();
+                becomesDesktop && main.onBecomeDesktop();
+                
                 s.prevWindowSize = winWidth;
             },
 
@@ -73,11 +73,9 @@
                 }); 
             },
 
-            // Removes desktop effects
-            becomeMobile : function(){},
+            onBecomeMobile : function(){},
 
-            // Restores desktop effects
-            becomeDesktop : function(){},
+            onBecomeDesktop : function(){},
 
             sliders : function(){
                 /*
