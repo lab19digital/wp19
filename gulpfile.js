@@ -97,7 +97,8 @@ gulp.task('wpcopyconfig', function(){
 });
 
 gulp.task('wpcopytheme', function(){
-  return gulp.src(['wp19/**/*']).pipe(gulp.dest('./wordpress/wp-content/themes/default'));
+  gulp.src(['wp19/**/*']).pipe(gulp.dest('./wordpress/wp-content/themes/default'));
+  gulp.src(['bower.json']).pipe(gulp.dest('./wordpress/wp-content/themes/default'));
 });
 
 gulp.task('wpsetup', function(){
@@ -144,8 +145,7 @@ gulp.task('wpsetup', function(){
 
     // Bower components
     'cd wordpress/wp-content/themes/default && bower install',
-    'cd ../../../../',
-    'gulp cleanup'
+    'cd ../../../../'
   );
 
   return run( cmd.join(" && ") ).exec();

@@ -30,4 +30,15 @@ Automatically installs the following plugins:
 
 Also removes the hello plugin and standard themes
 
+**JavaScript Plugins**
+A bower.json file is included in the root and is used to setup the theme. It includes the following plugins we commonly use at Lab19:
+
+* bootstrap
+* tweenjs
+* slick
+* slick-carousel
+* scrollmagic
+* gsap
+* mustache
+
 Created by <a href="http://lab19digital.com">Lab19 Digital</a>.
