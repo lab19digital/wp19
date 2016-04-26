@@ -1,9 +1,10 @@
 path: ./wordpress/
-url: http://localhost:8000
+url: {WP_BASE_URL}
 user: {WP_USER}
 skip-plugins:
   - hello
 skip-themes:
+  - twentysixteen
   - twentyfifteen
   - twentyfourteen
   - twentythirteen
@@ -15,11 +16,9 @@ core config:
     dbpass: {DB_PASSWORD}
     extra-php: |
         define( 'WP_DEBUG', true );
-        define( 'WP_POST_REVISIONS', 10 );
+        define( 'WP_POST_REVISIONS', 3 );
 core install:
-    title: CHANGE THIS
+    title: {WP_SITE_TITLE}
     admin_user: {WP_USER}
     admin_password: {WP_PASSWORD}
     admin_email: {WP_EMAIL}
-plugin install:
-  - seo

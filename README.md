@@ -7,6 +7,15 @@ Make sure you're running the latest version of NodeJS: [https://nodejs.org/en/do
 	npm install -g gulp bower
 	git clone https://github.com/lab19digital/wp19.git . && npm install
 
+To build an installation from scratch
+
+	gulp wpinit
+	gulp wpsetup
+
+To run the server after build or on an existing project
+
+	gulp php
+
 This generator includes:
 
 * Latest wordpress

@@ -25,6 +25,8 @@
 
 define('DISALLOW_FILE_EDIT', true);
 
+define( 'WP_POST_REVISIONS', 3 );
+
 /*
 	Environments
 */
@@ -41,8 +43,12 @@ switch( $_SERVER['HTTP_HOST'] ):
 		define('DB_USER', '{DB_USER}');	
 		define('DB_PASSWORD', '{DB_PASSWORD}');
 		define('DB_HOST', 'localhost');
+		// define( 'WP_DEBUG', true );
 	break;
 endswitch;
+
+define('WP_USER', '{WP_USER}');
+define('WP_PASSWORD', '{WP_PASSWORD}');
 
 /** Database Charset to use in creating database tables. */
 define('DB_CHARSET', 'utf8');
