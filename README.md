@@ -1,3 +1,13 @@
+# Start here 
+
+// You can skip this step if you already have gulp installed
+npm install -g gulp
+
+npm install
+
+gulp wpsetup (Builds an installation from scratch)
+
+
 # wp19
 
 Scaffold a Wordpress project with a minimal starter theme in Bootstrap using Gulp.
@@ -9,7 +19,6 @@ Make sure you're running the latest version of NodeJS: [https://nodejs.org/en/do
 
 To build an installation from scratch
 
-	gulp wpinit
 	gulp wpsetup
 
 To run the server after build or on an existing project
@@ -20,15 +29,13 @@ This generator includes:
 
 * Latest wordpress
 * Latest wp-cli
-* Gulp for compiling JavaScript and Sass (or whatever else you need)
+* Gulp for compiling JavaScript, Sass, or Less (or whatever else you need)
+* Webpack for compiling JavaScript
 
 After installation the server will run automatically. A theme called "default" is generated. To start the server in future, run <code>gulp php</code> from the root.
 
-**JavaScript**
-JavaScript requirements are stored in the [theme_directory]/js/require.json and are compiled to ./js/dist/scripts.min.js
-
 **Sass**
-We're using Less until Bootstrap 4 comes out, at which time we'll be switching over to Sass. Less compilation is not built in for this reason (we're currently using lessc binary with Sublime Text). 
+We're using Less until Bootstrap 4 comes out, at which time we'll be switching over to Sass, which is why it's also included but optional for use.
 
 **Wordpress Plugins**
 Automatically installs the following plugins:
@@ -36,18 +43,10 @@ Automatically installs the following plugins:
 * advanced-custom-fields
 * yoast-seo
 * wordfence
+* timber (twig)
 
 Also removes the hello plugin and standard themes
 
 **JavaScript Plugins**
-A bower.json file is included in the root and is used to setup the theme. It includes the following plugins we commonly use at Lab19:
-
-* bootstrap
-* tweenjs
-* slick
-* slick-carousel
-* scrollmagic
-* gsap
-* mustache
 
 Created by <a href="http://lab19digital.com">Lab19 Digital</a>.

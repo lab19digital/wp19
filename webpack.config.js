@@ -5,7 +5,7 @@ module.exports = {
   // devtool: 'sourcemap',
   entry: './wordpress/wp-content/themes/default/js/main.js',
   output : {
-    filename : './wordpress/wp-content/themes/default/js/main.dist.js'
+    filename : './wordpress/wp-content/themes/default/dist/js/main.dist.js'
   },
   module: {
     loaders: [

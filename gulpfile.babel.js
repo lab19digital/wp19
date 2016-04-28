@@ -1,9 +1,11 @@
-const themeUrl    = 'wordpress/wp-content/themes/default';
-const wpCli       = 'https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar';
+const themeUrl     = 'wordpress/wp-content/themes/default';
+const wpCli        = 'https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar';
+const cssBrowsers  = ['> 1%', 'last 2 versions','ie >= 10'];
 
+// Required dependencies
 import gulp from "gulp";
 import connect from "gulp-connect-php";
-import run from "gulp-run";
+import shell from "gulp-shell";
 import prompt from "gulp-prompt";
 import replace from "gulp-replace";
 import jshint from "gulp-jshint";
@@ -18,11 +20,16 @@ import source from "vinyl-source-stream";
 import fs from "fs";
 import del from "del";
 import plumber from "gulp-plumber";
-
 import configPrompt	from "./config-prompt";
 import packageJs 	from "./package.json";
 import webpack from "webpack-stream";
 import webpackConfig from "./webpack.config.js";
+
+// Optional dependencies
+import autoprefixer from "autoprefixer";
+import sourcemaps from "gulp-sourcemaps";
+import postcss from "gulp-postcss";
+import cssnano from "cssnano";
 
 /*
 	Initialization tasks
@@ -68,8 +75,12 @@ gulp.task('wpinit', () => {
           .pipe(replace('{WP_PASSWORD}', res.wppass))
           .pipe(replace('{WP_EMAIL}', res.wpemail))
           .pipe(replace('{WP_SITE_TITLE}', res.wpsitetitle))
+          .pipe(replace('{WP_BASE_URL}', res.wpbase))
           .pipe(rename('wp-cli.yml'))
           .pipe(gulp.dest('./'))
+
+        shell.task(['gulp wpsetup'])();
+
       })
   )
 
@@ -89,7 +100,6 @@ gulp.task('wpcopyconfig', () => {
 
 gulp.task('wpcopytheme', () => {
   gulp.src(['wp19/**/*']).pipe(gulp.dest('./wordpress/wp-content/themes/default'));
-  gulp.src(['bower.json']).pipe(gulp.dest('./wordpress/wp-content/themes/default'));
 });
 
 /*
@@ -107,9 +117,11 @@ gulp.task('wpsetup', () => {
 
   cmd = cmd.concat([
 
-    'gulp wpinit',
+    'echo Wordpress download, installation, and configuration will take a few minutes...',
 
     // Get the CLI tool
+    'echo Fetching the CLI tool...',
+
     'gulp wpcli',
 
     // Install WP
@@ -125,13 +137,17 @@ gulp.task('wpsetup', () => {
     // Example menu
     'php wp-cli.phar menu create main-menu',
     'php wp-cli.phar menu location assign main-menu main-menu',
-    'php wp-cli.phar menu item add-custom main-menu Home / --porcelain'
+    'php wp-cli.phar menu item add-custom main-menu Home / --porcelain',
+
+    'echo Download and install plugins...',
 
    ])
 
    .concat( plugins )
 	
    .concat(
+
+    'echo Cleaning up the installation...',
 
     // Post install cleanup
     'php wp-cli.phar plugin uninstall hello',
@@ -140,13 +156,16 @@ gulp.task('wpsetup', () => {
     'php wp-cli.phar theme delete twentyfifteen',
     'php wp-cli.phar theme delete twentysixteen',
 
-    // 'gulp cleanup'
+
+    'echo All set! Thanks for waiting.'
 
   );
 
-  for(var x; x <= cmd.length; x++){
-    run( cmd.join(" && ") ).exec();
-  }
+  // cmd.push('gulp cleanup');
+
+  // Run these tasks
+
+  shell.task( cmd )();
 
 });
 
@@ -169,39 +188,57 @@ gulp.task('cleanup', (cb) => {
 	-------------------------------------------------------------------------
 */
 
+let plumber_cfg = function( done ){
+  return {
+    errorHandler: function (err) {
+      done(err);
+    }
+  }
+}
+
 // Compile Sass
-gulp.task('sass', () => {
+gulp.task('sass', ( done ) => {
     return gulp.src( themeUrl + '/css/*.scss')
-        .pipe(plumber())
+        .pipe(plumber(plumber_cfg(done)))
         .pipe(concat('main.dist.css'))
         .pipe(sass())
-        .pipe(gulp.dest(themeUrl + '/css'));
+        .pipe(postcss([ 
+          //== If you need autoprefixer, you can uncomment it below == //
+          // autoprefixer({ browsers: [cssBrowsers] }),
+          
+          //== If you need css minification, you can uncomment it below == //
+          // cssnano()
+
+        ]))
+        .pipe(gulp.dest(themeUrl + '/dist/css'));
 });
 
 // Compile Less
-gulp.task('less', () => {
+gulp.task('less', ( done ) => {
     return gulp.src( themeUrl + '/css/*.less')
-        .pipe(plumber())
+        .pipe(plumber(plumber_cfg(done)))
         .pipe(concat('main.dist.css'))
         .pipe(less())
-        .pipe(gulp.dest(themeUrl + '/css'));
+        .pipe(postcss([ 
+          //== If you need autoprefixer, you can uncomment it below == //
+          // autoprefixer({ browsers: [cssBrowsers] }),
+
+          //== If you need css minification, you can uncomment it below == //
+          // cssnano()
+        ]))
+        .pipe(gulp.dest(themeUrl + '/dist/css'));
 });
 
 // Concatenate & Minify JS
 gulp.task('scripts', () => {
     return gulp.src( themeUrl + '/js/main.js' )
-        .pipe(plumber())
+        .pipe(plumber({
+          errorHandler : onError
+        }))
         .pipe(jshint())
         .pipe(jshint.reporter('default'))
         .pipe(webpack(webpackConfig))
         .pipe(gulp.dest("./"));
-});
-
-// Watch Files For Changes
-gulp.task('watch', function() {
-    gulp.watch( themeUrl + '/js/*.js', ['lint', 'scripts']);
-    gulp.watch( themeUrl + '/css/*.scss', ['sass']);
-    gulp.watch( themeUrl + '/css/*.less', ['less']);
 });
 
 gulp.task("build", ["scripts", "sass", "less"] );
