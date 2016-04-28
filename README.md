@@ -1,6 +1,7 @@
 # Start here 
 
-// You can skip this step if you already have gulp installed
+You can skip this step if you already have gulp installed
+
 npm install -g gulp
 
 npm install
