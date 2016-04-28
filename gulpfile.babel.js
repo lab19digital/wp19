@@ -230,11 +230,9 @@ gulp.task('less', ( done ) => {
 });
 
 // Concatenate & Minify JS
-gulp.task('scripts', () => {
+gulp.task('scripts', ( done ) => {
     return gulp.src( themeUrl + '/js/main.js' )
-        .pipe(plumber({
-          errorHandler : onError
-        }))
+        .pipe(plumber(plumber_cfg(done)))
         .pipe(jshint())
         .pipe(jshint.reporter('default'))
         .pipe(webpack(webpackConfig))
