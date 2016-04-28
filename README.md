@@ -1,12 +1,12 @@
-# Start here 
-
-
+# Quick start
 
 npm install -g gulp (You can skip this step if you already have gulp installed)
 
 npm install
 
-gulp wpsetup (Builds an installation from scratch)
+gulp wpinit (Builds an installation from scratch)
+
+gulp php
 
 
 # wp19
@@ -15,12 +15,12 @@ Scaffold a Wordpress project with a minimal starter theme in Bootstrap using Gul
 
 Make sure you're running the latest version of NodeJS: [https://nodejs.org/en/download/](https://nodejs.org/en/download/). You should also have gulp and bower installed.
 	
-	npm install -g gulp bower
+	npm install -g gulp
 	git clone https://github.com/lab19digital/wp19.git . && npm install
 
 To build an installation from scratch
 
-	gulp wpsetup
+	gulp wpinit
 
 To run the server after build or on an existing project
 
