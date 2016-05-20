@@ -72,4 +72,25 @@ for GSAP for this purpose. You can uncomment these to get GSAP/Scrollmagic worki
 
 You may require a similar approach for other JavaScript libraries.
 
+# A word about the built in PHP server for Mac users
+Mac users have reported issues with the built in PHP server not connecting to the MySQL database correctly. 
+This seems to happen for MAMP users. A php.ini file is not defined for MAMP users when using the built
+in server. You should copy your MAMP php.ini file to /etc/
+
+For example:
+
+	/Applications/MAMP/bin/php/phpX.X.XX/conf
+
+Should be copied to:
+
+	/etc/
+
+Once this is done, the socket file for MySQL socket connections will be founds. If this is not the case
+you need to confirm your socket files exists and is configured correctly in the PHP.ini file being used.
+
+	mysql.default_socket = /Applications/MAMP/tmp/mysql/mysql.sock
+	pdo_mysql.default_socket = /Applications/MAMP/tmp/mysql/mysql.sock
+
+
+
 Created by <a href="http://lab19digital.com">Lab19 Digital</a>.
