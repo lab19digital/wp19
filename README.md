@@ -85,7 +85,7 @@ Should be copied to:
 
 	/etc/
 
-Once this is done, the socket file for MySQL socket connections will be founds. If this is not the case
+Once this is done, the socket file for MySQL socket connections will be found. If this is not the case
 you need to confirm your socket files exists and is configured correctly in the PHP.ini file being used.
 
 	mysql.default_socket = /Applications/MAMP/tmp/mysql/mysql.sock
