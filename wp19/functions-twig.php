@@ -6,7 +6,10 @@
 	      . esc_url( admin_url( 'plugins.php#timber' ) ) . '">' . esc_url( admin_url( 'plugins.php' ) ) 
 	      . '</a></p></div>';
 	    } );
-	  exit;
+	  if( ! isCommandLineInterface() ){
+	  	die('Timber/twig not enabled');
+	  }
+	  return;
 	}
 
 		

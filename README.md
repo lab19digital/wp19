@@ -14,7 +14,7 @@ gulp php
 
 Scaffold a Wordpress project with a minimal starter theme in Bootstrap using Gulp.
 
-Make sure you're running the latest version of NodeJS: [https://nodejs.org/en/download/](https://nodejs.org/en/download/). You should also have gulp installed.s
+Make sure you're running the latest version of NodeJS: [https://nodejs.org/en/download/](https://nodejs.org/en/download/). You should also have gulp installed.
 	
 	npm install -g gulp
 	git clone https://github.com/lab19digital/wp19.git . && npm install
@@ -92,7 +92,6 @@ you need to confirm your socket files exists and is configured correctly in the 
 
 	mysql.default_socket = /Applications/MAMP/tmp/mysql/mysql.sock
 	pdo_mysql.default_socket = /Applications/MAMP/tmp/mysql/mysql.sock
-
 
 
 Created by <a href="http://lab19digital.com">Lab19 Digital</a>.

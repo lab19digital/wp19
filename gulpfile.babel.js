@@ -1,4 +1,4 @@
-const wpCli        = 'https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar';
+const wpCli        = 'https://github.com/wp-cli/wp-cli/releases/download/v0.22.0/wp-cli-0.22.0.phar';
 const cssBrowsers  = ['> 1%', 'last 2 versions','ie >= 10'];
 
 // Required dependencies
