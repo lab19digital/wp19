@@ -11,17 +11,15 @@ import jshint from "gulp-jshint";
 import sass from "gulp-sass";
 import less from "gulp-less";
 import concat from "gulp-concat";
-import uglify from "gulp-uglify";
 import rename from "gulp-rename";
-import gunzip from "gulp-gunzip";
 import browserSync from "browser-sync";
 import request from "request";
 import source from "vinyl-source-stream";
 import fs from "fs";
 import del from "del";
 import plumber from "gulp-plumber";
-import configPrompt	from "./config-prompt";
-import packageJs 	from "./package.json";
+import configPrompt from "./config-prompt";
+import packageJs  from "./package.json";
 import webpack from "webpack-stream";
 import webpackConfig from "./webpack.config.js";
 
@@ -33,7 +31,7 @@ import cssnano from "cssnano";
 
 // Set the theme URL, the theme.json will be altered by the 
 // ========================================================================
-const theme       = require("./theme.json").theme;
+let theme       = require("./theme.json").theme;
 let themeUrl    = 'wp/wp-content/themes/' + theme;
 
 // Fetch Wordpress CLI latest build 
@@ -44,8 +42,8 @@ let themeUrl    = 'wp/wp-content/themes/' + theme;
 
 gulp.task('wpcli', () => {
   return request(wpCli)
-  	.pipe(source('wp-cli.phar'))
-  	.pipe(gulp.dest('./'))
+    .pipe(source('wp-cli.phar'))
+    .pipe(gulp.dest('./'))
 });
 
 // Initialize the setup
@@ -87,6 +85,7 @@ gulp.task('wpinit', () => {
           .pipe(replace(theme, res.wptheme))
           .pipe(gulp.dest('./'))
 
+        theme       = res.wptheme;
         themeUrl    = 'wp/wp-content/themes/' + theme;
 
         shell.task(['gulp wpsetup'])();
@@ -101,7 +100,7 @@ gulp.task('wpinit', () => {
 // Copies the config into the wp directory
 
 gulp.task('wpcopyconfig', () => {
-	gulp.src('wp-config.php').pipe(gulp.dest('./wp'));
+  gulp.src('wp-config.php').pipe(gulp.dest('./wp'));
 });
 
 // Copy the base theme
@@ -124,7 +123,7 @@ gulp.task('wpsetup', () => {
   let cmd = [];
 
   for(var i=0; i < plugins.length; i++ ){
-    plugins[x] = "php wp-cli.phar plugin install " + plugins[x] + ' --activate';
+    plugins[i] = "php wp-cli.phar plugin install " + plugins[i] + ' --activate';
   }
 
   cmd = cmd.concat([
@@ -144,7 +143,7 @@ gulp.task('wpsetup', () => {
     // Copy the config
     'gulp wpcopyconfig',
     'gulp wpcopytheme',
-    'php wp-cli.phar theme activate default',
+    'php wp-cli.phar theme activate ' + theme,
 
     // Create basic menu
     'php wp-cli.phar menu create main-menu',
@@ -156,7 +155,7 @@ gulp.task('wpsetup', () => {
    ])
 
    .concat( plugins )
-	
+  
    .concat(
 
     'echo Cleaning up the installation...',
@@ -167,9 +166,9 @@ gulp.task('wpsetup', () => {
     'php wp-cli.phar theme delete twentyfifteen',
     'php wp-cli.phar theme delete twentysixteen',
 
-    'echo \nAll set! Thanks for waiting.',
-    'echo \nIMPORTANT: You need to remove several files from your installation.',
-    'echo \nPlease run gulp cleanup. This will remove the .git folder and other setup files.'
+    'echo All set! Thanks for waiting.',
+    'echo IMPORTANT: You need to remove several files from your installation.',
+    'echo Please run gulp cleanup. This will remove the .git folder and other setup files.'
 
   );
 
@@ -195,8 +194,7 @@ gulp.task('cleanup', (cb) => {
       'wp19/**/*',
       'wp-cli.template.yml',
       'wp-config.template.php',
-      'wp-config.php',
-      'config-prompt.js'
+      'wp-config.php'
     ]);
 });
 
@@ -263,7 +261,7 @@ gulp.task("build", ["scripts", "sass", "less"] );
 
 // PHP Task
 // ========================================================================
-// Using connect we can monitor the files as they changes and recompile theme
+// Using connect we can monitor the files as they change and recompile theme
 
 gulp.task('php', () => {
 
