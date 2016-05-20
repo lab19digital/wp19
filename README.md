@@ -23,6 +23,10 @@ To build an installation from scratch
 
 	gulp wpinit
 
+After installation, you will need to cleanup the scaffolding files (and remove the old repos)
+
+	gulp cleanup
+
 To run the server after build or on an existing project
 
 	gulp php
