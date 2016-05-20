@@ -77,6 +77,8 @@ Mac users have reported issues with the built in PHP server not connecting to th
 This seems to happen for MAMP users. A php.ini file is not defined for MAMP users when using the built
 in server. You should copy your MAMP php.ini file to /etc/
 
+The command `php --ini` should tell you where to find the file you need.
+
 For example:
 
 	/Applications/MAMP/bin/php/phpX.X.XX/conf
