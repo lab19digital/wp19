@@ -1,16 +1,11 @@
 <?php
 
-/*
-	Template Name: Contact
-*/
+	$data = Timber::get_context();
+	$data['post'] = new TimberPost();
 
-	get_header();
+	/*
+		Add custom fields here, or you can call these directly
+		in the twig file using  {{ post.get_field() }}
+	*/
 
-?>
-
-
-	<div class="container">
-		<h1><?php the_title(); ?></h1>
-	</div>
-
-<?php get_footer(); ?>
+	return Timber::render('contact.twig', $data);

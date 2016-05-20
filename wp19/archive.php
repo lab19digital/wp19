@@ -1,29 +1,13 @@
-<?php get_header(); ?>
+<?php
 
-	<div class="container">
+	$data = Timber::get_context();
+	$data['post'] = new TimberPost();
 
-		<?php if ( have_posts() ) : ?>
+	/*
+		Add custom fields here, or you can call these directly
+		in the twig file using  {{ post.get_field() }}
+	*/
 
-			<header></header>
+	Timber::render('archive.twig', $data);
 
-			<?php
-			
-			while ( have_posts() ) : the_post();
-
-				
-			endwhile;
-			
-			the_posts_pagination( array(
-				'prev_text'          => 'Previous page',
-				'next_text'          => 'Next page',
-				'before_page_number' => 'Page',
-			) );
-
-		else :
-			get_template_part( 'content', 'none' );
-
-		endif;
-		?>
-	</div>
-
-<?php get_footer();
+	return;

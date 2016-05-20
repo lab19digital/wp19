@@ -1,4 +1,3 @@
-const themeUrl     = 'wordpress/wp-content/themes/default';
 const wpCli        = 'https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar';
 const cssBrowsers  = ['> 1%', 'last 2 versions','ie >= 10'];
 
@@ -15,6 +14,7 @@ import concat from "gulp-concat";
 import uglify from "gulp-uglify";
 import rename from "gulp-rename";
 import gunzip from "gulp-gunzip";
+import browserSync from "browser-sync";
 import request from "request";
 import source from "vinyl-source-stream";
 import fs from "fs";
@@ -31,14 +31,16 @@ import sourcemaps from "gulp-sourcemaps";
 import postcss from "gulp-postcss";
 import cssnano from "cssnano";
 
-/*
-	Initialization tasks
-	-------------------------------------------------------------------------
-*/
+// Set the theme URL, the theme.json will be altered by the 
+// ========================================================================
+const theme       = require("./theme.json").theme;
+let themeUrl    = 'wp/wp-content/themes/' + theme;
 
-/*
-	Get wordpress CLI latest
-*/
+// Fetch Wordpress CLI latest build 
+// ========================================================================
+// Wordpress CLI used for getting latest installation 
+// You can also use wpcli in future for installing plugins and other tasks
+// For more info see https://wp-cli.org/
 
 gulp.task('wpcli', () => {
   return request(wpCli)
@@ -46,10 +48,12 @@ gulp.task('wpcli', () => {
   	.pipe(gulp.dest('./'))
 });
 
-
-/*
-	Initialize wordpress config
-*/
+// Initialize the setup
+// ========================================================================
+// Runs through a series of prompts, altering the wp-config template and
+// finally outputting a wp-config file and a wp-cli template file, used
+// for the remaining installation. You can add more prompt options in 
+// config-prompt.js and use the prompt values returned below. 
 
 gulp.task('wpinit', () => {
 
@@ -79,6 +83,12 @@ gulp.task('wpinit', () => {
           .pipe(rename('wp-cli.yml'))
           .pipe(gulp.dest('./'))
 
+        gulp.src('theme.json')
+          .pipe(replace(theme, res.wptheme))
+          .pipe(gulp.dest('./'))
+
+        themeUrl    = 'wp/wp-content/themes/' + theme;
+
         shell.task(['gulp wpsetup'])();
 
       })
@@ -86,32 +96,34 @@ gulp.task('wpinit', () => {
 
 });
 
-/*
-	Copy the configuration
-*/
+// Copy the wordpress configuration
+// ========================================================================
+// Copies the config into the wp directory
 
 gulp.task('wpcopyconfig', () => {
-	gulp.src('wp-config.php').pipe(gulp.dest('./wordpress'));
+	gulp.src('wp-config.php').pipe(gulp.dest('./wp'));
 });
 
-/*
-	Copy the basetheme
-*/
+// Copy the base theme
+// ========================================================================
+// Copies the base theme into the wp theme folder
 
 gulp.task('wpcopytheme', () => {
-  gulp.src(['wp19/**/*']).pipe(gulp.dest('./wordpress/wp-content/themes/default'));
+  gulp.src(['wp19/**/*']).pipe(gulp.dest('./' + themeUrl + '/'));
 });
 
-/*
-	Install Wordpress and setup
-*/
+// Main setup task
+// ========================================================================
+// Runs through all remaining commands to install Wordpress and plugins
+// 
+// NOTE: More plugins can be defined in package.json
 
 gulp.task('wpsetup', () => {
 
   let plugins = packageJs.wpcli.plugins;
   let cmd = [];
 
-  for( var x in plugins ){
+  for(var i=0; i < plugins.length; i++ ){
     plugins[x] = "php wp-cli.phar plugin install " + plugins[x] + ' --activate';
   }
 
@@ -134,7 +146,7 @@ gulp.task('wpsetup', () => {
     'gulp wpcopytheme',
     'php wp-cli.phar theme activate default',
 
-    // Example menu
+    // Create basic menu
     'php wp-cli.phar menu create main-menu',
     'php wp-cli.phar menu location assign main-menu main-menu',
     'php wp-cli.phar menu item add-custom main-menu Home / --porcelain',
@@ -151,16 +163,17 @@ gulp.task('wpsetup', () => {
 
     // Post install cleanup
     'php wp-cli.phar plugin uninstall hello',
-    'php wp-cli.phar theme delete twentythirteen',
     'php wp-cli.phar theme delete twentyfourteen',
     'php wp-cli.phar theme delete twentyfifteen',
     'php wp-cli.phar theme delete twentysixteen',
 
-
-    'echo All set! Thanks for waiting.'
+    'echo \nAll set! Thanks for waiting.',
+    'echo \nIMPORTANT: You need to remove several files from your installation.',
+    'echo \nPlease run gulp cleanup. This will remove the .git folder and other setup files.'
 
   );
 
+  // Disabled 
   // cmd.push('gulp cleanup');
 
   // Run these tasks
@@ -169,28 +182,34 @@ gulp.task('wpsetup', () => {
 
 });
 
-/*
-	Post install cleanup
-*/
+// Final cleanup tasks
+// ========================================================================
+// Removes the .git folder. This repo should be cloned and used for another
+// project, and does not require a git history.
+// 
+// Removes other setup files that won't be required
 
 gulp.task('cleanup', (cb) => {
     return del([
       '.git/**/*',
       'wp19/**/*',
       'wp-cli.template.yml',
-      'wp-config.template.php'
+      'wp-config.template.php',
+      'wp-config.php',
+      'config-prompt.js'
     ]);
 });
 
 
-/*
-	Build tasks
-	-------------------------------------------------------------------------
-*/
+// Build/compilation tasks
+// ========================================================================
+// Compiles sass or less
+// You can also use autoprefixer and cssnano if needed
+// Compiles JavaScript (ES6-style), using webpack
 
-let plumber_cfg = function( done ){
+const plumberHandler = ( done ) => {
   return {
-    errorHandler: function (err) {
+    errorHandler:(err) => {
       done(err);
     }
   }
@@ -199,12 +218,13 @@ let plumber_cfg = function( done ){
 // Compile Sass
 gulp.task('sass', ( done ) => {
     return gulp.src( themeUrl + '/css/*.scss')
-        .pipe(plumber(plumber_cfg(done)))
+        .pipe(plumber(plumberHandler(done)))
         .pipe(concat('main.dist.css'))
         .pipe(sass())
         .pipe(postcss([ 
+
           //== If you need autoprefixer, you can uncomment it below == //
-          // autoprefixer({ browsers: [cssBrowsers] }),
+          // autoprefixer({ browsers: cssBrowsers }),
           
           //== If you need css minification, you can uncomment it below == //
           // cssnano()
@@ -216,23 +236,23 @@ gulp.task('sass', ( done ) => {
 // Compile Less
 gulp.task('less', ( done ) => {
     return gulp.src( themeUrl + '/css/*.less')
-        .pipe(plumber(plumber_cfg(done)))
+        .pipe(plumber(plumberHandler(done)))
         .pipe(concat('main.dist.css'))
         .pipe(less())
         .pipe(postcss([ 
           //== If you need autoprefixer, you can uncomment it below == //
-          // autoprefixer({ browsers: [cssBrowsers] }),
+          // autoprefixer({ browsers: cssBrowsers }),
 
           //== If you need css minification, you can uncomment it below == //
           // cssnano()
         ]))
-        .pipe(gulp.dest(themeUrl + '/dist/css'));
+        .pipe(gulp.dest(themeUrl + '/css'));
 });
 
 // Concatenate & Minify JS
 gulp.task('scripts', ( done ) => {
     return gulp.src( themeUrl + '/js/main.js' )
-        .pipe(plumber(plumber_cfg(done)))
+        .pipe(plumber(plumberHandler(done)))
         .pipe(jshint())
         .pipe(jshint.reporter('default'))
         .pipe(webpack(webpackConfig))
@@ -241,18 +261,33 @@ gulp.task('scripts', ( done ) => {
 
 gulp.task("build", ["scripts", "sass", "less"] );
 
-gulp.task('php', function() {
+// PHP Task
+// ========================================================================
+// Using connect we can monitor the files as they changes and recompile theme
+
+gulp.task('php', () => {
 
   connect.server({
     port : 8000,
     open : false,
-    hostname : "0.0.0.0", // Hostname is like this for over-wifi testing on mobile
-    base : 'wordpress'
+    hostname : "127.0.0.1", 
+    base : './'
+  }, () => {
+    browserSync({
+      proxy: '127.0.0.1:8000'
+    });
   });
 
   // Watch files except for the compiled files
-  gulp.watch( [themeUrl + '/js/**/*.js', '!' + themeUrl + '/js/*.dist.js'], ['scripts']);
-  gulp.watch( [themeUrl + '/css/*.scss', '!' + themeUrl + '/js/*.dist.css'], ['sass']);
-  gulp.watch( [themeUrl + '/css/*.less', '!' + themeUrl + '/js/*.dist.css'], ['less']);
+  gulp.watch( [themeUrl + '/js/**/*.js', '!' + themeUrl + '/js/*.dist.js'], ['scripts', 'reload']);
+  gulp.watch( [themeUrl + '/css/*.scss', '!' + themeUrl + '/js/*.dist.css'], ['sass', 'reload']);
+  gulp.watch( [themeUrl + '/css/*.less', '!' + themeUrl + '/css/*.dist.css'], ['less', 'reload']);
+  gulp.watch( [themeUrl + '/css/*.less', '!' + themeUrl + '/css/*.dist.css'], ['less', 'reload']);
+  gulp.watch( [themeUrl + '/**/*.php'], ['reload']);
+  gulp.watch( [themeUrl + '/**/*.twig'], ['reload']);
 
+});
+
+gulp.task('reload', () => {
+  browserSync.reload();
 });

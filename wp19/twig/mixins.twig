@@ -1,0 +1,82 @@
+{#	
+	A useful set of functions you can import into twig templates
+	Example:
+
+	{% import "mixins.twig" as mixin %}
+	
+	{{ mixin.image( url, alt, link ) }}
+	===========================================================
+#}
+
+{% macro image( url, alt, link = null ) %}
+
+	{% if link %} 
+		<a href="{{ link }}">
+	{% endif %}
+
+	<img src="{{ url }}" alt="{{ alt }}" />
+
+	{% if link %} 
+		</a> 
+	{% endif %}
+
+{% endmacro %}
+
+{% macro modal() %}
+
+	<script type="text/html" id="modal">
+		<div class="modal fade" tabindex="-1" role="dialog">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title">{modalTitle}</h4>
+		      </div>
+		      <div class="modal-body">
+		        <p data-modal-body>{modalBody}</p>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</script>
+
+{% endmacro %}
+
+{# Not for use in production #}
+{% macro help() %}
+	
+	<div class="help">
+		<h2>This is a simple boilerplate that includes Bootstrap and Timber/Twig</h2>
+		<p>To remove this alert, simply remove the macro help() found inside single.twig</p>
+		<h3>Front end (JS/LESS/Bootstrap)</h3>
+		<ul>
+			<li>Not all bootstrap less components are enabled. Uncomment them inside css/bootstrap.less</li>
+			<li>Not all JavaScript dependencies are imported. You can import them inside js/main.js</li>
+			<li>Files are compiled using gulp/webpack to produce distributed files inside css and js folders</li>
+			<li>If you have ported to Bootstrap Sass or you are using Bootstrap 4, you can enable sass compilation in the gulpfile</li>
+		</ul>
+		<h3>Wordpress</h3>
+		<ul>
+			<li>Twig is used for all front end files</li>
+			<li>2 menus have been automatically created (Main menu and Footer menu)</li>
+			<li>Browser sync should be active and will reload the page whenever your html or js/css changes</li>
+			<li>You can continue to use wp-cli.phar in the root to manage Wordpress plugins and other features from command line.</li>
+		</ul>
+
+		<h3>Amending this boilerplate</h3>
+		<ul>
+			<li>We are trying to keep this boilerplate simple and not bloated, however</li>
+			<li>You can amend the gulpfile to suit your own build techniques. For example, you could include: 
+				<ul>
+					<li><a href="https://github.com/morris/vinyl-ftp">https://github.com/morris/vinyl-ftp</a> for FTPing your files from a gulp command.</li>
+					<li><a href="https://github.com/aslansky/css-sprite#usage-with-gulp">https://github.com/aslansky/css-sprite</a> for generating CSS sprites automatically</li>
+					<li><a href="https://github.com/nfroidure/gulp-iconfont">https://github.com/nfroidure/gulp-iconfont</a> for generating icon fonts automatically from a folder of SVGs</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+
+{% endmacro %}

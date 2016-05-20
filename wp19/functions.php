@@ -2,7 +2,7 @@
 	
 	/*
 		OUT THE BOX:
-		---------------------------------------------------
+		====================================================================
 		* Script queue
 		* Remove post editor from certain pages
 		* Remove certain menu items 
@@ -12,37 +12,45 @@
 		* Custom google map shortcode
 		* Contact message AJAX/post
 		* Get/modify wordpress gallery (inserted into post)
+		* Timber/TWIG is used for front end templates. This must be activated
+		  in plugins for it to work.
 
 		HELPER METHODS:
-		---------------------------------------------------
+		====================================================================
 		get_menu( $name );
 		get_featured_image( $post );
 
 		SHORTCODES:
-		---------------------------------------------------
+		====================================================================
 		google_map
 		slideshow
 
 		DISABLED FUNCTIONALITY:
-		---------------------------------------------------
+		====================================================================
 		* Admin bar is hidden by default
 		* Comments section is hidden by default
 
 
 	*/
 
+	include "functions-twig.php";
+
+	// Disable contact form 7 js
+	add_filter( 'wpcf7_load_js', '__return_false' );
+	// add_filter( 'wpcf7_load_css', '__return_false' );
+
+
+	// Disable admin bar
 	show_admin_bar( false );
 	
-	/**
-	 * Scripts and styles
-	 */
+	// Enqueue scripts
 	function theme_name_scripts() {
-		wp_enqueue_style( 'style-main', get_stylesheet_uri() );
-		wp_enqueue_script( 'scripts-all', get_template_directory_uri() . '/js/dist/scripts.min.js', array(), '1.0.0', true );
+		wp_enqueue_style( 'styles-all', get_template_directory_uri() . '/css/main.dist.css', array(), '1.0.0');
+		wp_enqueue_script( 'scripts-all', get_template_directory_uri() . '/js/main.dist.js', array(), '1.0.0', true );
 	}
 
 	add_action( 'wp_enqueue_scripts', 'theme_name_scripts' );
-
+	
 	/* Remove post editor support on some pages */
 	if ( is_admin() ) {
 	  add_action( 'add_meta_boxes', function(){

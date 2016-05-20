@@ -1,5 +1,5 @@
 import crypto from "crypto";
-let password = crypto.randomBytes(12).toString('hex');
+let password = (crypto.randomBytes(20).toString('hex')).substr(0,12);
 
 export default [
       {
@@ -39,6 +39,12 @@ export default [
         name : 'wpemail',
         message : 'WP-Admin email',
         default : 'admin@example.com'
+      },
+      {
+        type : 'input',
+        name : 'wptheme',
+        message : 'Theme name',
+        default : 'default'
       },
       {
         type : 'input',

@@ -1,13 +1,11 @@
-<?php get_header(); ?>
+<?php
 
-	<div class="container">
+	$data = Timber::get_context();
+	$data['post'] = new TimberPost();
 
-		<?php while ( have_posts() ) : the_post(); ?>
+	/*
+		Add custom fields here, or you can call these directly
+		in the twig file using  {{ post.get_field() }}
+	*/
 
-			<h1><?php the_title(); ?></h1>
-			
-		<?php endwhile; ?>
-
-	</div>
-
-<?php get_footer();
+	return Timber::render('page.twig', $data);

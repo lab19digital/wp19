@@ -1,3 +1,25 @@
+# The first set of rules will NOT be replaced by Wordpress
+
+# Serving from subfolder
+# ================================================================
+# In order to serve wordpress from a subfolder, this file must exist
+# in the root as well as the wp folder
+
+# Remote images
+# ================================================================
+# Enable the following rules if you would like to 
+# rewrite image 404s to a staging/production environment. 
+# This saves you from needing to pull down the wp-uploads folder.
+
+# BEGIN Permanent Rules
+# ================================================================
+<IfModule mod_rewrite.c>
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{HTTP_HOST} ^localhost:8000$
+# RewriteRule ^.*/(uploads/.*)$ http://www.proddomain.example.com/wp-content/$1 [L,R=301,NC]
+</IfModule>
+# END Permanent Rules
+
 # BEGIN WordPress
 <IfModule mod_rewrite.c>
 	RewriteEngine On

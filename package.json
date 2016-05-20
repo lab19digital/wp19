@@ -1,6 +1,6 @@
 {
   "name": "lab-boilerplate",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Scaffolding for Wordpress sites using Gulp and wp-cli",
   "main": "gulpfile.js",
   "dependencies": {
@@ -45,16 +45,21 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Lab19 Digital",
+  "author": "Lab19 Digital Limited",
   "license": "ISC",
   "wpcli": {
     "plugins": [
       "advanced-custom-fields",
       "wordpress-seo",
-      "wordfence",
       "duplicate-post",
-      "contact-form-7",
       "timber-library"
+    ],
+    "// == Move these plugins above if required == //": [
+      "contact-form-7",
+      "wordfence",
+      "manual-image-crop",
+      "custom-post-type-ui",
+      "duplicate-post"
     ]
   }
 }

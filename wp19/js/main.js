@@ -1,176 +1,80 @@
+/* Main 
+============================================================================
+This file is compiled by webpack, check webpack.config.js in the root for more
+options. This file supports babel, but writing in ES6 JavaScript is not required.
+
+- jQuery is already available globally (provided by Webpack)
+- For GSAP (TweenLite, TweenMax), check webpack.config.js to enable these libraries
+- This file will compile to the ./dist/main.dist.js. To modify this output, check
+webpack.config.js for more options.
+============================================================================ */
+
+// Import your dependencies and execute them in the respective load events
+
+// Bootstrap imports
+// import "bootstrap/js/affix";
+// import "bootstrap/js/alert";
+// import "bootstrap/js/button";
+// import "bootstrap/js/carousel";
+import "bootstrap/js/collapse";
+// import "bootstrap/js/dropdown";
+// import "bootstrap/js/modal";
+// import "bootstrap/js/popover";
+// import "bootstrap/js/scrollspy";
+// import "bootstrap/js/tab";
+// import "bootstrap/js/tooltip";
+import "bootstrap/js/transition";
+
+// import carousels from "./components/carousels";
+import modals from "./components/modals";
+// import forms from "./components/forms";
+
+const Site = { };
+
 /*
-    Dependencies are loaded automatically
-    via require.json in this directory, minified 
-    to dist/scripts.min.js
+    Document load event
+    Initialize your plugins
 */
 
-;( function( $ ){
+Site.documentDidLoad = ( $body ) => {
 
-    var s,
-        win = $( window ),
-        main = {
+    Site.vars = {
+        navbar : $("#main-nav"),
+        carousel : $('.slider'),
+        table : $('#plan-table')
+    };
 
-            // settings & vars
-            settings: {
-                prevWindowSize : win.width(),
-                mobileWinSize : 1024
-            },
+    // == If you want to enable carousels == //
+    // carousels( Site.vars.carousel );
 
-            // init function
-            init: function(){
+    // == If you want to enable modals == //
+    modals( $body );
 
-                s = main.settings;
+};
 
-                win.resize( function(){
-                    main.resize();
-                }).trigger('resize');
+/*
+    Window load event
+    Initialize or trigger plugins 
+    dependent on assets loading.
+*/
 
-                main.nestedLinks();
-                main.formValidation();
-                main.responsiveNav();
-            },
+Site.windowDidLoad = ( $body ) => {
 
-            windowLoad : function(){
-                main.sliders();
-            },
+};
 
-            generic: function(){},
+$( document ).ready( () => {
 
-            resize : function(){
+    window.Site = Site;
+    Site.documentDidLoad( $("body") );
 
-                /*
-                    Basic resize behaviour
+});
 
-                    Triggers 2 events for when changing between mobile / desktop, 
-                    typicall for development only (i.e. resizing browser windows)
-                */
+$( window ).load( () => {
 
-                var winWidth = win.width();
-                var becomesMobile = s.prevWindowSize > s.mobileWinSize && winWidth <= s.mobileWinSize;
-                var becomesDesktop = s.prevWindowSize <= s.mobileWinSize && winWidth > s.mobileWinSize;
+    Site.windowDidLoad( $("body") );
 
-                // Execute events
-                becomesMobile && main.onBecomeMobile();
-                becomesDesktop && main.onBecomeDesktop();
-                
-                s.prevWindowSize = winWidth;
-            },
+});
 
-            nestedLinks : function(){
+Site.jQuery = jQuery;
 
-                /*
-                    Allows cursor/CTA behaviour on large
-                    elements like heroes.
-                */
-
-                $("[data-nested-link]").each( function(){
-                    var link = $(this).find("a").first();
-                    $(this).css({
-                        cursor:'pointer'
-                    }).click( function(){
-                        location.href = link.attr("href");
-                    });
-                }); 
-            },
-
-            onBecomeMobile : function(){},
-
-            onBecomeDesktop : function(){},
-
-            sliders : function(){
-                /*
-    
-                    Basic slider behaviour
-
-                    var slider = $("div.slider");
-                    slider.slick({
-                        dots : true,
-                        arrows : true,
-                        fade : true,
-                        cssEase : 'linear',
-                        autoplay: true,
-                        autoplaySpeed: 2000,
-                        infinite : true
-                      });
-                */
-            },
-
-            formValidation : function(){
-                /*
-                    Basic form validation
-
-                    $("#contact").validate().on("validsubmission", function(){
-                        $(this).get(0).submit();
-                    }).on("failedsubmission", function(){
-                        $(this).addClass("form-has-error");
-                    });
-                */
-            },
-
-            responsiveNav : function(){
-                /*
-                    Typical nav behaviour
-
-                    var toggleMenu = $("a[data-toggle-menu]").click( function(){
-                        $("#main-nav").toggleClass("in");
-                        $("#nav-bg").toggleClass("in");
-                    });
-
-                    $("#main-nav a.has-children").click( function( e ){
-                        $(this).siblings("ul").toggleClass("active");
-                        $(this).toggleClass("active");
-                    });
-                */
-            },
-
-            parallax : function(){
-
-                /*
-
-                    Typical parallax example (Scrollmagic)
-
-                    var wh = win.height();
-                    $(".full-width-image img").each( function(){
-                        var each = $(this);
-
-                        var controller = new ScrollMagic.Controller();
-                        var scene = new ScrollMagic.Scene({
-                          offset: each.offset().top - wh, // start scene after scrolling for x px amount
-                          duration: wh*2 // pin the element for x px amount of scrolling
-                        });
-
-                        var tween = new TweenMax.to(each.get(0), 1, {
-                            transform : "translate(0,-300px)"
-                        });
-
-                        var timeline = new TimelineMax();
-                        timeline.add( tween, 0 );            
-                        scene.setTween(timeline).addTo(controller);
-
-                        each.on("destroyscrollmagic", function(){
-                            scene.destroy();
-                        });
-                    });
-                        
-                    
-                    main.destroyParallax : function(){
-                        $(".full-width-image img").trigger("destroyscrollmagic").css({
-                            transform: "translate(0,0)"
-                        });
-                    };
-
-                */
-            }
-
-        };  // end
-
-    $( document ).ready( main.init );
-    $( window ).load( main.windowLoad );
-    
-    window.msie        = window.navigator.userAgent.indexOf("MSIE") > -1;
-    window.firefox     = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-
-
-    window.main = main;
-
-})( jQuery );
+export default Site;

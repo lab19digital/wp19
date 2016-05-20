@@ -1,5 +1,11 @@
-<?php get_header(); ?>
-	
-	<h1><?php the_title(); ?></h1>
-		
-<?php get_footer();
+<?php
+
+	$data = Timber::get_context();
+	$data['post'] = new TimberPost();
+
+	/*
+		Add custom fields here, or you can call these directly
+		in the twig file using  {{ post.get_field() }}
+	*/
+
+	return Timber::render('search.twig', $data);

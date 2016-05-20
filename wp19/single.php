@@ -1,20 +1,11 @@
-<?php get_header(); ?>
+<?php
 
-	<div id="primary" class="content-area">
-		<main id="main" class="site-main" role="main">
+	$data = Timber::get_context();
+	$data['post'] = new TimberPost();
 
-		<?php
-		// Start the loop.
-		while ( have_posts() ) : the_post();
+	/*
+		Add custom fields here, or you can call these directly
+		in the twig file using  {{ post.get_field() }}
+	*/
 
-			the_title();
-			the_content();
-
-		// End the loop.
-		endwhile;
-		?>
-
-		</main><!-- .site-main -->
-	</div><!-- .content-area -->
-
-<?php get_footer(); ?>
+	return Timber::render('single.twig', $data);

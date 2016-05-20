@@ -1,11 +1,13 @@
 var path    = require('path');
 var webpack = require('webpack');
+var theme       = require("./theme.json").theme;
+var themeUrl    = 'wp/wp-content/themes/' + theme;
 
 module.exports = {
   // devtool: 'sourcemap',
-  entry: './wordpress/wp-content/themes/default/js/main.js',
+  entry: './' + themeUrl + '/js/main.js',
   output : {
-    filename : './wordpress/wp-content/themes/default/dist/js/main.dist.js'
+    filename : './' + themeUrl + '/js/main.dist.js'
   },
   module: {
     loaders: [
@@ -27,6 +29,9 @@ module.exports = {
         }
     }),
 
+    // This is used to expose jQuery correctly across all files
+    // The main reason for this is to be compatible with other 
+    // jQuery plugins and libraries
     new webpack.ProvidePlugin({
         $: "jQuery",
         jQuery: "jQuery",
