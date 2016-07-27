@@ -1,9 +1,7 @@
-// Import from node_modules
-import 'bootstrap/js/modal';
-
-export default function( $root ){
+export default function( $body ){
 	var html = $("#modal").html();
-	$root.find('.trigger-custom-modal').click(function(){
+
+	$body.find('.trigger-custom-modal').click(function(){
 
 		var title = $(this).data('modalTitle');
 		var body = $(this).data('modalBody');
@@ -14,7 +12,7 @@ export default function( $root ){
 			.replace('{modalBody}', body);
 
 		// Replace the modal values
-		var $modal = $(modalHtml).appendTo($root);
+		var $modal = $(modalHtml).appendTo($body);
 
 		$modal.modal().on("hidden.bs.modal", function(){
 			$(this).remove();

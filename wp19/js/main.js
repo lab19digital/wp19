@@ -25,8 +25,8 @@ import "bootstrap/js/collapse";
 // import "bootstrap/js/tooltip";
 import "bootstrap/js/transition";
 
-// import carousels from "./components/carousels";
-import modals from "./components/modals";
+// import sliders from "./components/sliders";
+// import modals from "./components/modals";
 // import forms from "./components/forms";
 
 const Site = { };
@@ -36,21 +36,24 @@ const Site = { };
     Initialize your plugins
 */
 
-Site.documentDidLoad = ( $body ) => {
+$( document ).ready( () => {
 
     Site.vars = {
+        body : $('body'),
         navbar : $("#main-nav"),
         carousel : $('.slider'),
         table : $('#plan-table')
     };
 
-    // == If you want to enable carousels == //
-    // carousels( Site.vars.carousel );
+    // == If you want to enable sliders (Slick) == //
+    // The slick import is contained inside the ./components/sliders import
+    // sliders( Site.vars.carousel );
 
     // == If you want to enable modals == //
-    modals( $body );
+    // Remember to uncomment the bootstrap/js/modal import above
+    // modals( Site.vars.body );
 
-};
+});
 
 /*
     Window load event
@@ -58,23 +61,8 @@ Site.documentDidLoad = ( $body ) => {
     dependent on assets loading.
 */
 
-Site.windowDidLoad = ( $body ) => {
-
-};
-
-$( document ).ready( () => {
-
-    window.Site = Site;
-    Site.documentDidLoad( $("body") );
-
-});
-
 $( window ).load( () => {
-
-    Site.windowDidLoad( $("body") );
-
+    
 });
-
-Site.jQuery = jQuery;
 
 export default Site;

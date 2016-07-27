@@ -1,9 +1,9 @@
 // Import from node_modules
 import 'slick-carousel/slick/slick.js';
 
-export default function( $root ){
+export default function( $sliders ){
 
-	$root.slick({
+	$sliders.slick({
 		dots : true,
 		arrows : true,
         fade : true,

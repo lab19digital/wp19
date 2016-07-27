@@ -1,5 +1,9 @@
 <?php
 
+	/*
+		Template Name: Contact
+	*/
+
 	$data = Timber::get_context();
 	$data['post'] = new TimberPost();
 
