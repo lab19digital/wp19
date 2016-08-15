@@ -6,9 +6,9 @@ npm install
 
 gulp wpinit (Builds an installation from scratch)
 
-gulp cleanup (Remove scaffolding files)
+gulp cleanup (Removes scaffolding files)
 
-gulp php
+gulp
 
 # wp19
 
@@ -27,9 +27,9 @@ After installation, you will need to cleanup the scaffolding files (and remove t
 
 	gulp cleanup
 
-To run the server after build or on an existing project
+To run the server after build or on an existing project. This starts browsersync. By default the site will serve from http://localhost:3000. You may need to wait a few seconds for browsersync to open the tab.
 
-	gulp php
+	gulp
 
 ## Out the box
 
