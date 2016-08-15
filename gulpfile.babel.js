@@ -192,6 +192,7 @@ gulp.task('cleanup', (cb) => {
     return del([
       '.git/**/*',
       'wp19/**/*',
+      'wp19',
       'wp-cli.template.yml',
       'wp-config.template.php',
       'wp-config.php'
@@ -283,7 +284,7 @@ gulp.task('php', () => {
   // Watch files except for the compiled files
   // gulp.watch( [themeUrl + '/css/*.scss', '!' + themeUrl + '/js/*.dist.css'], ['sass', 'reload']);
   gulp.watch( [themeUrl + '/js/**/*.js', '!' + themeUrl + '/js/*.dist.js'], ['scripts', 'reload']);
-  gulp.watch( [themeUrl + '/css/*.less', '!' + themeUrl + '/css/*.dist.css'], ['less', 'reload']);
+  gulp.watch( [themeUrl + '/css/**/*.less', '!' + themeUrl + '/css/*.dist.css'], ['less', 'reload']);
   gulp.watch( [themeUrl + '/**/*.php'], ['reload']);
   gulp.watch( [themeUrl + '/**/*.twig'], ['reload']);
 
@@ -292,3 +293,5 @@ gulp.task('php', () => {
 gulp.task('reload', () => {
   browserSync.reload();
 });
+
+gulp.task('default', ['php']);

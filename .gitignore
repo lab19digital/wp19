@@ -6,5 +6,4 @@ npm-debug.log
 /wp-cli.yml
 /node_modules
 /wordpress
-/wp
 wp-cli.phar

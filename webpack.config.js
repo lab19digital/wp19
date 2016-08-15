@@ -18,6 +18,9 @@ module.exports = {
         query: {
           presets: ['es2015']
         }
+      },
+      {
+          test: require.resolve("jquery"), loader: "expose?$!expose?jQuery"
       }
     ]
   },
@@ -28,16 +31,6 @@ module.exports = {
             warnings: false
         }
     }),
-
-    // This is used to expose jQuery correctly across all files
-    // The main reason for this is to be compatible with other 
-    // jQuery plugins and libraries
-    new webpack.ProvidePlugin({
-        $: "jQuery",
-        jQuery: "jQuery",
-        jquery: "jQuery",
-        "window.jQuery": "jQuery"
-    })
 
   ],
   resolve: {

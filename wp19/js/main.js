@@ -3,15 +3,19 @@
 This file is compiled by webpack, check webpack.config.js in the root for more
 options. This file supports babel, but writing in ES6 JavaScript is not required.
 
-- jQuery is already available globally (provided by Webpack)
 - For GSAP (TweenLite, TweenMax), check webpack.config.js to enable these libraries
-- This file will compile to the ./dist/main.dist.js. To modify this output, check
+- This file will compile to the ./js/main.dist.js. To modify this output, check
 webpack.config.js for more options.
 ============================================================================ */
 
+// jQuery is exposed globally using expose-loader
+import jQuery from "jquery"; 
+
 // Import your dependencies and execute them in the respective load events
 
-// Bootstrap imports
+/* Bootstrap imports
+============================================================================ */
+
 // import "bootstrap/js/affix";
 // import "bootstrap/js/alert";
 // import "bootstrap/js/button";
@@ -25,16 +29,18 @@ import "bootstrap/js/collapse";
 // import "bootstrap/js/tooltip";
 import "bootstrap/js/transition";
 
+/* Local imports
+============================================================================ */
+
 // import sliders from "./components/sliders";
 // import modals from "./components/modals";
 // import forms from "./components/forms";
 
 const Site = { };
 
-/*
-    Document load event
-    Initialize your plugins
-*/
+
+/* DOM ready event, initialization
+============================================================================ */
 
 $( document ).ready( () => {
 
@@ -55,11 +61,8 @@ $( document ).ready( () => {
 
 });
 
-/*
-    Window load event
-    Initialize or trigger plugins 
-    dependent on assets loading.
-*/
+/* Window ready event, for deferring until assets are loaded
+============================================================================ */
 
 $( window ).load( () => {
     
