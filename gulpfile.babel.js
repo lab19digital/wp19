@@ -128,16 +128,16 @@ gulp.task('wpsetup', () => {
 
   cmd = cmd.concat([
 
-    //'echo Wordpress download, installation, and configuration will take a few minutes...',
+    'echo Wordpress download, installation, and configuration will take a few minutes...',
 
     // Get the CLI tool
-    // 'echo Fetching the CLI tool...',
+    'echo Fetching the CLI tool...',
 
-    // 'gulp wpcli',
+    'gulp wpcli',
 
     // Install WP
-    // 'php wp-cli.phar core download',
-    // 'php wp-cli.phar db create',
+    'php wp-cli.phar core download',
+    'php wp-cli.phar db create',
     'php wp-cli.phar core install',
 
     // Copy the config
