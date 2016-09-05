@@ -1,4 +1,4 @@
-const wpCli        = 'https://github.com/wp-cli/wp-cli/releases/download/v0.22.0/wp-cli-0.22.0.phar';
+const wpCli        = 'https://github.com/wp-cli/wp-cli/releases/download/v0.24.1/wp-cli-0.24.1.phar';
 const cssBrowsers  = ['> 1%', 'last 2 versions','ie >= 10'];
 
 // Required dependencies
@@ -287,7 +287,7 @@ gulp.task('php', () => {
   gulp.watch( [themeUrl + '/css/**/*.less', '!' + themeUrl + '/css/*.dist.css'], ['less', 'reload']);
   gulp.watch( [themeUrl + '/*.php'], ['reload']);
   gulp.watch( [themeUrl + '/templates/*.php'], ['reload']);
-  
+  gulp.watch( [themeUrl + '/twig/**/*.twig'], ['reload']);
 });
 
 gulp.task('reload', () => {
