@@ -128,16 +128,16 @@ gulp.task('wpsetup', () => {
 
   cmd = cmd.concat([
 
-    'echo Wordpress download, installation, and configuration will take a few minutes...',
+    //'echo Wordpress download, installation, and configuration will take a few minutes...',
 
     // Get the CLI tool
-    'echo Fetching the CLI tool...',
+    // 'echo Fetching the CLI tool...',
 
-    'gulp wpcli',
+    // 'gulp wpcli',
 
     // Install WP
-    'php wp-cli.phar core download',
-    'php wp-cli.phar db create',
+    // 'php wp-cli.phar core download',
+    // 'php wp-cli.phar db create',
     'php wp-cli.phar core install',
 
     // Copy the config
@@ -285,6 +285,8 @@ gulp.task('php', () => {
   // gulp.watch( [themeUrl + '/css/*.scss', '!' + themeUrl + '/js/*.dist.css'], ['sass', 'reload']);
   gulp.watch( [themeUrl + '/js/**/*.js', '!' + themeUrl + '/js/*.dist.js'], ['scripts', 'reload']);
   gulp.watch( [themeUrl + '/css/**/*.less', '!' + themeUrl + '/css/*.dist.css'], ['less', 'reload']);
+  gulp.watch( [themeUrl + '/*.php'], ['reload']);
+  gulp.watch( [themeUrl + '/templates/*.php'], ['reload']);
   
 });
 
