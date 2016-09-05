@@ -285,9 +285,7 @@ gulp.task('php', () => {
   // gulp.watch( [themeUrl + '/css/*.scss', '!' + themeUrl + '/js/*.dist.css'], ['sass', 'reload']);
   gulp.watch( [themeUrl + '/js/**/*.js', '!' + themeUrl + '/js/*.dist.js'], ['scripts', 'reload']);
   gulp.watch( [themeUrl + '/css/**/*.less', '!' + themeUrl + '/css/*.dist.css'], ['less', 'reload']);
-  gulp.watch( [themeUrl + '/**/*.php'], ['reload']);
-  gulp.watch( [themeUrl + '/**/*.twig'], ['reload']);
-
+  
 });
 
 gulp.task('reload', () => {
