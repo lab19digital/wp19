@@ -245,7 +245,8 @@ gulp.task('less', ( done ) => {
           //== If you need css minification, you can uncomment it below == //
           // cssnano()
         ]))
-        .pipe(gulp.dest(themeUrl + '/css'));
+        .pipe(gulp.dest(themeUrl + '/css'))
+        .pipe(browserSync.stream());
 });
 
 // Concatenate & Minify JS
@@ -281,11 +282,12 @@ gulp.task('php', () => {
     });
   });
 
-  // Watch files except for the compiled files
+  // Watch files for changes
   // gulp.watch( [themeUrl + '/css/*.scss', '!' + themeUrl + '/js/*.dist.css'], ['sass', 'reload']);
-  gulp.watch( [themeUrl + '/js/**/*.js', '!' + themeUrl + '/js/*.dist.js'], ['scripts', 'reload']);
-  gulp.watch( [themeUrl + '/css/**/*.less', '!' + themeUrl + '/css/*.dist.css'], ['less', 'reload']);
+  gulp.watch( [themeUrl + '/js/**/*.js', '!' + themeUrl + '/js/*.dist.js'], ['scripts']);
+  gulp.watch( [themeUrl + '/css/**/*.less'], ['less']);
   gulp.watch( [themeUrl + '/*.php'], ['reload']);
+  gulp.watch( [themeUrl + '/js/*.dist.js'], ['reload']);
   gulp.watch( [themeUrl + '/templates/*.php'], ['reload']);
   gulp.watch( [themeUrl + '/twig/**/*.twig'], ['reload']);
 });
