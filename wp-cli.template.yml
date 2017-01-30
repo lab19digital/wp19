@@ -4,10 +4,9 @@ user: {WP_USER}
 skip-plugins:
   - hello
 skip-themes:
+  - twentyseventeen
   - twentysixteen
   - twentyfifteen
-  - twentyfourteen
-  - twentythirteen
 core download:
   locale: en_GB
 core config:
