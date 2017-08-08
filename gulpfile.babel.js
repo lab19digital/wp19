@@ -162,9 +162,9 @@ gulp.task('wpsetup', () => {
 
     // Post install cleanup
     'php wp-cli.phar plugin uninstall hello',
-    'php wp-cli.phar theme delete twentyfourteen',
     'php wp-cli.phar theme delete twentyfifteen',
     'php wp-cli.phar theme delete twentysixteen',
+    'php wp-cli.phar theme delete twentyseventeen',
 
     'echo All set! Thanks for waiting.',
     'echo IMPORTANT: You need to remove several files from your installation.',
