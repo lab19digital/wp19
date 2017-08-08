@@ -1,9 +1,11 @@
 <?php
-	
+
+  use Timber\FunctionWrapper;
+
 	if ( ! class_exists( 'Timber' ) ) {
 	  add_action( 'admin_notices', function() {
-	      echo '<div class="error"><p>Timber not activated. Make sure you activate the plugin in <a href="' 
-	      . esc_url( admin_url( 'plugins.php#timber' ) ) . '">' . esc_url( admin_url( 'plugins.php' ) ) 
+	      echo '<div class="error"><p>Timber not activated. Make sure you activate the plugin in <a href="'
+	      . esc_url( admin_url( 'plugins.php#timber' ) ) . '">' . esc_url( admin_url( 'plugins.php' ) )
 	      . '</a></p></div>';
 	    } );
 	  if( ! isCommandLineInterface() ){
@@ -12,10 +14,10 @@
 	  return;
 	}
 
-		
+
 	// Configure twig
 	// ====================================================================
-	Timber::$locations = array( 
+	Timber::$locations = array(
 		get_template_directory_uri() . '/twig/'
     );
 
@@ -25,30 +27,30 @@
 	add_filter( 'timber_context', 'add_to_context' );
 
 	function add_to_context( $data ) {
-		
+
 	    // Overrides / Fixes for default WordPress functions for use in Twig templates
 	    $data['wp_title'] = apply_filters("wp_title", get_the_title() . ' | ' . get_bloginfo('sitename'));
-	    $data['feed_link'] = TimberHelper::function_wrapper( 'get_feed_link' );
-	    $data['admin_url'] = TimberHelper::function_wrapper( 'admin_url' );
-	    $data['template_dir'] = TimberHelper::function_wrapper( 'template_dir' );
-	    $data['do_shortcode'] = TimberHelper::function_wrapper( 'do_shortcode' );
-	    $data['get_featured_image'] = TimberHelper::function_wrapper( 'get_featured_image' );
-	    $data['get_featured_thumbnail_url'] = TimberHelper::function_wrapper('get_featured_thumbnail_url');
-	    $data['get_featured_thumbnail_alt'] = TimberHelper::function_wrapper('get_featured_thumbnail_alt');
-	    $data['path'] = TimberHelper::function_wrapper( 'path' );
+	    $data['feed_link'] = new FunctionWrapper( 'get_feed_link' );
+	    $data['admin_url'] = new FunctionWrapper( 'admin_url' );
+	    $data['template_dir'] = new FunctionWrapper( 'template_dir' );
+	    $data['do_shortcode'] = new FunctionWrapper( 'do_shortcode' );
+	    $data['get_featured_image'] = new FunctionWrapper( 'get_featured_image' );
+	    $data['get_featured_thumbnail_url'] = new FunctionWrapper('get_featured_thumbnail_url');
+	    $data['get_featured_thumbnail_alt'] = new FunctionWrapper('get_featured_thumbnail_alt');
+	    $data['path'] = new FunctionWrapper( 'path' );
 	    $data['body_class'] = implode(' ', get_body_class());
 	    $data['header_class'] = '';
 	    $data['header'] = header_vars();
 	    $data['footer'] = footer_vars();
 	    $data['ajax_url'] = admin_url( 'admin-ajax.php' );
-	    $data['apply_filters'] = TimberHelper::function_wrapper( 'apply_filters' );
+	    $data['apply_filters'] = new FunctionWrapper( 'apply_filters' );
 	    $data['is_front_page'] = false;
 
 	    // ACF options fields (For ACF PRO)
 	    $data['options'] = get_fields('option');
 
 	    // Debugging
-	    $data['debug_object'] = TimberHelper::function_wrapper("debug_object");
+	    $data['debug_object'] = new FunctionWrapper("debug_object");
 
 	    if( is_front_page() ){
 	    	$data['header_class'] = 'text-from-white reveal-logo reveal-bg';
