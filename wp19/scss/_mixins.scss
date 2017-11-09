@@ -1,0 +1,13 @@
+@mixin grid-gutter($width: $spacer) {
+  .row {
+    margin-left: -($width / 2);
+    margin-right: -($width / 2);
+
+    & > .col,
+    & > [class^="col-"],
+    & > [class*=" col-"] {
+      padding-left: ($width / 2);
+      padding-right: ($width / 2);
+    }
+  }
+}

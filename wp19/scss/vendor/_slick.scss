@@ -1,0 +1,17 @@
+@import 'slick-carousel/slick/slick.scss';
+
+.slick-slider {
+  position: relative;
+  display: block;
+  margin: 0;
+  padding: 0;
+  outline: 0;
+
+  .slick-list,
+  .slick-track,
+  .slick-slide {
+    outline: 0;
+  }
+
+  .slick-dots {}
+}

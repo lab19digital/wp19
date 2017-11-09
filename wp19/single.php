@@ -1,11 +1,9 @@
 <?php
 
-	$data = Timber::get_context();
-	$data['post'] = new TimberPost();
+$context = Timber::get_context();
 
-	/*
-		Add custom fields here, or you can call these directly
-		in the twig file using  {{ post.get_field() }}
-	*/
+$post = Timber::query_post();
 
-	return Timber::render('single.twig', $data);
+$context['post'] = $post;
+
+Timber::render('single.twig', $context);

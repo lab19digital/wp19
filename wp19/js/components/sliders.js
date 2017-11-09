@@ -1,16 +1,13 @@
-// Import from node_modules
-import 'slick-carousel/slick/slick.js';
+import 'slick-carousel/slick/slick';
 
-export default function( $sliders ){
+export default function(s, $sliders) {
 
-	$sliders.slick({
-		dots : true,
-		arrows : true,
-        fade : true,
-        cssEase : 'linear',
-        autoplay: true,
-        autoplaySpeed: 2000,
-        infinite : true
-	});	
+  $sliders.slick({
+    dots: true,
+    arrows: true,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    infinite: true
+  });
+
 }
-

@@ -1,0 +1,17 @@
+html {
+  font-size: 62.5%; // 1rem = 10px
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#main-wrapper {
+  overflow: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
