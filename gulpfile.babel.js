@@ -103,7 +103,7 @@ gulp.task('copy-wp-config', () => {
 });
 
 // Copy WP Base Theme
-gulp.task('copy-wp-base-theme', ['build'], () => {
+gulp.task('copy-wp-base-theme', () => {
   gulp.src(['wp19/**/*'])
     .pipe(gulp.dest(themePath));
 });
@@ -153,6 +153,9 @@ gulp.task('wp-setup', () => {
     `php wp-cli.phar theme delete twentyfifteen`,
     `php wp-cli.phar theme delete twentysixteen`,
     `php wp-cli.phar theme delete twentyseventeen`,
+
+    // Build dist files
+    `gulp build`,
 
     `echo All set! Thanks for waiting.`,
     `echo IMPORTANT: You need to remove several files from your installation.`,
