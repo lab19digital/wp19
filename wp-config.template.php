@@ -28,7 +28,7 @@ switch ($_SERVER['HTTP_HOST']) :
     define('WP_DEBUG', false);
   break;
 
-  case 'stage.dvsb1.com':
+  case 'stage.domain.com':
     define('WP_HOME', 'https://' . $_SERVER["HTTP_HOST"] . '/');
     define('WP_SITEURL', 'https://' . $_SERVER["HTTP_HOST"] . '/wp/');
     define('DB_NAME', '');
