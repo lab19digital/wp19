@@ -175,7 +175,7 @@ gulp.task('wp-setup', () => {
 // Removes other setup files that won't be required
 gulp.task('cleanup', () => {
   return del([
-    // '.git/**/*',
+    '.git/**/*',
     'wp19/**/*',
     'wp19',
     'wp-cli.template.yml',
