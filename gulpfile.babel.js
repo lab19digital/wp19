@@ -103,7 +103,7 @@ gulp.task('copy-wp-config', () => {
 });
 
 // Copy WP Base Theme
-gulp.task('copy-wp-base-theme', () => {
+gulp.task('copy-wp-base-theme', ['build'], () => {
   gulp.src(['wp19/**/*'])
     .pipe(gulp.dest(themePath));
 });

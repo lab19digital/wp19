@@ -49,6 +49,8 @@ if (!class_exists('Timber')) {
 
 Timber::$dirname = array('twig');
 
+use Timber\FunctionWrapper;
+
 class Site extends TimberSite {
 
 	function __construct() {

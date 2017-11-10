@@ -1,7 +1,7 @@
 <div class="container">
   <h1><a href="{{ site.link }}" title="{{ site.title }}">{{ site.title }}</a></h1>
 
-  {% if has_nav_menu('header-nav') %}
+  {% if has_nav_menu('primary-nav') %}
     <nav>
       <ul>
         {% for item in primary_nav.get_items %}
