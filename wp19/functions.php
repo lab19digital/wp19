@@ -66,7 +66,6 @@ class Site extends TimberSite {
 
 	function add_to_context($context) {
     $context['site'] = $this;
-    $context['options'] = get_fields('option');
     $context['ajax_url'] = admin_url('admin-ajax.php');
 
     $context['primary_nav'] = new TimberMenu('primary-nav');

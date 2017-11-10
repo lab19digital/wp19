@@ -15,21 +15,21 @@
 Scaffold a Wordpress project with a minimal starter theme in Bootstrap using Gulp.
 
 Make sure you're running the latest version of NodeJS: [https://nodejs.org/en/download/](https://nodejs.org/en/download/). You should also have gulp installed.
-	
-	npm install -g gulp
-	git clone https://github.com/lab19digital/wp19.git project-folder . && npm install
+  
+  npm install -g gulp
+  git clone https://github.com/lab19digital/wp19.git . && npm install
 
 To build an installation from scratch
 
-	gulp wp-init
+  gulp wp-init
 
 After installation, you will need to cleanup the scaffolding files (and remove the old repos)
 
-	gulp cleanup
+  gulp cleanup
 
 To run the server after build or on an existing project. This starts browsersync. By default the site will serve from http://localhost:3000. You may need to wait a few seconds for browsersync to open the tab.
 
-	gulp php
+  gulp php
 
 ## Out the box
 
@@ -86,17 +86,17 @@ The command `php --ini` should tell you where to find the file you need.
 
 For example:
 
-	/Applications/MAMP/bin/php/phpX.X.XX/conf
+  /Applications/MAMP/bin/php/phpX.X.XX/conf
 
 Should be copied to:
 
-	/etc/
+  /etc/
 
 Once this is done, the socket file for MySQL socket connections will be found. If this is not the case
 you need to confirm your socket files exists and is configured correctly in the PHP.ini file being used.
 
-	mysql.default_socket = /Applications/MAMP/tmp/mysql/mysql.sock
-	pdo_mysql.default_socket = /Applications/MAMP/tmp/mysql/mysql.sock
+  mysql.default_socket = /Applications/MAMP/tmp/mysql/mysql.sock
+  pdo_mysql.default_socket = /Applications/MAMP/tmp/mysql/mysql.sock
 
 
 Created by <a href="http://lab19digital.com">Lab19 Digital</a>.
