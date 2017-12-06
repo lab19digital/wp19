@@ -28,10 +28,10 @@ switch ($_SERVER['HTTP_HOST']) :
     define('WP_DEBUG', false);
   break;
 
-  case 'stage.domain.com':
+  case '{DB_NAME}.dvsb1.com':
     define('WP_HOME', 'https://' . $_SERVER["HTTP_HOST"] . '/');
     define('WP_SITEURL', 'https://' . $_SERVER["HTTP_HOST"] . '/wp/');
-    define('DB_NAME', '');
+    define('DB_NAME', '{DB_NAME}');
     define('DB_USER', getenv('DB_USER'));
     define('DB_PASSWORD', getenv('DB_PASSWORD'));
     define('DB_HOST', 'localhost');
