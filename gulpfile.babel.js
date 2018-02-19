@@ -7,6 +7,7 @@ import notify            from 'gulp-notify';
 import sass              from 'gulp-sass';
 import autoprefixer      from 'gulp-autoprefixer';
 import sourcemaps        from 'gulp-sourcemaps';
+import watch             from 'gulp-watch';
 import shell             from 'gulp-shell';
 import prompt            from 'gulp-prompt';
 import replace           from 'gulp-replace';
@@ -26,7 +27,7 @@ import { create as browserSyncCreate } from 'browser-sync';
 
 
 // Settings
-const wpCli = 'https://github.com/wp-cli/wp-cli/releases/download/v1.4.0/wp-cli-1.4.0.phar';
+const wpCli = 'https://github.com/wp-cli/wp-cli/releases/download/v1.5.0/wp-cli-1.5.0.phar';
 
 const browserSync = browserSyncCreate();
 const browserSyncReload = browserSync.reload;
@@ -186,7 +187,7 @@ gulp.task('cleanup', () => {
 
 
 
-// DEV TASKS -> sass / js / copy-fa-fonts / watch / php / proxy / build
+// DEV TASKS -> sass / js / watch / php / proxy / build
 // =======================================================================
 
 // Plumber
@@ -246,18 +247,12 @@ gulp.task('js-watch', ['js'], (done) => {
   done();
 });
 
-// Copy FontAwesome fonts to 'fontsDest'
-gulp.task('copy-fa-fonts', () => {
-  return gulp.src(`${nodePath}/font-awesome/fonts/**/*`)
-    .pipe(gulp.dest(fontsDest));
-});
-
 // Watch
 gulp.task('watch', () => {
-  gulp.watch(`${themePath}/scss/**/*.scss`, ['sass']);
-  gulp.watch(`${themePath}/js/**/*.js`, ['js-watch']);
-  gulp.watch(`${themePath}/**/*.twig`).on('change', browserSyncReload);
-  gulp.watch(`${themePath}/**/*.php`).on('change', browserSyncReload);
+  watch(`${themePath}/scss/**/*.scss`, () => gulp.start('sass'));
+  watch(`${themePath}/js/**/*.js`, () => gulp.start('js-watch'));
+  watch(`${themePath}/**/*.twig`, () => browserSync.reload());
+  watch(`${themePath}/**/*.php`, () => browserSync.reload());
 });
 
 // PHP
