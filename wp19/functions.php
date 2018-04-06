@@ -79,6 +79,8 @@ class Site extends TimberSite {
     $context['get_primary_category'] = new FunctionWrapper('get_primary_category');
     $context['debug_object'] = new FunctionWrapper('debug_object');
 
+    $context['wp_debug'] = WP_DEBUG;
+
     if (function_exists('acf_add_options_page')) {
       $context['options'] = get_fields('option');
     }
