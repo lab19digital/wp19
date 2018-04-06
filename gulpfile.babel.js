@@ -5,7 +5,8 @@ import connectPHP        from 'gulp-connect-php';
 import plumber           from 'gulp-plumber';
 import notify            from 'gulp-notify';
 import sass              from 'gulp-sass';
-import autoprefixer      from 'gulp-autoprefixer';
+import postcss           from 'gulp-postcss';
+import autoprefixer      from 'autoprefixer';
 import sourcemaps        from 'gulp-sourcemaps';
 import watch             from 'gulp-watch';
 import shell             from 'gulp-shell';
@@ -83,6 +84,10 @@ gulp.task('wp-init', () => {
         .pipe(replace('{WP_BASE_URL}', res.wpbase))
         .pipe(rename('wp-cli.yml'))
         .pipe(gulp.dest('./'));
+
+      gulp.src('wp19/style.css')
+        .pipe(replace('wp19', res.wpsitetitle))
+        .pipe(gulp.dest('./wp19'));
 
       gulp.src('theme.json')
         .pipe(replace(theme, res.wptheme))
@@ -180,7 +185,8 @@ gulp.task('cleanup', () => {
     'wp19',
     'wp-cli.template.yml',
     'wp-config.template.php',
-    'wp-config.php'
+    'wp-config.php',
+    'prompt-config.js'
   ]);
 });
 
@@ -202,10 +208,6 @@ gulp.task('sass', () => {
   return gulp.src(`${themePath}/scss/**/*.scss`)
     .pipe(plumber(plumberHandler))
     .pipe(sourcemaps.init())
-    .pipe(autoprefixer({
-      browsers: autoprefixerBrowsers,
-      cascade: false
-    }))
     .pipe(sass({
       precision: 10,
       includePaths: [nodePath]
@@ -223,10 +225,12 @@ gulp.task('sass:prod', () => {
       outputStyle: 'compressed',
       includePaths: [nodePath]
     }))
-    .pipe(autoprefixer({
-      browsers: autoprefixerBrowsers,
-      cascade: false
-    }))
+    .pipe(postcss([
+      autoprefixer({
+        browsers: autoprefixerBrowsers,
+        cascade: false
+      })
+    ]))
     .pipe(gulp.dest(dest));
 });
 
