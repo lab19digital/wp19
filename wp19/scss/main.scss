@@ -8,22 +8,6 @@
 @import "mixins";
 
 
-// FONT AWESOME
-// @import "font-awesome/scss/variables";
-// @import "font-awesome/scss/mixins";
-// @import "font-awesome/scss/path";
-// @import "font-awesome/scss/core";
-// @import "font-awesome/scss/larger";
-// @import "font-awesome/scss/fixed-width";
-// @import "font-awesome/scss/list";
-// @import "font-awesome/scss/bordered-pulled";
-// @import "font-awesome/scss/animated";
-// @import "font-awesome/scss/rotated-flipped";
-// @import "font-awesome/scss/stacked";
-// @import "font-awesome/scss/icons";
-// @import "font-awesome/scss/screen-reader";
-
-
 // BOOTSTRAP
 // @import "bootstrap/scss/print";
 @import "bootstrap/scss/reboot";
@@ -59,6 +43,7 @@
 
 
 // VENDOR
+// @import 'vendor/flickity';
 // @import 'vendor/slick';
 
 
@@ -67,4 +52,4 @@
 
 
 // PAGES
-// @import "pages/home";
+@import "pages/home";

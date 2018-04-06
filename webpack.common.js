@@ -16,10 +16,7 @@ module.exports = {
         exclude: [
           /(node_modules|bower_components)/
         ],
-        loader: 'babel-loader',
-        options: {
-          presets: ['es2015']
-        }
+        loader: 'babel-loader'
       }, {
         test: require.resolve('jquery'),
         loader: 'expose-loader?jQuery!expose-loader?$'

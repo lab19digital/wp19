@@ -1,8 +1,8 @@
 # Quick start
 
-`npm install -g gulp` (You can skip this step if you already have gulp installed)
+`npm install -g gulp` or `yarn global add gulp` (You can skip this step if you already have gulp installed)
 
-`npm install`
+`npm install` or `yarn`
 
 `gulp wp-init` (Builds an installation from scratch)
 
@@ -15,7 +15,7 @@
 Scaffold a Wordpress project with a minimal starter theme in Bootstrap using Gulp.
 
 Make sure you're running the latest version of NodeJS: [https://nodejs.org/en/download/](https://nodejs.org/en/download/). You should also have gulp installed.
-  
+
     npm install -g gulp
     git clone https://github.com/lab19digital/wp19.git . && npm install
 
@@ -78,7 +78,7 @@ for GSAP for this purpose. You can uncomment these to get GSAP/Scrollmagic worki
 You may require a similar approach for other JavaScript libraries.
 
 # A word about the built in PHP server for Mac users
-Mac users have reported issues with the built in PHP server not connecting to the MySQL database correctly. 
+Mac users have reported issues with the built in PHP server not connecting to the MySQL database correctly.
 This seems to happen for MAMP users. A php.ini file is not defined for MAMP users when using the built
 in server. You should copy your MAMP php.ini file to /etc/
 
@@ -103,11 +103,10 @@ Created by <a href="http://lab19digital.com">Lab19 Digital</a>.
 
 # Available gulp tasks
 
-`gulp wp-init` - install wordpress / setup project  
-`gulp js` - compile JS with inline source maps  
-`gulp sass` - compile SCSS with inline source maps  
-`gulp build` - compile production ready JS & SCSS (minified & autoprefixer)  
-`gulp watch` - watch for files changes  
-`gulp php` - (default task) run the server and watch for files changes  
-`gulp proxy` - run BrowserSync without a server, you need to modify `browserSyncProxy` setting  
-`gulp copy-fa-fonts` - copy Font Awesome fonts from node_modules to fonts folder  
+`gulp wp-init` - install wordpress / setup project
+`gulp js` - compile JS with inline source maps
+`gulp sass` - compile SCSS with inline source maps
+`gulp build` - compile production ready JS & SCSS (minified & autoprefixer)
+`gulp watch` - watch for files changes
+`gulp php` - (default task) run the server and watch for files changes
+`gulp proxy` - run BrowserSync without a server, you need to modify `browserSyncProxy` setting

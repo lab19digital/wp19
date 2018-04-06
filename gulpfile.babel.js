@@ -40,7 +40,6 @@ let themePath = `wp/wp-content/themes/${theme}`;
 
 const nodePath = `${__dirname}/node_modules`;
 const dest = `${themePath}/dist`;
-const fontsDest = `${themePath}/fonts`;
 
 
 
@@ -203,6 +202,10 @@ gulp.task('sass', () => {
   return gulp.src(`${themePath}/scss/**/*.scss`)
     .pipe(plumber(plumberHandler))
     .pipe(sourcemaps.init())
+    .pipe(autoprefixer({
+      browsers: autoprefixerBrowsers,
+      cascade: false
+    }))
     .pipe(sass({
       precision: 10,
       includePaths: [nodePath]
