@@ -185,8 +185,7 @@ gulp.task('cleanup', () => {
     'wp19',
     'wp-cli.template.yml',
     'wp-config.template.php',
-    'wp-config.php',
-    'prompt-config.js'
+    'wp-config.php'
   ]);
 });
 

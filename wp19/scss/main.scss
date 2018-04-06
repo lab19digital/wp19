@@ -53,3 +53,26 @@
 
 // PAGES
 @import "pages/home";
+
+
+body.wp-debug {
+  &:after {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 5px;
+    background: gold;
+    line-height: 1;
+    font-size: 12px;
+    font-family: monospace;
+    font-weight: bold;
+    text-transform: uppercase;
+    z-index: 999999999;
+
+    @each $breakpoint, $value in $grid-breakpoints {
+      @include media-breakpoint-only($breakpoint) {
+        content: '#{$breakpoint}';
+      }
+    }
+  }
+}
