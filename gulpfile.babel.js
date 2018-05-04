@@ -32,9 +32,7 @@ const wpCli = 'https://github.com/wp-cli/wp-cli/releases/download/v1.5.0/wp-cli-
 
 const browserSync = browserSyncCreate();
 const browserSyncReload = browserSync.reload;
-const browserSyncProxy = 'local-url.dev';
-
-const autoprefixerBrowsers = ['last 2 versions', '> 1%', 'ie 10'];
+const browserSyncProxy = 'local-url.test';
 
 let theme = require('./theme.json').theme;
 let themePath = `wp/wp-content/themes/${theme}`;
@@ -225,10 +223,7 @@ gulp.task('sass:prod', () => {
       includePaths: [nodePath]
     }))
     .pipe(postcss([
-      autoprefixer({
-        browsers: autoprefixerBrowsers,
-        cascade: false
-      })
+      autoprefixer({ cascade: false })
     ]))
     .pipe(gulp.dest(dest));
 });
