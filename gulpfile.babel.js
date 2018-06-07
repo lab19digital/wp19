@@ -28,7 +28,7 @@ import { create as browserSyncCreate } from 'browser-sync';
 
 
 // Settings
-const wpCli = 'https://github.com/wp-cli/wp-cli/releases/download/v1.5.0/wp-cli-1.5.1.phar';
+const wpCli = 'https://github.com/wp-cli/wp-cli/releases/download/v1.5.1/wp-cli-1.5.1.phar';
 
 const browserSync = browserSyncCreate();
 const browserSyncProxy = 'local-url.test';
