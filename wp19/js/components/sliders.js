@@ -5,11 +5,6 @@ export default function(s, $sliders) {
 
   // $sliders.slick({
   //   // http://kenwheeler.github.io/slick/
-  //   dots: true,
-  //   arrows: true,
-  //   autoplay: true,
-  //   autoplaySpeed: 5000,
-  //   infinite: true
   // });
 
   // $sliders.flickity({

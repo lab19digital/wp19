@@ -23,7 +23,7 @@ To build an installation from scratch
 
     gulp wp-init
 
-After installation, you will need to cleanup the scaffolding files (and remove the old repos)
+After installation, you will need to cleanup the scaffolding files (and remove the old repo)
 
     gulp cleanup
 
@@ -103,10 +103,10 @@ Created by <a href="http://lab19digital.com">Lab19 Digital</a>.
 
 # Available gulp tasks
 
-`gulp wp-init` - install wordpress / setup project
-`gulp js` - compile JS with inline source maps
-`gulp sass` - compile SCSS with inline source maps
-`gulp build` - compile production ready JS & SCSS (minified & autoprefixer)
-`gulp watch` - watch for files changes
-`gulp php` - (default task) run the server and watch for files changes
+`gulp wp-init` - install wordpress / setup project  
+`gulp js` - compile JS with source maps  
+`gulp sass` - compile SCSS with inline source maps  
+`gulp build` - compile production ready JS & SCSS (minified & autoprefixed)  
+`gulp watch` - watch for files changes  
+`gulp php` - (default task) run the server and watch for files changes  
 `gulp proxy` - run BrowserSync without a server, you need to modify `browserSyncProxy` setting

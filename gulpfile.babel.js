@@ -12,32 +12,30 @@ import watch             from 'gulp-watch';
 import shell             from 'gulp-shell';
 import prompt            from 'gulp-prompt';
 import replace           from 'gulp-replace';
-import concat            from 'gulp-concat';
 import rename            from 'gulp-rename';
 import request           from 'request';
 import source            from 'vinyl-source-stream';
-import fs                from 'fs';
 import del               from 'del';
 import webpack           from 'webpack-stream';
 import webpackConfigDEV  from './webpack.dev';
 import webpackConfigPROD from './webpack.prod';
 import promptConfig      from './prompt-config';
 import packageJSON       from './package.json';
+import themeJSON         from './theme.json';
 import { create as browserSyncCreate } from 'browser-sync';
 
 
 
 // Settings
-const wpCli = 'https://github.com/wp-cli/wp-cli/releases/download/v1.5.0/wp-cli-1.5.0.phar';
+const wpCli = 'https://github.com/wp-cli/wp-cli/releases/download/v1.5.0/wp-cli-1.5.1.phar';
 
 const browserSync = browserSyncCreate();
 const browserSyncReload = browserSync.reload;
 const browserSyncProxy = 'local-url.test';
 
-let theme = require('./theme.json').theme;
-let themePath = `wp/wp-content/themes/${theme}`;
-
-const nodePath = `${__dirname}/node_modules`;
+const theme = themeJSON.theme;
+const themePath = path.resolve(__dirname, `wp/wp-content/themes/${theme}`);
+const nodePath = path.resolve(__dirname, 'node_modules');
 const dest = `${themePath}/dist`;
 
 
