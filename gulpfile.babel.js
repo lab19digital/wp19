@@ -16,7 +16,8 @@ import rename            from 'gulp-rename';
 import request           from 'request';
 import source            from 'vinyl-source-stream';
 import del               from 'del';
-import webpack           from 'webpack-stream';
+import webpack           from 'webpack';
+import webpackStream     from 'webpack-stream';
 import webpackConfigDEV  from './webpack.dev';
 import webpackConfigPROD from './webpack.prod';
 import promptConfig      from './prompt-config';
@@ -30,10 +31,9 @@ import { create as browserSyncCreate } from 'browser-sync';
 const wpCli = 'https://github.com/wp-cli/wp-cli/releases/download/v1.5.0/wp-cli-1.5.1.phar';
 
 const browserSync = browserSyncCreate();
-const browserSyncReload = browserSync.reload;
 const browserSyncProxy = 'local-url.test';
 
-const theme = themeJSON.theme;
+let theme = themeJSON.theme;
 const themePath = path.resolve(__dirname, `wp/wp-content/themes/${theme}`);
 const nodePath = path.resolve(__dirname, 'node_modules');
 const dest = `${themePath}/dist`;
@@ -90,7 +90,6 @@ gulp.task('wp-init', () => {
         .pipe(gulp.dest('./'));
 
       theme = res.wptheme;
-      themePath = `wp/wp-content/themes/${theme}`;
 
       shell.task(['gulp wp-setup'])();
     })
@@ -230,14 +229,14 @@ gulp.task('sass:prod', () => {
 gulp.task('js', () => {
   return gulp.src(`${themePath}/js/main.js`)
     .pipe(plumber(plumberHandler))
-    .pipe(webpack(webpackConfigDEV))
+    .pipe(webpackStream(webpackConfigDEV, webpack))
     .pipe(gulp.dest(dest));
 });
 
 gulp.task('js:prod', () => {
   return gulp.src(`${themePath}/js/main.js`)
     .pipe(plumber(plumberHandler))
-    .pipe(webpack(webpackConfigPROD))
+    .pipe(webpackStream(webpackConfigPROD, webpack))
     .pipe(gulp.dest(dest));
 });
 

@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-let password = (crypto.randomBytes(20).toString(36)).substr(0,15);
+let password = (crypto.randomBytes(20).toString('hex')).substr(0, 15);
 
 export default [
   {
