@@ -18,33 +18,35 @@
  * @package WordPress
  */
 
-/*
-	Security 
-	http://codex.wordpress.org/Hardening_WordPress
-*/
-
 define('DISALLOW_FILE_EDIT', true);
+define('WP_POST_REVISIONS', 3);
+define('WPCF7_AUTOP', false);
 
-define( 'WP_POST_REVISIONS', 3 );
+/** Environments */
+switch ($_SERVER['HTTP_HOST']) :
+  case 'production.domain.com':
+    define('WP_DEBUG', false);
+  break;
 
-/*
-	Environments
-*/
+  case '{DB_NAME}.dvsb1.com':
+    define('WP_HOME', 'https://' . $_SERVER["HTTP_HOST"] . '/');
+    define('WP_SITEURL', 'https://' . $_SERVER["HTTP_HOST"] . '/wp/');
+    define('DB_NAME', '{DB_NAME}');
+    define('DB_USER', getenv('DB_USER'));
+    define('DB_PASSWORD', getenv('DB_PASSWORD'));
+    define('DB_HOST', 'localhost');
+    define('WP_DEBUG', false);
+  break;
 
-switch( $_SERVER['HTTP_HOST'] ):
-	case 'prod.domain.com' :
-	break;
-	case 'stage.domain.com' :
-	break;
-	default : 
-		define('WP_HOME', 'http://' . $_SERVER["HTTP_HOST"]);
-		define('WP_SITEURL', 'http://' . $_SERVER["HTTP_HOST"] . '/wp/');
-		define('DB_NAME', '{DB_NAME}');
-		define('DB_USER', '{DB_USER}');	
-		define('DB_PASSWORD', '{DB_PASSWORD}');
-		define('DB_HOST', 'localhost');
-		// define( 'WP_DEBUG', true );
-	break;
+  default:
+    define('WP_HOME', 'http://' . $_SERVER["HTTP_HOST"] . '/');
+    define('WP_SITEURL', 'http://' . $_SERVER["HTTP_HOST"] . '/wp/');
+    define('DB_NAME', '{DB_NAME}');
+    define('DB_USER', '{DB_USER}');
+    define('DB_PASSWORD', '{DB_PASSWORD}');
+    define('DB_HOST', 'localhost');
+    define('WP_DEBUG', true);
+  break;
 endswitch;
 
 define('WP_USER', '{WP_USER}');
@@ -96,7 +98,7 @@ $table_prefix  = 'wp_';
  *
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
-define('WP_DEBUG', false);
+// define('WP_DEBUG', false);
 
 /* That's all, stop editing! Happy blogging. */
 

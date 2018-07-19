@@ -1,10 +1,11 @@
-{#
-	Page
-	============================================================
-	The html for page.php
+{% extends 'base.twig' %}
 
-	Just render the same template as single, unless you need something
-	different.
-#}
+{% block content %}
+  <div class="container">
+    <article class="{{ post.class }}" id="post-{{ post.id }}">
+      <h1>{{ post.title }}</h1>
 
-{% include "single.twig" %}
+      {{ post.content }}
+    </article>
+  </div>
+{% endblock %}

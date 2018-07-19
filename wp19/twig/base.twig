@@ -1,79 +1,77 @@
-<!DOCTYPE html>
-<html {{site.language_attributes}}>
-
+<!doctype html>
+<html class="no-js" {{ site.language_attributes }}>
 <head>
-  
+  <meta charset="{{site.charset}}">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <title>{{ wp_title }}</title>
-  <meta charset="{{ bloginfo( 'charset' ) }}">
-  
-  {# Use Wordpress to add Favicon (Appearance->Customise) #}
+  <link rel="stylesheet" href="{{ site.theme.uri }}/dist/main.css">
 
-  {# Useful variables #}
   <script>
-    window.wp_admin_url = '{{ ajax_url }}';
+    window.siteUrl  = '{{ site.url }}';
+    window.ajaxUrl  = '{{ ajax_url }}';
+    window.themeUrl = '{{ site.theme.uri }}';
   </script>
-  
-  {# GA #}
-  {% set ga_id = 'UA-XXXXX-X' %}
 
-  {# Modernizr #}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+  <!-- WP Head -->
+  {{ function('wp_head') }}
+  <!-- end WP Head -->
 
-  {# Wordpress head #}
-  {{ wp_head }}
-
+  {% block head %}
+  {% endblock %}
 </head>
 
-<body class="{{ body_class }}">
+<body class="{{ wp_debug ? 'wp-debug' }} {{ body_class }}">
+  <div id="main-wrapper">
 
-  <!--[if lte IE 7]>
-    <p id="legacy">You are using an outdated browser.<br>Please <a href="https://www.google.com/chrome/browser/" target="_blank">upgrade</a> to improve your experience.<br><small onclick="this.parentNode.style.display='none'">I get it, <a>take me to the site</a>.</small></p>
-  <![endif]-->
+    <!-- Header -->
+    <header id="header" class="header">
+      {% block header %}
+        {% include 'views/header.twig' %}
+      {% endblock %}
+    </header> <!-- end #header .header -->
 
-  <!--[if lte IE 8]>
-    <p id="legacy">You are using an outdated browser.<br>Please <a href="https://www.google.com/chrome/browser/" target="_blank">upgrade</a> to improve your experience.<br><small onclick="this.parentNode.style.display='none'">I get it, <a>take me to the site</a>.</small></p>
-  <![endif]-->
+    <!-- Page Content -->
+    <main id="page-container" class="page-container">
+      {% block content %}
+      {% endblock %}
+    </main> <!-- end #page-container .page-container -->
 
-  <!--[if lte IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/classlist/2014.01.31/classList.min.js"></script>
-  <![endif]-->
+    <!-- Footer -->
+    <footer id="footer" class="footer">
+      {% block footer %}
+        {% include 'views/footer.twig' %}
+      {% endblock %}
+    </footer> <!-- end #footer .footer -->
 
-  <div class="site-wrapper">
+  </div> <!-- end #main-wrapper -->
 
-	  {% include 'header.twig' with header %}
+  <!-- WP Footer -->
+  {{ function('wp_footer') }}
+  <!-- end WP Footer -->
 
-		<main class="site-body">
+  <!-- Google Analytics -->
+  {% if options.google_analytics_code %}
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', '{{ options.google_analytics_code }}', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+  {% endif %}
+  <!-- end Google Analytics -->
 
-			<div id="content" class="site-content">
-
-				{% block content %}
-				{% endblock %}
-
-			</div>
-
-		</main>
-
-		{% include 'footer.twig' with footer %}
-
-	</div>
-
-	{{ wp_footer }}
-
-  {# Google Analytics: change UA-XXXXX-Y to be your site's ID #}
+  <!-- Browser Update -->
   <script>
-      window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
-      ga('create','{{ ga_id }}','auto');ga('send','pageview')
+    var $buoop = {notify:{i:-5,f:-4,o:-4,s:-2,c:-4},unsecure:true,unsupported:false,api:5};
+    function $buo_f(){
+     var e = document.createElement("script");
+     e.src = "//browser-update.org/update.min.js";
+     document.body.appendChild(e);
+    };
+    try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
+    catch(e){window.attachEvent("onload", $buo_f)}
   </script>
-
-  <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
-  {% import "mixins.twig" as mixins %}
-
-  {{ mixins.modal() }}
-	
+  <!-- end Browser Update -->
 </body>
 </html>

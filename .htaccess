@@ -7,8 +7,8 @@
 
 # Remote images
 # ================================================================
-# Enable the following rules if you would like to 
-# rewrite image 404s to a staging/production environment. 
+# Enable the following rules if you would like to
+# rewrite image 404s to a staging/production environment.
 # This saves you from needing to pull down the wp-uploads folder.
 
 # BEGIN Permanent Rules

@@ -9,6 +9,8 @@
 *.esproj
 *.sublime-project
 *.sublime-workspace
+*.code-workspace
+*.vscode
 nbproject
 Thumbs.db
 

@@ -1,11 +1,9 @@
 <?php
 
-	$data = Timber::get_context();
-	$data['post'] = new TimberPost();
+$context = Timber::get_context();
 
-	/*
-		Add custom fields here, or you can call these directly
-		in the twig file using  {{ post.get_field() }}
-	*/
+$context['title'] = 'Search results for ' . get_search_query();
 
-	return Timber::render('search.twig', $data);
+$context['posts'] = Timber::get_posts();
+
+Timber::render(array('search.twig', 'archive.twig', 'index.twig'), $context);

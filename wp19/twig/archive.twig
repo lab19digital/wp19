@@ -1,17 +1,14 @@
-{#
-	Archive
-	============================================================
-	The html for archive.php
-#}
-
-{% extends "base.twig" %}
+{% extends 'base.twig' %}
 
 {% block content %}
-	
-	<div class="container">
-		
-		<h1>Archive</h1>
+  <div class="container">
+    <h1>{{ title }}</h1>
 
-	</div>
-
+    {% for post in posts %}
+      <article class="{{ post.class }}" id="post-{{ post.id }}">
+        <h2><a href="{{ post.link }}">{{ post.title }}</a></h2>
+        <p>{{ post.get_preview }}</p>
+      </article>
+    {% endfor %}
+  </div>
 {% endblock %}

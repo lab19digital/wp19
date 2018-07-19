@@ -1,16 +1,14 @@
-// Import from node_modules
-import 'slick-carousel/slick/slick.js';
+import 'slick-carousel/slick/slick';
+import 'flickity/dist/flickity.pkgd';
 
-export default function( $sliders ){
+export default function(s, $sliders) {
 
-	$sliders.slick({
-		dots : true,
-		arrows : true,
-        fade : true,
-        cssEase : 'linear',
-        autoplay: true,
-        autoplaySpeed: 2000,
-        infinite : true
-	});	
+  // $sliders.slick({
+  //   // http://kenwheeler.github.io/slick/
+  // });
+
+  // $sliders.flickity({
+  //   // https://flickity.metafizzy.co/options.html
+  // });
+
 }
-
