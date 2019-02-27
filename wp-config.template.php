@@ -18,45 +18,45 @@
  * @package WordPress
  */
 
-define('DISALLOW_FILE_EDIT', true);
-define('WP_POST_REVISIONS', 3);
-define('WPCF7_AUTOP', false);
+define( 'DISALLOW_FILE_EDIT', true );
+define( 'WP_POST_REVISIONS', 2 );
+define( 'WPCF7_AUTOP', false );
 
 /** Environments */
-switch ($_SERVER['HTTP_HOST']) :
-  case 'production.domain.com':
-    define('WP_DEBUG', false);
+switch ( $_SERVER['HTTP_HOST'] ) :
+  case 'production.domain.com' :
+    define( 'WP_DEBUG', false );
   break;
 
-  case '{DB_NAME}.dvsb1.com':
-    define('WP_HOME', 'https://' . $_SERVER["HTTP_HOST"] . '/');
-    define('WP_SITEURL', 'https://' . $_SERVER["HTTP_HOST"] . '/wp/');
-    define('DB_NAME', '{DB_NAME}');
-    define('DB_USER', getenv('DB_USER'));
-    define('DB_PASSWORD', getenv('DB_PASSWORD'));
-    define('DB_HOST', 'localhost');
-    define('WP_DEBUG', false);
+  case '{DB_NAME}.dvsb1.com' :
+    define( 'WP_HOME', 'https://' . $_SERVER["HTTP_HOST"] . '/' );
+    define( 'WP_SITEURL', 'https://' . $_SERVER["HTTP_HOST"] . '/wp/' );
+    define( 'DB_NAME', '{DB_NAME}' );
+    define( 'DB_USER', getenv('DB_USER') );
+    define( 'DB_PASSWORD', getenv('DB_PASSWORD') );
+    define( 'DB_HOST', 'localhost' );
+    define( 'WP_DEBUG', false );
   break;
 
-  default:
-    define('WP_HOME', 'http://' . $_SERVER["HTTP_HOST"] . '/');
-    define('WP_SITEURL', 'http://' . $_SERVER["HTTP_HOST"] . '/wp/');
-    define('DB_NAME', '{DB_NAME}');
-    define('DB_USER', '{DB_USER}');
-    define('DB_PASSWORD', '{DB_PASSWORD}');
-    define('DB_HOST', 'localhost');
-    define('WP_DEBUG', true);
+  default :
+    define( 'WP_HOME', 'https://' . $_SERVER["HTTP_HOST"] . '/' );
+    define( 'WP_SITEURL', 'https://' . $_SERVER["HTTP_HOST"] . '/wp/' );
+    define( 'DB_NAME', '{DB_NAME}' );
+    define( 'DB_USER', '{DB_USER}' );
+    define( 'DB_PASSWORD', '{DB_PASSWORD}' );
+    define( 'DB_HOST', 'localhost' );
+    define( 'WP_DEBUG', true );
   break;
 endswitch;
 
-define('WP_USER', '{WP_USER}');
-define('WP_PASSWORD', '{WP_PASSWORD}');
+define( 'WP_USER', '{WP_USER}' );
+define( 'WP_PASSWORD', '{WP_PASSWORD}' );
 
 /** Database Charset to use in creating database tables. */
-define('DB_CHARSET', 'utf8');
+define( 'DB_CHARSET', 'utf8' );
 
 /** The Database Collate type. Don't change this if in doubt. */
-define('DB_COLLATE', '');
+define( 'DB_COLLATE', '' );
 
 /**#@+
  * Authentication Unique Keys and Salts.
@@ -67,14 +67,14 @@ define('DB_COLLATE', '');
  *
  * @since 2.6.0
  */
-define('AUTH_KEY',         'put your unique phrase here');
-define('SECURE_AUTH_KEY',  'put your unique phrase here');
-define('LOGGED_IN_KEY',    'put your unique phrase here');
-define('NONCE_KEY',        'put your unique phrase here');
-define('AUTH_SALT',        'put your unique phrase here');
-define('SECURE_AUTH_SALT', 'put your unique phrase here');
-define('LOGGED_IN_SALT',   'put your unique phrase here');
-define('NONCE_SALT',       'put your unique phrase here');
+define( 'AUTH_KEY',         'put your unique phrase here' );
+define( 'SECURE_AUTH_KEY',  'put your unique phrase here' );
+define( 'LOGGED_IN_KEY',    'put your unique phrase here' );
+define( 'NONCE_KEY',        'put your unique phrase here' );
+define( 'AUTH_SALT',        'put your unique phrase here' );
+define( 'SECURE_AUTH_SALT', 'put your unique phrase here' );
+define( 'LOGGED_IN_SALT',   'put your unique phrase here' );
+define( 'NONCE_SALT',       'put your unique phrase here' );
 
 /**#@-*/
 
@@ -84,7 +84,7 @@ define('NONCE_SALT',       'put your unique phrase here');
  * You can have multiple installations in one database if you give each
  * a unique prefix. Only numbers, letters, and underscores please!
  */
-$table_prefix  = 'wp_';
+$table_prefix = 'wp_';
 
 /**
  * For developers: WordPress debugging mode.
@@ -98,13 +98,14 @@ $table_prefix  = 'wp_';
  *
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
-// define('WP_DEBUG', false);
+// define( 'WP_DEBUG', false );
 
-/* That's all, stop editing! Happy blogging. */
+/* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */
-if ( !defined('ABSPATH') )
-	define('ABSPATH', dirname(__FILE__) . '/');
+if ( ! defined( 'ABSPATH' ) ) {
+	define( 'ABSPATH', dirname( __FILE__ ) . '/' );
+}
 
 /** Sets up WordPress vars and included files. */
-require_once(ABSPATH . 'wp-settings.php');
+require_once( ABSPATH . 'wp-settings.php' );

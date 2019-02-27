@@ -1,14 +1,6 @@
 // Dependencies
+import { series, parallel, watch, src, dest } from 'gulp';
 import path              from 'path';
-import gulp              from 'gulp';
-import connectPHP        from 'gulp-connect-php';
-import plumber           from 'gulp-plumber';
-import notify            from 'gulp-notify';
-import sass              from 'gulp-sass';
-import postcss           from 'gulp-postcss';
-import autoprefixer      from 'autoprefixer';
-import sourcemaps        from 'gulp-sourcemaps';
-import watch             from 'gulp-watch';
 import shell             from 'gulp-shell';
 import prompt            from 'gulp-prompt';
 import replace           from 'gulp-replace';
@@ -16,6 +8,13 @@ import rename            from 'gulp-rename';
 import request           from 'request';
 import source            from 'vinyl-source-stream';
 import del               from 'del';
+import connectPHP        from 'gulp-connect-php';
+import plumber           from 'gulp-plumber';
+import notify            from 'gulp-notify';
+import sass              from 'gulp-sass';
+import postcss           from 'gulp-postcss';
+import autoprefixer      from 'autoprefixer';
+import sourcemaps        from 'gulp-sourcemaps';
 import webpack           from 'webpack';
 import webpackStream     from 'webpack-stream';
 import webpackConfigDEV  from './webpack.dev';
@@ -28,7 +27,7 @@ import { create as browserSyncCreate } from 'browser-sync';
 
 
 // Settings
-const wpCli = 'https://github.com/wp-cli/wp-cli/releases/download/v2.0.1/wp-cli-2.0.1.phar';
+const wpCli = 'https://github.com/wp-cli/wp-cli/releases/download/v2.1.0/wp-cli-2.1.0.phar';
 
 const browserSync = browserSyncCreate();
 const browserSyncProxy = 'local-url.test';
@@ -36,7 +35,7 @@ const browserSyncProxy = 'local-url.test';
 let theme = themeJSON.theme;
 const themePath = path.resolve(__dirname, `wp/wp-content/themes/${theme}`);
 const nodePath = path.resolve(__dirname, 'node_modules');
-const dest = `${themePath}/dist`;
+const destPath = `${themePath}/dist`;
 
 
 
@@ -44,18 +43,18 @@ const dest = `${themePath}/dist`;
 // =======================================================================
 
 // Fetch WP CLI
-gulp.task('get-wp-cli', () => {
+function get_wp_cli() {
   return request(wpCli)
     .pipe(source('wp-cli.phar'))
     .pipe(gulp.dest('./'))
-});
+}
 
 // Initialize Setup
 // Runs through a series of prompts, altering the wp-config template and
 // finally outputting a wp-config file and a wp-cli template file, used
 // for the remaining installation. You can add more prompt options in
 // prompt-config.js and use the prompt values returned below.
-gulp.task('wp-init', () => {
+function wp_init() {
   let res = {};
 
   gulp.src('wp-config.template.php').pipe(
@@ -91,27 +90,27 @@ gulp.task('wp-init', () => {
 
       theme = res.wptheme;
 
-      shell.task(['gulp wp-setup'])();
+      shell.task(['gulp wp_setup'])();
     })
   );
-});
+}
 
 // Copy WP Configuration File
-gulp.task('copy-wp-config', () => {
+function copy_wp_config() {
   gulp.src('wp-config.php')
     .pipe(gulp.dest('./wp'));
-});
+}
 
 // Copy WP Base Theme
-gulp.task('copy-wp-base-theme', () => {
+function copy_wp_base_theme() {
   gulp.src(['wp19/**/*'])
     .pipe(gulp.dest(themePath));
-});
+}
 
 // Main WP Setup Task
 // Runs through all remaining commands to install Wordpress and plugins
 // NOTE: More plugins can be defined in package.json
-gulp.task('wp-setup', () => {
+function wp_setup() {
   let plugins = packageJSON.wpcli.plugins;
   let cmd = [];
 
@@ -124,7 +123,7 @@ gulp.task('wp-setup', () => {
 
     // Get the CLI tool
     `echo Fetching the CLI tool...`,
-    `gulp get-wp-cli`,
+    `gulp get_wp_cli`,
 
     // Install WP
     `php wp-cli.phar core download`,
@@ -132,8 +131,8 @@ gulp.task('wp-setup', () => {
     `php wp-cli.phar core install`,
 
     // Copy the config
-    `gulp copy-wp-config`,
-    `gulp copy-wp-base-theme`,
+    `gulp copy_wp_config`,
+    `gulp copy_wp_base_theme`,
     `php wp-cli.phar theme activate ${theme}`,
 
     // Create basic menu
@@ -167,13 +166,13 @@ gulp.task('wp-setup', () => {
 
   // Run these tasks
   shell.task(cmd)();
-});
+}
 
 // Cleanup
 // Removes the .git folder. This repo should be cloned and used for another
 // project, and does not require a git history.
 // Removes other setup files that won't be required
-gulp.task('cleanup', () => {
+function cleanup() {
   return del([
     '.git/**/*',
     'wp19/**/*',
@@ -182,37 +181,46 @@ gulp.task('cleanup', () => {
     'wp-config.template.php',
     'wp-config.php'
   ]);
-});
+}
 
 
 
-// DEV TASKS -> sass / js / watch / php / proxy / build
+// DEV TASKS
 // =======================================================================
 
 // Plumber
-var plumberHandler = {
+const plumberHandler = {
   errorHandler: notify.onError({
     title: 'Gulp Error',
     message: '<%= error.message %>'
   })
 };
 
-// SASS
-gulp.task('sass', () => {
-  return gulp.src(`${themePath}/scss/**/*.scss`)
+// Reload
+function reload(done) {
+  browserSync.reload();
+  done();
+}
+
+// SCSS
+function scss() {
+  return src(`${basePath}/scss/**/*.scss`)
     .pipe(plumber(plumberHandler))
     .pipe(sourcemaps.init())
     .pipe(sass({
       precision: 10,
       includePaths: [nodePath]
     }))
+    .pipe(postcss([
+      autoprefixer({ cascade: false })
+    ]))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest(dest))
+    .pipe(dest(destPath))
     .pipe(browserSync.stream());
-});
+}
 
-gulp.task('sass:prod', () => {
-  return gulp.src(`${themePath}/scss/**/*.scss`)
+function scss_prod() {
+  return src(`${basePath}/scss/**/*.scss`)
     .pipe(plumber(plumberHandler))
     .pipe(sass({
       precision: 10,
@@ -222,39 +230,35 @@ gulp.task('sass:prod', () => {
     .pipe(postcss([
       autoprefixer({ cascade: false })
     ]))
-    .pipe(gulp.dest(dest));
-});
+    .pipe(dest(destPath));
+}
 
 // JS
-gulp.task('js', () => {
-  return gulp.src(`${themePath}/js/main.js`)
+function js() {
+  return src(`${themePath}/js/main.js`)
     .pipe(plumber(plumberHandler))
     .pipe(webpackStream(webpackConfigDEV, webpack))
-    .pipe(gulp.dest(dest));
-});
+    .pipe(dest(destPath));
+}
 
-gulp.task('js:prod', () => {
-  return gulp.src(`${themePath}/js/main.js`)
+function js_prod() {
+  return src(`${themePath}/js/main.js`)
     .pipe(plumber(plumberHandler))
     .pipe(webpackStream(webpackConfigPROD, webpack))
-    .pipe(gulp.dest(dest));
-});
-
-gulp.task('js-watch', ['js'], (done) => {
-  browserSync.reload();
-  done();
-});
+    .pipe(dest(destPath));
+}
 
 // Watch
-gulp.task('watch', () => {
-  watch(`${themePath}/scss/**/*.scss`, () => gulp.start('sass'));
-  watch(`${themePath}/js/**/*.js`, () => gulp.start('js-watch'));
-  watch(`${themePath}/**/*.twig`, () => browserSync.reload());
-  watch(`${themePath}/**/*.php`, () => browserSync.reload());
-});
+function watch_files() {
+  watch(`${basePath}/scss/**/*.scss`, scss);
+  watch(`${basePath}/js/**/*.js`, series(js, reload));
+  watch(`${basePath}/**/*.twig`, reload);
+  watch(`${basePath}/**/*.php`, reload);
+  watch(`${basePath}/**/*.html`, reload);
+}
 
 // PHP
-gulp.task('php', ['watch'], () => {
+function php() {
   connectPHP.server({
     port: 8000,
     open: false,
@@ -269,20 +273,28 @@ gulp.task('php', ['watch'], () => {
       proxy: '127.0.0.1:8000'
     });
   });
-});
+}
 
 // Proxy
-gulp.task('proxy', ['watch'], () => {
+function proxy() {
   browserSync.init({
     ghostMode: false,
     ui: false,
     notify: false,
     proxy: browserSyncProxy
   });
-});
+}
 
-// Build
-gulp.task('build', ['sass:prod', 'js:prod']);
+const proxy = parallel(proxy, watch_files);
+const build = parallel(scss_prod, js_prod);
 
-// Default
-gulp.task('default', ['php']);
+export {
+  scss,
+  scss_prod,
+  js,
+  js_prod,
+  proxy,
+  build
+};
+
+export default parallel(php, watch_files);

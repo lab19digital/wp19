@@ -1,9 +1,9 @@
 <!doctype html>
 <html class="no-js" {{ site.language_attributes }}>
 <head>
-  <meta charset="{{site.charset}}">
+  <meta charset="{{ site.charset }}">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" href="{{ site.theme.uri }}/dist/main.css">
 
@@ -23,13 +23,10 @@
 
 <body class="{{ wp_debug ? 'wp-debug' }} {{ body_class }}">
   <div id="main-wrapper">
-
     <!-- Header -->
-    <header id="header" class="header">
-      {% block header %}
-        {% include 'views/header.twig' %}
-      {% endblock %}
-    </header> <!-- end #header .header -->
+    {% block header %}
+      {% include 'views/header.twig' %}
+    {% endblock %}
 
     <!-- Page Content -->
     <main id="page-container" class="page-container">
@@ -38,12 +35,9 @@
     </main> <!-- end #page-container .page-container -->
 
     <!-- Footer -->
-    <footer id="footer" class="footer">
-      {% block footer %}
-        {% include 'views/footer.twig' %}
-      {% endblock %}
-    </footer> <!-- end #footer .footer -->
-
+    {% block footer %}
+      {% include 'views/footer.twig' %}
+    {% endblock %}
   </div> <!-- end #main-wrapper -->
 
   <!-- WP Footer -->
@@ -63,11 +57,11 @@
 
   <!-- Browser Update -->
   <script>
-    var $buoop = {notify:{i:-5,f:-4,o:-4,s:-2,c:-4},unsecure:true,unsupported:false,api:5};
+    var $buoop = {required:{e:-4,f:-3,o:-3,s:-1,c:-3},insecure:true,api:2019.02 };
     function $buo_f(){
-     var e = document.createElement("script");
-     e.src = "//browser-update.org/update.min.js";
-     document.body.appendChild(e);
+      var e = document.createElement("script");
+      e.src = "//browser-update.org/update.min.js";
+      document.body.appendChild(e);
     };
     try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
     catch(e){window.attachEvent("onload", $buo_f)}

@@ -4,7 +4,7 @@
 
 `npm install` or `yarn`
 
-`gulp wp-init` (Builds an installation from scratch)
+`gulp wp_init` (Builds an installation from scratch)
 
 `gulp cleanup` (Removes scaffolding files)
 
@@ -21,7 +21,7 @@ Make sure you're running the latest version of NodeJS: [https://nodejs.org/en/do
 
 To build an installation from scratch
 
-    gulp wp-init
+    gulp wp_init
 
 After installation, you will need to cleanup the scaffolding files (and remove the old repo)
 
@@ -103,10 +103,10 @@ Created by <a href="http://lab19digital.com">Lab19 Digital</a>.
 
 # Available gulp tasks
 
-`gulp wp-init` - install wordpress / setup project  
-`gulp js` - compile JS with source maps  
-`gulp sass` - compile SCSS with inline source maps  
-`gulp build` - compile production ready JS & SCSS (minified & autoprefixed)  
+`gulp wp_init` - install wordpress / setup project  
+`gulp js` - compile JS with inline source maps  
+`gulp scss` - compile SCSS with inline source maps  
+`gulp build` - compile production ready JS & CSS (minified & autoprefixer)  
 `gulp watch` - watch for files changes  
+`gulp proxy` - run BrowserSync without a server, you need to modify `browserSyncProxy` setting  
 `gulp php` - (default task) run the server and watch for files changes  
-`gulp proxy` - run BrowserSync without a server, you need to modify `browserSyncProxy` setting
