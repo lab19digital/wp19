@@ -1,9 +1,10 @@
 {
   "presets": [
-    ["env", {
-      "targets": {
-        "ie": "9"
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "usage"
       }
-    }]
+    ]
   ]
 }
