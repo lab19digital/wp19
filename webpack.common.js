@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const theme = require('./theme.json').theme;
-const themeUrl = `wp-content/themes/${theme}`;
+const themeUrl = `wp/wp-content/themes/${theme}`;
 
 module.exports = {
   entry: {

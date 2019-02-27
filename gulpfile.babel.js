@@ -289,6 +289,12 @@ const proxy = parallel(proxy, watch_files);
 const build = parallel(scss_prod, js_prod);
 
 export {
+  wp_init,
+  wp_setup,
+  get_wp_cli,
+  copy_wp_base_theme,
+  copy_wp_config,
+  cleanup,
   scss,
   scss_prod,
   js,
