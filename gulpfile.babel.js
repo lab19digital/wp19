@@ -46,7 +46,7 @@ const destPath = `${themePath}/dist`;
 function get_wp_cli() {
   return request(wpCli)
     .pipe(source('wp-cli.phar'))
-    .pipe(gulp.dest('./'))
+    .pipe(dest('./'))
 }
 
 // Initialize Setup
@@ -57,18 +57,18 @@ function get_wp_cli() {
 function wp_init() {
   let res = {};
 
-  gulp.src('wp-config.template.php').pipe(
+  return src('wp-config.template.php').pipe(
     prompt.prompt(promptConfig, (res) => {
-      gulp.src('wp-config.template.php')
+      src('wp-config.template.php')
         .pipe(replace('{DB_NAME}', res.db))
         .pipe(replace('{DB_USER}', res.user))
         .pipe(replace('{DB_PASSWORD}', res.password))
         .pipe(replace('{WP_USER}', res.wpuser))
         .pipe(replace('{WP_PASSWORD}', res.wppass))
         .pipe(rename('wp-config.php'))
-        .pipe(gulp.dest('./'));
+        .pipe(dest('./'));
 
-      gulp.src('wp-cli.template.yml')
+      src('wp-cli.template.yml')
         .pipe(replace('{DB_NAME}', res.db))
         .pipe(replace('{DB_USER}', res.user))
         .pipe(replace('{DB_PASSWORD}', res.password))
@@ -78,15 +78,15 @@ function wp_init() {
         .pipe(replace('{WP_SITE_TITLE}', res.wpsitetitle))
         .pipe(replace('{WP_BASE_URL}', res.wpbase))
         .pipe(rename('wp-cli.yml'))
-        .pipe(gulp.dest('./'));
+        .pipe(dest('./'));
 
-      gulp.src('wp19/style.css')
+      src('wp19/style.css')
         .pipe(replace('wp19', res.wpsitetitle))
-        .pipe(gulp.dest('./wp19'));
+        .pipe(dest('./wp19'));
 
-      gulp.src('theme.json')
+      src('theme.json')
         .pipe(replace(theme, res.wptheme))
-        .pipe(gulp.dest('./'));
+        .pipe(dest('./'));
 
       theme = res.wptheme;
 
@@ -97,14 +97,14 @@ function wp_init() {
 
 // Copy WP Configuration File
 function copy_wp_config() {
-  gulp.src('wp-config.php')
-    .pipe(gulp.dest('./wp'));
+  return src('wp-config.php')
+    .pipe(dest('./wp'));
 }
 
 // Copy WP Base Theme
 function copy_wp_base_theme() {
-  gulp.src(['wp19/**/*'])
-    .pipe(gulp.dest(themePath));
+  return src(['wp19/**/*'])
+    .pipe(dest(themePath));
 }
 
 // Main WP Setup Task
@@ -165,7 +165,7 @@ function wp_setup() {
   // cmd.push('gulp cleanup');
 
   // Run these tasks
-  shell.task(cmd)();
+  return shell.task(cmd)();
 }
 
 // Cleanup
@@ -204,7 +204,7 @@ function reload(done) {
 
 // SCSS
 function scss() {
-  return src(`${basePath}/scss/**/*.scss`)
+  return src(`${themePath}/scss/**/*.scss`)
     .pipe(plumber(plumberHandler))
     .pipe(sourcemaps.init())
     .pipe(sass({
@@ -220,7 +220,7 @@ function scss() {
 }
 
 function scss_prod() {
-  return src(`${basePath}/scss/**/*.scss`)
+  return src(`${themePath}/scss/**/*.scss`)
     .pipe(plumber(plumberHandler))
     .pipe(sass({
       precision: 10,
@@ -250,11 +250,11 @@ function js_prod() {
 
 // Watch
 function watch_files() {
-  watch(`${basePath}/scss/**/*.scss`, scss);
-  watch(`${basePath}/js/**/*.js`, series(js, reload));
-  watch(`${basePath}/**/*.twig`, reload);
-  watch(`${basePath}/**/*.php`, reload);
-  watch(`${basePath}/**/*.html`, reload);
+  watch(`${themePath}/scss/**/*.scss`, scss);
+  watch(`${themePath}/js/**/*.js`, series(js, reload));
+  watch(`${themePath}/**/*.twig`, reload);
+  watch(`${themePath}/**/*.php`, reload);
+  watch(`${themePath}/**/*.html`, reload);
 }
 
 // PHP
