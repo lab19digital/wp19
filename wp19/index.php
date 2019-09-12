@@ -1,7 +1,9 @@
 <?php
 
-$context = Timber::get_context();
+$context = Timber::context();
 
-$context['posts'] = new Timber\PostQuery();
+$timber_posts = new Timber\PostQuery();
+
+$context['posts'] = $timber_posts;
 
 Timber::render('index.twig', $context);

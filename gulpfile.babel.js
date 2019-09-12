@@ -27,15 +27,24 @@ import { create as browserSyncCreate } from 'browser-sync';
 
 
 // Settings
-const wpCli = 'https://github.com/wp-cli/wp-cli/releases/download/v2.1.0/wp-cli-2.1.0.phar';
-
-const browserSync = browserSyncCreate();
-const browserSyncProxy = 'local-url.test';
+const wpCli = 'https://github.com/wp-cli/wp-cli/releases/download/v2.3.0/wp-cli-2.3.0.phar';
 
 let theme = themeJSON.theme;
+const basePath = __dirname;
 const themePath = path.resolve(__dirname, `wp/wp-content/themes/${theme}`);
 const nodePath = path.resolve(__dirname, 'node_modules');
 const destPath = `${themePath}/dist`;
+
+const baseName = path.basename(basePath);
+
+console.log(`Base name: ${baseName}`);
+console.log(`Base path: ${basePath}`);
+console.log(`Theme name: ${theme}`);
+console.log(`Theme path: ${themePath}`);
+console.log(`Build path: ${destPath}`);
+
+const browserSync = browserSyncCreate();
+const browserSyncProxy = `${baseName}.test`;
 
 
 
@@ -221,7 +230,6 @@ function scss() {
 
 function scss_prod() {
   return src(`${themePath}/scss/**/*.scss`)
-    .pipe(plumber(plumberHandler))
     .pipe(sass({
       precision: 10,
       outputStyle: 'compressed',
@@ -243,7 +251,6 @@ function js() {
 
 function js_prod() {
   return src(`${themePath}/js/main.js`)
-    .pipe(plumber(plumberHandler))
     .pipe(webpackStream(webpackConfigPROD, webpack))
     .pipe(dest(destPath));
 }
@@ -258,12 +265,12 @@ function watch_files() {
 }
 
 // PHP
-function php() {
+function php_fn() {
   connectPHP.server({
     port: 8000,
     open: false,
     hostname: '127.0.0.1',
-    base: __dirname,
+    base: basePath,
     stdio: 'ignore'
   }, () => {
     browserSync.init({
@@ -276,7 +283,7 @@ function php() {
 }
 
 // Proxy
-function proxy() {
+function proxy_fn() {
   browserSync.init({
     ghostMode: false,
     ui: false,
@@ -285,7 +292,9 @@ function proxy() {
   });
 }
 
-const proxy = parallel(proxy, watch_files);
+
+const php = parallel(php_fn, watch_files);
+const proxy = parallel(proxy_fn, watch_files);
 const build = parallel(scss_prod, js_prod);
 
 export {
@@ -295,12 +304,11 @@ export {
   copy_wp_base_theme,
   copy_wp_config,
   cleanup,
-  scss,
   scss_prod,
-  js,
   js_prod,
+  php,
   proxy,
   build
-};
+}
 
-export default parallel(php, watch_files);
+export default php;

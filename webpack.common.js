@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 const theme = require('./theme.json').theme;
 const themeUrl = `wp/wp-content/themes/${theme}`;
 
@@ -25,6 +24,15 @@ module.exports = {
   },
   resolve: {
     modules: ['node_modules'],
-    extensions: ['.js', '.json', '.jsx']
+    extensions: ['.js', '.json', '.jsx'],
+    alias: {
+      'TweenLite': 'gsap/src/uncompressed/TweenLite.js',
+      'TweenMax': 'gsap/src/uncompressed/TweenMax.js',
+      'TimelineLite': 'gsap/src/uncompressed/TimelineLite.js',
+      'TimelineMax': 'gsap/src/uncompressed/TimelineMax.js',
+      'ScrollMagic': 'scrollmagic/scrollmagic/uncompressed/ScrollMagic.js',
+      'animation.gsap': 'scrollmagic/scrollmagic/uncompressed/plugins/animation.gsap.js',
+      'debug.addIndicators': 'scrollmagic/scrollmagic/uncompressed/plugins/debug.addIndicators.js'
+    }
   }
 }

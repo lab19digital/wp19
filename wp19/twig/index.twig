@@ -14,5 +14,7 @@
         <p>{{ post.get_preview }}</p>
       </article>
     {% endfor %}
+
+    {% include 'partial/pagination.twig' with { pagination: posts.pagination } %}
   </div>
 {% endblock %}
