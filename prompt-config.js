@@ -22,6 +22,11 @@ export default [
     default: 'root'
   }, {
     type: 'input',
+    name: 'host',
+    message: 'Database Host',
+    default: 'localhost'
+  }, {
+    type: 'input',
     name: 'wpuser',
     message: 'WP-Admin User',
     default: 'admin'

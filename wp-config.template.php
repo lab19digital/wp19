@@ -34,7 +34,7 @@ switch ( $_SERVER['HTTP_HOST'] ) :
     define( 'DB_NAME', '{DB_NAME}' );
     define( 'DB_USER', getenv('DB_USER') );
     define( 'DB_PASSWORD', getenv('DB_PASSWORD') );
-    define( 'DB_HOST', 'localhost' );
+    define( 'DB_HOST', '{DB_HOST}' );
     define( 'WP_DEBUG', false );
   break;
 
@@ -44,7 +44,7 @@ switch ( $_SERVER['HTTP_HOST'] ) :
     define( 'DB_NAME', '{DB_NAME}' );
     define( 'DB_USER', '{DB_USER}' );
     define( 'DB_PASSWORD', '{DB_PASSWORD}' );
-    define( 'DB_HOST', 'localhost' );
+    define( 'DB_HOST', '{DB_HOST}' );
     define( 'WP_DEBUG', true );
   break;
 endswitch;
