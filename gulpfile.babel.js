@@ -188,8 +188,7 @@ function wp_setup() {
 // Removes other setup files that won't be required
 function cleanup() {
   return del([
-    '.git/**/*',
-    'wp19/**/*',
+    '.git',
     'wp19',
     'wp-cli.template.yml',
     'wp-config.template.php',
