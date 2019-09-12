@@ -35,43 +35,50 @@
 require_once 'functions/general.php';
 require_once 'functions/menus.php';
 require_once 'functions/shortcodes.php';
+require_once 'functions/blocks.php';
+require_once 'functions/gutenberg.php';
 
 
 // Timber
 if (!class_exists('Timber')) {
-	add_action('admin_notices', function() {
-    echo '<div class="error"><p>Timber not activated. Make sure you activate the plugin in <a href="' . esc_url(admin_url('plugins.php#timber')) . '">' . esc_url(admin_url('plugins.php')) . '</a></p></div>';
-	});
+  add_action('admin_notices', function () {
+    echo '<div class="error"><p>Timber not activated. Make sure you activate the plugin in <a href="' . esc_url( admin_url( 'plugins.php#timber' ) ) . '">' . esc_url( admin_url( 'plugins.php' ) ) . '</a></p></div>';
+  });
 
-	return;
+  add_filter('template_include', function ($template) {
+    return get_stylesheet_directory() . '/no-timber.html';
+  });
+
+  return;
 }
 
 
 Timber::$dirname = array('twig');
+Timber::$autoescape = false;
 
 use Timber\FunctionWrapper;
 
-class Site extends TimberSite {
-
-	function __construct() {
-    add_theme_support('html5', array('comment-list', 'comment-form', 'search-form', 'gallery', 'caption'));
-    add_theme_support('automatic-feed-links');
-    add_theme_support('post-thumbnails');
-    add_theme_support('title-tag');
-    add_theme_support('menus');
-
-		add_filter('timber_context', array($this, 'add_to_context'));
-		add_filter('get_twig', array($this, 'add_to_twig'));
+class Site extends Timber\Site {
+  public function __construct() {
+    add_action('after_setup_theme', array($this, 'theme_supports'));
+    add_filter('timber/context', array($this, 'add_to_context'));
+    add_filter('timber/twig', array($this, 'add_to_twig'));
+    add_action('init', array($this, 'register_post_types'));
+    add_action('init', array($this, 'register_taxonomies'));
 
     parent::__construct();
-	}
+  }
 
-	function add_to_context($context) {
+  public function register_post_types() {}
+
+  public function register_taxonomies() {}
+
+  public function add_to_context($context) {
     $context['site'] = $this;
     $context['ajax_url'] = admin_url('admin-ajax.php');
 
-    $context['primary_nav'] = new TimberMenu('primary-nav');
-    $context['footer_nav'] = new TimberMenu('footer-nav');
+    $context['primary_nav'] = new Timber\Menu('primary-nav');
+    $context['footer_nav'] = new Timber\Menu('footer-nav');
 
     $context['do_shortcode'] = new FunctionWrapper('do_shortcode');
     $context['apply_filters'] = new FunctionWrapper('apply_filters');
@@ -85,13 +92,35 @@ class Site extends TimberSite {
       $context['options'] = get_fields('option');
     }
 
-		return $context;
-	}
+    return $context;
+  }
 
-	function add_to_twig($twig) {
-		return $twig;
-	}
+  public function theme_supports() {
+    add_theme_support('title-tag');
+    add_theme_support('post-thumbnails');
+    add_theme_support('menus');
+    add_theme_support('automatic-feed-links');
+    add_theme_support('html5', array(
+      'comment-list',
+      'comment-form',
+      'search-form',
+      'gallery',
+      'caption'
+    ));
+    // add_theme_support('post-formats', array(
+      // 'aside',
+      // 'image',
+      // 'video',
+      // 'quote',
+      // 'link',
+      // 'gallery',
+      // 'audio'
+    // ));
+  }
 
+  public function add_to_twig($twig) {
+    return $twig;
+  }
 }
 
 new Site();

@@ -1,9 +1,11 @@
 <?php
 
-$context = Timber::get_context();
+$context = Timber::context();
 
 $context['title'] = 'Search results for ' . get_search_query();
 
-$context['posts'] = Timber::get_posts();
+$timber_posts = new Timber\PostQuery();
+
+$context['posts'] = $timber_posts;
 
 Timber::render(array('search.twig', 'archive.twig', 'index.twig'), $context);

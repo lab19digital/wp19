@@ -3,10 +3,12 @@ const theme = require('./theme.json').theme;
 const themeUrl = `wp/wp-content/themes/${theme}`;
 
 module.exports = {
-  entry: `./${themeUrl}/js/main.js`,
+  entry: {
+    main: `./${themeUrl}/js/main.js`
+  },
   output: {
-    path: path.resolve(__dirname, `${themeUrl}/dist`),
-    filename: '[name].js'
+    filename: '[name].js',
+    path: path.resolve(__dirname, `${themeUrl}/dist`)
   },
   module: {
     rules: [
@@ -24,14 +26,13 @@ module.exports = {
     modules: ['node_modules'],
     extensions: ['.js', '.json', '.jsx'],
     alias: {
-      // jquery: 'jquery',
-      // timelinelite: path.resolve(__dirname, 'node_modules/gsap/src/uncompressed/TimelineLite.js'),
-      // timelinemax: path.resolve(__dirname, 'node_modules/gsap/src/uncompressed/TimelineMax.js'),
-      // tweenlite: path.resolve(__dirname, 'node_modules/gsap/src/uncompressed/TweenLite.js'),
-      // tweenmax: path.resolve(__dirname, 'node_modules/gsap/src/uncompressed/TweenMax.js'),
-      // scrollmagic: path.resolve(__dirname, 'node_modules/scrollmagic/uncompressed/ScrollMagic.js'),
-      // scrollmagicAnimationGsap: path.resolve(__dirname, 'node_modules/scrollmagic/uncompressed/plugins/animation.gsap.js'),
-      // scrollmagicDebugAddIndicators: path.resolve(__dirname, 'node_modules/scrollmagic/uncompressed/plugins/debug.addIndicators.js')
+      'TweenLite': 'gsap/src/uncompressed/TweenLite.js',
+      'TweenMax': 'gsap/src/uncompressed/TweenMax.js',
+      'TimelineLite': 'gsap/src/uncompressed/TimelineLite.js',
+      'TimelineMax': 'gsap/src/uncompressed/TimelineMax.js',
+      'ScrollMagic': 'scrollmagic/scrollmagic/uncompressed/ScrollMagic.js',
+      'animation.gsap': 'scrollmagic/scrollmagic/uncompressed/plugins/animation.gsap.js',
+      'debug.addIndicators': 'scrollmagic/scrollmagic/uncompressed/plugins/debug.addIndicators.js'
     }
   }
 }

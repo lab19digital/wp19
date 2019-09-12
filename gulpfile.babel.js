@@ -1,14 +1,6 @@
 // Dependencies
+import { series, parallel, watch, src, dest } from 'gulp';
 import path              from 'path';
-import gulp              from 'gulp';
-import connectPHP        from 'gulp-connect-php';
-import plumber           from 'gulp-plumber';
-import notify            from 'gulp-notify';
-import sass              from 'gulp-sass';
-import postcss           from 'gulp-postcss';
-import autoprefixer      from 'autoprefixer';
-import sourcemaps        from 'gulp-sourcemaps';
-import watch             from 'gulp-watch';
 import shell             from 'gulp-shell';
 import prompt            from 'gulp-prompt';
 import replace           from 'gulp-replace';
@@ -16,6 +8,14 @@ import rename            from 'gulp-rename';
 import request           from 'request';
 import source            from 'vinyl-source-stream';
 import del               from 'del';
+import connectPHP        from 'gulp-connect-php';
+import plumber           from 'gulp-plumber';
+import notify            from 'gulp-notify';
+import colors            from 'colors/safe';
+import sass              from 'gulp-sass';
+import postcss           from 'gulp-postcss';
+import autoprefixer      from 'autoprefixer';
+import sourcemaps        from 'gulp-sourcemaps';
 import webpack           from 'webpack';
 import webpackStream     from 'webpack-stream';
 import webpackConfigDEV  from './webpack.dev';
@@ -28,15 +28,26 @@ import { create as browserSyncCreate } from 'browser-sync';
 
 
 // Settings
-const wpCli = 'https://github.com/wp-cli/wp-cli/releases/download/v1.5.1/wp-cli-1.5.1.phar';
-
-const browserSync = browserSyncCreate();
-const browserSyncProxy = 'local-url.test';
+const wpCli = 'https://github.com/wp-cli/wp-cli/releases/download/v2.3.0/wp-cli-2.3.0.phar';
 
 let theme = themeJSON.theme;
+const basePath = __dirname;
 const themePath = path.resolve(__dirname, `wp/wp-content/themes/${theme}`);
 const nodePath = path.resolve(__dirname, 'node_modules');
-const dest = `${themePath}/dist`;
+const destPath = `${themePath}/dist`;
+
+const baseName = path.basename(basePath);
+
+console.log('\n');
+console.log(colors.bold('Base name: ') + baseName);
+console.log(colors.bold('Base path: ') + basePath);
+console.log(colors.bold('Theme name: ') + theme);
+console.log(colors.bold('Theme path: ') + themePath);
+console.log(colors.bold('Build path: ') + destPath);
+console.log('\n');
+
+const browserSync = browserSyncCreate();
+const browserSyncProxy = `${baseName}.test`;
 
 
 
@@ -44,74 +55,76 @@ const dest = `${themePath}/dist`;
 // =======================================================================
 
 // Fetch WP CLI
-gulp.task('get-wp-cli', () => {
+function get_wp_cli() {
   return request(wpCli)
     .pipe(source('wp-cli.phar'))
-    .pipe(gulp.dest('./'))
-});
+    .pipe(dest('./'))
+}
 
 // Initialize Setup
 // Runs through a series of prompts, altering the wp-config template and
 // finally outputting a wp-config file and a wp-cli template file, used
 // for the remaining installation. You can add more prompt options in
 // prompt-config.js and use the prompt values returned below.
-gulp.task('wp-init', () => {
+function wp_init() {
   let res = {};
 
-  gulp.src('wp-config.template.php').pipe(
+  return src('wp-config.template.php').pipe(
     prompt.prompt(promptConfig, (res) => {
-      gulp.src('wp-config.template.php')
+      src('wp-config.template.php')
         .pipe(replace('{DB_NAME}', res.db))
         .pipe(replace('{DB_USER}', res.user))
         .pipe(replace('{DB_PASSWORD}', res.password))
+        .pipe(replace('{DB_HOST}', res.host))
         .pipe(replace('{WP_USER}', res.wpuser))
         .pipe(replace('{WP_PASSWORD}', res.wppass))
         .pipe(rename('wp-config.php'))
-        .pipe(gulp.dest('./'));
+        .pipe(dest('./'));
 
-      gulp.src('wp-cli.template.yml')
+      src('wp-cli.template.yml')
         .pipe(replace('{DB_NAME}', res.db))
         .pipe(replace('{DB_USER}', res.user))
         .pipe(replace('{DB_PASSWORD}', res.password))
+        .pipe(replace('{DB_HOST}', res.host))
         .pipe(replace('{WP_USER}', res.wpuser))
         .pipe(replace('{WP_PASSWORD}', res.wppass))
         .pipe(replace('{WP_EMAIL}', res.wpemail))
         .pipe(replace('{WP_SITE_TITLE}', res.wpsitetitle))
         .pipe(replace('{WP_BASE_URL}', res.wpbase))
         .pipe(rename('wp-cli.yml'))
-        .pipe(gulp.dest('./'));
+        .pipe(dest('./'));
 
-      gulp.src('wp19/style.css')
+      src('wp19/style.css')
         .pipe(replace('wp19', res.wpsitetitle))
-        .pipe(gulp.dest('./wp19'));
+        .pipe(dest('./wp19'));
 
-      gulp.src('theme.json')
+      src('theme.json')
         .pipe(replace(theme, res.wptheme))
-        .pipe(gulp.dest('./'));
+        .pipe(dest('./'));
 
       theme = res.wptheme;
 
-      shell.task(['gulp wp-setup'])();
+      shell.task(['gulp wp_setup'])();
     })
   );
-});
+}
 
 // Copy WP Configuration File
-gulp.task('copy-wp-config', () => {
-  gulp.src('wp-config.php')
-    .pipe(gulp.dest('./wp'));
-});
+function copy_wp_config() {
+  return src('wp-config.php')
+    .pipe(dest('./wp'));
+}
 
 // Copy WP Base Theme
-gulp.task('copy-wp-base-theme', () => {
-  gulp.src(['wp19/**/*'])
-    .pipe(gulp.dest(themePath));
-});
+function copy_wp_base_theme() {
+  return src(['wp19/**/*'])
+    .pipe(dest(themePath));
+}
 
 // Main WP Setup Task
 // Runs through all remaining commands to install Wordpress and plugins
 // NOTE: More plugins can be defined in package.json
-gulp.task('wp-setup', () => {
+function wp_setup() {
   let plugins = packageJSON.wpcli.plugins;
   let cmd = [];
 
@@ -124,7 +137,7 @@ gulp.task('wp-setup', () => {
 
     // Get the CLI tool
     `echo Fetching the CLI tool...`,
-    `gulp get-wp-cli`,
+    `gulp get_wp_cli`,
 
     // Install WP
     `php wp-cli.phar core download`,
@@ -132,8 +145,8 @@ gulp.task('wp-setup', () => {
     `php wp-cli.phar core install`,
 
     // Copy the config
-    `gulp copy-wp-config`,
-    `gulp copy-wp-base-theme`,
+    `gulp copy_wp_config`,
+    `gulp copy_wp_base_theme`,
     `php wp-cli.phar theme activate ${theme}`,
 
     // Create basic menu
@@ -166,54 +179,61 @@ gulp.task('wp-setup', () => {
   // cmd.push('gulp cleanup');
 
   // Run these tasks
-  shell.task(cmd)();
-});
+  return shell.task(cmd)();
+}
 
 // Cleanup
 // Removes the .git folder. This repo should be cloned and used for another
 // project, and does not require a git history.
 // Removes other setup files that won't be required
-gulp.task('cleanup', () => {
+function cleanup() {
   return del([
-    '.git/**/*',
-    'wp19/**/*',
+    '.git',
     'wp19',
     'wp-cli.template.yml',
     'wp-config.template.php',
     'wp-config.php'
   ]);
-});
+}
 
 
 
-// DEV TASKS -> sass / js / watch / php / proxy / build
+// DEV TASKS
 // =======================================================================
 
 // Plumber
-var plumberHandler = {
+const plumberHandler = {
   errorHandler: notify.onError({
     title: 'Gulp Error',
     message: '<%= error.message %>'
   })
 };
 
-// SASS
-gulp.task('sass', () => {
-  return gulp.src(`${themePath}/scss/**/*.scss`)
+// Reload
+function reload(done) {
+  browserSync.reload();
+  done();
+}
+
+// SCSS
+function scss() {
+  return src(`${themePath}/scss/**/*.scss`)
     .pipe(plumber(plumberHandler))
     .pipe(sourcemaps.init())
     .pipe(sass({
       precision: 10,
       includePaths: [nodePath]
     }))
+    .pipe(postcss([
+      autoprefixer({ cascade: false })
+    ]))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest(dest))
+    .pipe(dest(destPath))
     .pipe(browserSync.stream());
-});
+}
 
-gulp.task('sass:prod', () => {
-  return gulp.src(`${themePath}/scss/**/*.scss`)
-    .pipe(plumber(plumberHandler))
+function scss_prod() {
+  return src(`${themePath}/scss/**/*.scss`)
     .pipe(sass({
       precision: 10,
       outputStyle: 'compressed',
@@ -222,44 +242,39 @@ gulp.task('sass:prod', () => {
     .pipe(postcss([
       autoprefixer({ cascade: false })
     ]))
-    .pipe(gulp.dest(dest));
-});
+    .pipe(dest(destPath));
+}
 
 // JS
-gulp.task('js', () => {
-  return gulp.src(`${themePath}/js/main.js`)
+function js() {
+  return src(`${themePath}/js/main.js`)
     .pipe(plumber(plumberHandler))
     .pipe(webpackStream(webpackConfigDEV, webpack))
-    .pipe(gulp.dest(dest));
-});
+    .pipe(dest(destPath));
+}
 
-gulp.task('js:prod', () => {
-  return gulp.src(`${themePath}/js/main.js`)
-    .pipe(plumber(plumberHandler))
+function js_prod() {
+  return src(`${themePath}/js/main.js`)
     .pipe(webpackStream(webpackConfigPROD, webpack))
-    .pipe(gulp.dest(dest));
-});
-
-gulp.task('js-watch', ['js'], (done) => {
-  browserSync.reload();
-  done();
-});
+    .pipe(dest(destPath));
+}
 
 // Watch
-gulp.task('watch', () => {
-  watch(`${themePath}/scss/**/*.scss`, () => gulp.start('sass'));
-  watch(`${themePath}/js/**/*.js`, () => gulp.start('js-watch'));
-  watch(`${themePath}/**/*.twig`, () => browserSync.reload());
-  watch(`${themePath}/**/*.php`, () => browserSync.reload());
-});
+function watch_files() {
+  watch(`${themePath}/scss/**/*.scss`, scss);
+  watch(`${themePath}/js/**/*.js`, series(js, reload));
+  watch(`${themePath}/**/*.twig`, reload);
+  watch(`${themePath}/**/*.php`, reload);
+  watch(`${themePath}/**/*.html`, reload);
+}
 
 // PHP
-gulp.task('php', ['watch'], () => {
+function php_fn() {
   connectPHP.server({
     port: 8000,
     open: false,
     hostname: '127.0.0.1',
-    base: __dirname,
+    base: basePath,
     stdio: 'ignore'
   }, () => {
     browserSync.init({
@@ -269,20 +284,35 @@ gulp.task('php', ['watch'], () => {
       proxy: '127.0.0.1:8000'
     });
   });
-});
+}
 
 // Proxy
-gulp.task('proxy', ['watch'], () => {
+function proxy_fn() {
   browserSync.init({
     ghostMode: false,
     ui: false,
     notify: false,
     proxy: browserSyncProxy
   });
-});
+}
 
-// Build
-gulp.task('build', ['sass:prod', 'js:prod']);
 
-// Default
-gulp.task('default', ['php']);
+const php = parallel(php_fn, watch_files);
+const proxy = parallel(proxy_fn, watch_files);
+const build = parallel(scss_prod, js_prod);
+
+export {
+  wp_init,
+  wp_setup,
+  get_wp_cli,
+  copy_wp_base_theme,
+  copy_wp_config,
+  cleanup,
+  scss_prod,
+  js_prod,
+  php,
+  proxy,
+  build
+}
+
+export default php;

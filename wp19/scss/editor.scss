@@ -1,0 +1,38 @@
+@import 'bootstrap/scss/functions';
+@import 'functions';
+
+@import 'bootstrap/scss/variables';
+@import 'variables';
+
+@import 'bootstrap/scss/mixins';
+@import 'mixins';
+
+
+// Base
+body {
+  background-color: $body-bg;
+  color: $body-color;
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  font-weight: $font-weight-base;
+  line-height: $line-height-base;
+}
+
+.wp-block {
+  max-width: 100%;
+
+  a.btn {
+    pointer-events: none;
+  }
+}
+
+
+// BOOTSTRAP
+@import 'bootstrap/scss/grid';
+
+
+// PARTIALS
+
+
+// BLOCKS
+@import 'blocks/example';

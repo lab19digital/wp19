@@ -27,10 +27,8 @@ Thumbs.db
 *.map
 *~
 
-bower_components
 node_modules
 
 # WP19
-mailoutput
 wp-cli.yml
 wp-cli.phar

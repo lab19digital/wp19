@@ -5,13 +5,14 @@ skip-plugins:
   - hello
   - akismet
 skip-themes:
+  - twentynineteen
   - twentyseventeen
   - twentysixteen
-  - twentyfifteen
 core config:
   dbname: {DB_NAME}
   dbuser: {DB_USER}
   dbpass: {DB_PASSWORD}
+  dbhost: {DB_HOST}
 core install:
   title: {WP_SITE_TITLE}
   admin_user: {WP_USER}

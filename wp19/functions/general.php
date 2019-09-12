@@ -63,7 +63,7 @@ function remove_default_editor() {
     }
   }
 }
-add_action('add_meta_boxes', 'remove_default_editor');
+// add_action('add_meta_boxes', 'remove_default_editor');
 
 
 // Get Yoast Primary Category
