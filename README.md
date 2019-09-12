@@ -104,9 +104,6 @@ Created by <a href="http://lab19digital.com">Lab19 Digital</a>.
 # Available gulp tasks
 
 `gulp wp_init` - install wordpress / setup project  
-`gulp js` - compile JS with inline source maps  
-`gulp scss` - compile SCSS with inline source maps  
-`gulp build` - compile production ready JS & CSS (minified & autoprefixer)  
-`gulp watch` - watch for files changes  
-`gulp proxy` - run BrowserSync without a server, you need to modify `browserSyncProxy` setting  
+`gulp build` - compile production ready files (minified & autoprefixed)  
+`gulp proxy` - run BrowserSync proxying a local url, you need to modify `browserSyncProxy` setting  
 `gulp php` - (default task) run the server and watch for files changes  
