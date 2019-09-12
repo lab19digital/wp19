@@ -11,6 +11,7 @@ import del               from 'del';
 import connectPHP        from 'gulp-connect-php';
 import plumber           from 'gulp-plumber';
 import notify            from 'gulp-notify';
+import colors            from 'colors/safe';
 import sass              from 'gulp-sass';
 import postcss           from 'gulp-postcss';
 import autoprefixer      from 'autoprefixer';
@@ -37,11 +38,13 @@ const destPath = `${themePath}/dist`;
 
 const baseName = path.basename(basePath);
 
-console.log(`Base name: ${baseName}`);
-console.log(`Base path: ${basePath}`);
-console.log(`Theme name: ${theme}`);
-console.log(`Theme path: ${themePath}`);
-console.log(`Build path: ${destPath}`);
+console.log('\n');
+console.log(colors.bold('Base name: ') + baseName);
+console.log(colors.bold('Base path: ') + basePath);
+console.log(colors.bold('Theme name: ') + theme);
+console.log(colors.bold('Theme path: ') + themePath);
+console.log(colors.bold('Build path: ') + destPath);
+console.log('\n');
 
 const browserSync = browserSyncCreate();
 const browserSyncProxy = `${baseName}.test`;

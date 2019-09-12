@@ -5,9 +5,9 @@ skip-plugins:
   - hello
   - akismet
 skip-themes:
+  - twentynineteen
   - twentyseventeen
   - twentysixteen
-  - twentyfifteen
 core config:
   dbname: {DB_NAME}
   dbuser: {DB_USER}
