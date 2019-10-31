@@ -1,0 +1,17 @@
+.page-container {
+  @each $color, $value in $colors {
+    .has-#{$color}-color {
+      color: $value;
+    }
+
+    .has-#{$color}-background-color {
+      background-color: $value;
+    }
+  }
+
+  @each $font-size, $value in $font-sizes {
+    .has-#{$font-size}-font-size {
+      font-size: $value;
+    }
+  }
+}
