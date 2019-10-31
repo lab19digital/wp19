@@ -163,9 +163,9 @@ function wp_setup() {
     // Post install cleanup
     `php wp-cli.phar plugin uninstall hello`,
     `php wp-cli.phar plugin uninstall akismet`,
-    `php wp-cli.phar theme delete twentyfifteen`,
     `php wp-cli.phar theme delete twentysixteen`,
     `php wp-cli.phar theme delete twentyseventeen`,
+    `php wp-cli.phar theme delete twentynineteen`,
 
     // Build dist files
     `gulp build`,
