@@ -49,8 +49,8 @@ switch ( $_SERVER['HTTP_HOST'] ) :
   break;
 endswitch;
 
-define( 'WP_USER', '{WP_USER}' );
-define( 'WP_PASSWORD', '{WP_PASSWORD}' );
+// define( 'WP_USER', '{WP_USER}' );
+// define( 'WP_PASSWORD', '{WP_PASSWORD}' );
 
 /** Database Charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );
