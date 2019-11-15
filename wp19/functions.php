@@ -17,7 +17,7 @@
 
   HELPER METHODS:
   ===============================================
-  get_primary_category($post_id)
+  get_primary_term($post_id, $taxonomy);
 
   SHORTCODES:
   ===============================================
@@ -83,7 +83,7 @@ class Site extends Timber\Site {
     $context['do_shortcode'] = new FunctionWrapper('do_shortcode');
     $context['apply_filters'] = new FunctionWrapper('apply_filters');
     $context['has_nav_menu'] = new FunctionWrapper('has_nav_menu');
-    $context['get_primary_category'] = new FunctionWrapper('get_primary_category');
+    $context['get_primary_term'] = new FunctionWrapper('get_primary_term');
     $context['debug_object'] = new FunctionWrapper('debug_object');
 
     $context['wp_debug'] = WP_DEBUG;

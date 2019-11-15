@@ -66,42 +66,41 @@ function remove_default_editor() {
 // add_action('add_meta_boxes', 'remove_default_editor');
 
 
-// Get Yoast Primary Category
-function get_primary_category($post_id) {
-  $category = get_the_category($post_id);
+// Get Yoast Primary Term
+function get_primary_term($post_id, $taxonomy = 'category') {
+  $terms = get_the_terms($post_id, $taxonomy);
 
-  if ($category) {
+  if ($terms) {
     if (class_exists('WPSEO_Primary_Term')) {
-      $wpseo_primary_term = new WPSEO_Primary_Term('category', $post_id);
+      $wpseo_primary_term = new WPSEO_Primary_Term($taxonomy, $post_id);
       $wpseo_primary_term = $wpseo_primary_term->get_primary_term();
+      $wpseo_primary_term = get_term($wpseo_primary_term);
 
-      $wpseo_primary_category = get_term($wpseo_primary_term);
-
-      if (is_wp_error($wpseo_primary_category)) {
-        // Return first category
+      if (is_wp_error($wpseo_primary_term)) {
+        // Return first term
         $output = array(
-          'id'   => $category[0]->term_id,
-          'name' => $category[0]->name,
-          'link' => get_category_link($category[0]->term_id)
+          'id'    => $terms[0]->term_id,
+          'title' => $terms[0]->name,
+          'link'  => get_term_link($terms[0]->term_id, $taxonomy)
         );
 
         return $output;
       } else {
-        // Return primary category
+        // Return primary term
         $output = array(
-          'id'   => $wpseo_primary_category->term_id,
-          'name' => $wpseo_primary_category->name,
-          'link' => get_category_link($wpseo_primary_category->term_id)
+          'id'    => $wpseo_primary_term->term_id,
+          'title' => $wpseo_primary_term->name,
+          'link'  => get_term_link($wpseo_primary_term->term_id, $taxonomy)
         );
 
         return $output;
       }
     } else {
-      // Return first category
+      // Return first term
       $output = array(
-        'id'   => $category[0]->term_id,
-        'name' => $category[0]->name,
-        'link' => get_category_link($category[0]->term_id)
+        'id'    => $terms[0]->term_id,
+        'title' => $terms[0]->name,
+        'link'  => get_term_link($terms[0]->term_id, $taxonomy)
       );
 
       return $output;
