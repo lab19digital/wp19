@@ -166,6 +166,7 @@ function wp_setup() {
     `php wp-cli.phar theme delete twentysixteen`,
     `php wp-cli.phar theme delete twentyseventeen`,
     `php wp-cli.phar theme delete twentynineteen`,
+    `php wp-cli.phar theme delete twentytwenty`,
 
     // Build dist files
     `gulp build`,
