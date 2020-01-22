@@ -1,0 +1,55 @@
+definitions:
+  script: &ssh_prepare mkdir -p ~/.ssh && echo $KNOWNHOSTS > ~/.ssh/known_hosts && (umask  077 ; echo $LAB19_STAGE_KEY_B64 | base64 --decode > ~/.ssh/id_rsa)
+  steps: &steps
+    - step:
+        name: Yarn install
+        image: node:10.15.0
+        script:
+          - THEME=$(node -e "process.stdout.write(JSON.parse(fs.readFileSync('theme.json', 'utf8')).theme)")
+          - echo "export THEME=$THEME" >> set_env.sh
+          - yarn install
+          - yarn run build
+        caches:
+          - node
+        artifacts:
+        - wp-content/themes/$THEME/dist/**
+        - set_env.sh
+    - step:
+        name: Deploy using git
+        script:
+          - source set_env.sh
+          - COMMIT_MESSAGE=`git log --format=%B -n 1 $BITBUCKET_COMMIT`
+          - SITE_DIR="/var/www/$BITBUCKET_BRANCH-$BITBUCKET_REPO_SLUG/"
+          - *ssh_prepare
+          - >
+            ssh lab19@$LAB19_STAGE_IP "echo \"Create site directory at $SITE_DIR \" ;
+            mkdir -p $SITE_DIR ;
+
+            echo \"Git pull from origin\" ;
+            cd /var/www/$BITBUCKET_BRANCH-$BITBUCKET_REPO_SLUG/ ;
+            git init . &&
+            git pull $BITBUCKET_GIT_SSH_ORIGIN $BITBUCKET_BRANCH ;
+
+            echo \"Create utility file build-version.php\" ;
+            echo \"<?php define('BUILD_VERSION', '$BITBUCKET_BRANCH-$BITBUCKET_COMMIT'); ?>\" > build-version.php ;
+
+            echo \"Copy dist artifacts to theme folder \" ;
+            scp -r wp-content/themes/$THEME/dist lab19@$LAB19_STAGE_IP:/var/www/$BITBUCKET_BRANCH-$BITBUCKET_REPO_SLUG/wp-content/themes/$THEME ;
+
+            echo \"Copy latest WordPress files to project \" ;
+            cd /var/opt/wordpress && git pull origin master &&
+            git archive master | tar -x -C /var/www/$BITBUCKET_BRANCH-$BITBUCKET_REPO_SLUG/ &&
+            cp /var/www/$BITBUCKET_BRANCH-$BITBUCKET_REPO_SLUG/wp-config-staging.php /var/www/$BITBUCKET_BRANCH-$BITBUCKET_REPO_SLUG/wp-config.php ;
+
+            echo \"Attempt db, plugins, and uploads import \" ;
+            bash /var/opt/scripts/create-db.sh $BITBUCKET_REPO_SLUG ;
+            bash /var/opt/scripts/import-db.sh $BITBUCKET_BRANCH $BITBUCKET_REPO_SLUG '$COMMIT_MESSAGE' $BB_AUTH_STRING ;
+            bash /var/opt/scripts/import-plugins.sh $BITBUCKET_BRANCH $BITBUCKET_REPO_SLUG '$COMMIT_MESSAGE' $BB_AUTH_STRING ;
+            bash /var/opt/scripts/import-uploads.sh $BITBUCKET_BRANCH $BITBUCKET_REPO_SLUG '$COMMIT_MESSAGE' $BB_AUTH_STRING ;
+
+            echo \"Completed deployment!\" ; "
+
+pipelines:
+  branches:
+    master: *steps
+    develop: *steps
