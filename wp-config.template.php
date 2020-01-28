@@ -29,8 +29,8 @@ switch ( $_SERVER['HTTP_HOST'] ) :
   break;
 
   case '{DB_NAME}.dvsb1.com' :
-    define( 'WP_HOME', 'https://' . $_SERVER["HTTP_HOST"] . '/' );
-    define( 'WP_SITEURL', 'https://' . $_SERVER["HTTP_HOST"] . '/wp/' );
+    define( 'WP_HOME', 'https://' . $_SERVER["HTTP_HOST"] );
+    define( 'WP_SITEURL', 'https://' . $_SERVER["HTTP_HOST"] );
     define( 'DB_NAME', '{DB_NAME}' );
     define( 'DB_USER', getenv('DB_USER') );
     define( 'DB_PASSWORD', getenv('DB_PASSWORD') );
@@ -39,8 +39,8 @@ switch ( $_SERVER['HTTP_HOST'] ) :
   break;
 
   default :
-    define( 'WP_HOME', 'http://' . $_SERVER["HTTP_HOST"] . '/' );
-    define( 'WP_SITEURL', 'http://' . $_SERVER["HTTP_HOST"] . '/wp/' );
+    define( 'WP_HOME', 'http://' . $_SERVER["HTTP_HOST"] );
+    define( 'WP_SITEURL', 'http://' . $_SERVER["HTTP_HOST"] );
     define( 'DB_NAME', '{DB_NAME}' );
     define( 'DB_USER', '{DB_USER}' );
     define( 'DB_PASSWORD', '{DB_PASSWORD}' );

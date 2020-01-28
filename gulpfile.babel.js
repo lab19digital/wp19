@@ -28,23 +28,21 @@ import { create as browserSyncCreate } from 'browser-sync';
 
 
 // Settings
-const wpCli = 'https://github.com/wp-cli/wp-cli/releases/download/v2.3.0/wp-cli-2.3.0.phar';
+const wpCli = 'https://github.com/wp-cli/wp-cli/releases/download/v2.4.0/wp-cli-2.4.0.phar';
 
 let theme = themeJSON.theme;
 const basePath = __dirname;
-const themePath = path.resolve(__dirname, `wp/wp-content/themes/${theme}`);
+const themePath = path.resolve(__dirname, `wp-content/themes/${theme}`);
 const nodePath = path.resolve(__dirname, 'node_modules');
 const destPath = `${themePath}/dist`;
 
 const baseName = path.basename(basePath);
 
-console.log('\n');
 console.log(colors.bold('Base name: ') + baseName);
 console.log(colors.bold('Base path: ') + basePath);
 console.log(colors.bold('Theme name: ') + theme);
 console.log(colors.bold('Theme path: ') + themePath);
 console.log(colors.bold('Build path: ') + destPath);
-console.log('\n');
 
 const browserSync = browserSyncCreate();
 const browserSyncProxy = `${baseName}.test`;
@@ -304,13 +302,7 @@ const build = parallel(scss_prod, js_prod);
 
 export {
   wp_init,
-  wp_setup,
-  get_wp_cli,
-  copy_wp_base_theme,
-  copy_wp_config,
   cleanup,
-  scss_prod,
-  js_prod,
   php,
   proxy,
   build

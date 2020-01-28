@@ -1,4 +1,4 @@
-path: ./wp/
+path: .
 url: {WP_BASE_URL}
 user: {WP_USER}
 skip-plugins:
