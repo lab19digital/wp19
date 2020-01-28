@@ -166,6 +166,9 @@ function wp_setup() {
     // Build dist files
     `gulp build`,
 
+    // Change Permalinks
+    `php wp-cli.phar rewrite structure '/%postname%/'`
+
     `echo All set! Thanks for waiting.`,
     `echo IMPORTANT: You need to remove several files from your installation.`,
     `echo Please run ${colors.bold('gulp cleanup')}. This will remove the .git folder and other setup files.`
