@@ -144,7 +144,7 @@ function wp_setup() {
     `php wp-cli.phar core install`,
 
     // Copy the config
-    `gulp copy_wp_config`,
+    // `gulp copy_wp_config`,
     `gulp copy_wp_base_theme`,
     `php wp-cli.phar theme activate ${theme}`,
 
@@ -160,19 +160,15 @@ function wp_setup() {
     `echo Cleaning up the installation...`,
 
     // Post install cleanup
-    `php wp-cli.phar plugin uninstall hello`,
-    `php wp-cli.phar plugin uninstall akismet`,
-    `php wp-cli.phar theme delete twentysixteen`,
-    `php wp-cli.phar theme delete twentyseventeen`,
-    `php wp-cli.phar theme delete twentynineteen`,
-    `php wp-cli.phar theme delete twentytwenty`,
+    `php wp-cli.phar plugin uninstall hello akismet`,
+    `php wp-cli.phar theme delete twentysixteen twentyseventeen twentynineteen twentytwenty`,
 
     // Build dist files
     `gulp build`,
 
     `echo All set! Thanks for waiting.`,
     `echo IMPORTANT: You need to remove several files from your installation.`,
-    `echo Please run gulp cleanup. This will remove the .git folder and other setup files.`
+    `echo Please run ${colors.bold('gulp cleanup')}. This will remove the .git folder and other setup files.`
   );
 
   // Disabled
@@ -191,8 +187,7 @@ function cleanup() {
     '.git',
     'wp19',
     'wp-cli.template.yml',
-    'wp-config.template.php',
-    'wp-config.php'
+    'wp-config.template.php'
   ]);
 }
 
