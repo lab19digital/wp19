@@ -110,7 +110,7 @@ function wp_init() {
 // Copy WP Configuration File
 function copy_wp_config() {
   return src('wp-config.php')
-    .pipe(dest('./wp'));
+    .pipe(dest('./'));
 }
 
 // Copy WP Base Theme
@@ -124,10 +124,11 @@ function copy_wp_base_theme() {
 // NOTE: More plugins can be defined in package.json
 function wp_setup() {
   let plugins = packageJSON.wpcli.plugins;
+  let pluginsString = '';
   let cmd = [];
 
   for (let i = 0; i < plugins.length; i++) {
-    plugins[i] = `php wp-cli.phar plugin install ${plugins[i]} --activate`;
+    pluginsString = `${pluginsString} ${plugins[i]}`
   }
 
   cmd = cmd.concat([
@@ -154,7 +155,7 @@ function wp_setup() {
 
     `echo Download and install plugins...`
   ])
-  .concat(plugins)
+  .concat(`php wp-cli.phar plugin install${pluginsString} --activate`)
   .concat(
     `echo Cleaning up the installation...`,
 
@@ -302,7 +303,13 @@ const build = parallel(scss_prod, js_prod);
 
 export {
   wp_init,
+  wp_setup,
+  get_wp_cli,
+  copy_wp_base_theme,
+  copy_wp_config,
   cleanup,
+  scss_prod,
+  js_prod,
   php,
   proxy,
   build

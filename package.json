@@ -33,6 +33,7 @@
     "gulp-sourcemaps": "^2.6.5",
     "path": "^0.12.7",
     "request": "^2.88.0",
+    "terser-webpack-plugin": "^2.3.2",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "vinyl-source-stream": "^2.0.0",
     "webpack": "^4.41.5",
