@@ -8,7 +8,7 @@
 @import 'mixins';
 
 
-// Base
+// BASE
 body {
   background-color: $body-bg;
   color: $body-color;
@@ -31,8 +31,5 @@ body {
 @import 'bootstrap/scss/grid';
 
 
-// PARTIALS
-
-
 // BLOCKS
-@import 'blocks/example';
+@import 'blocks/block-name';

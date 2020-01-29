@@ -14,6 +14,8 @@ import notify            from 'gulp-notify';
 import colors            from 'colors/safe';
 import sass              from 'gulp-sass';
 import postcss           from 'gulp-postcss';
+import postcssScss       from 'postcss-scss';
+import postcssBemLinter  from 'postcss-bem-linter';
 import autoprefixer      from 'autoprefixer';
 import sourcemaps        from 'gulp-sourcemaps';
 import webpack           from 'webpack';
@@ -217,6 +219,17 @@ function reload(done) {
 function scss() {
   return src(`${themePath}/scss/**/*.scss`)
     .pipe(plumber(plumberHandler))
+    .pipe(postcss([
+      postcssBemLinter({
+        preset: 'bem',
+        implicitComponents: `wp-content/themes/${theme}/scss/components/**/*.scss`,
+        implicitUtilities: `wp-content/themes/${theme}/scss/utils/**/*.scss`,
+        utilitySelectors: '.u-*',
+        ignoreSelectors: ['.has-*']
+      })
+    ], {
+      syntax: postcssScss
+    }))
     .pipe(sourcemaps.init())
     .pipe(sass({
       precision: 10,
@@ -232,6 +245,17 @@ function scss() {
 
 function scss_prod() {
   return src(`${themePath}/scss/**/*.scss`)
+    .pipe(postcss([
+      postcssBemLinter({
+        preset: 'bem',
+        implicitComponents: `wp-content/themes/${theme}/scss/components/**/*.scss`,
+        implicitUtilities: `wp-content/themes/${theme}/scss/utils/**/*.scss`,
+        utilitySelectors: '.u-*',
+        ignoreSelectors: ['.has-*']
+      })
+    ], {
+      syntax: postcssScss
+    }))
     .pipe(sass({
       precision: 10,
       outputStyle: 'compressed',

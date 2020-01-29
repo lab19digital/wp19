@@ -5,23 +5,23 @@ function gutenberg_custom_theme_setup() {
   //   array(
   //     'name'  => 'Red',
   //     'slug'  => 'red',
-  //     'color'	=> '#ff0000'
+  //     'color' => '#ff0000'
   //   ), array(
   //     'name'  => 'Green',
   //     'slug'  => 'green',
-  //     'color'	=> '#00ff00'
+  //     'color' => '#00ff00'
   //   ), array(
   //     'name'  => 'Blue',
   //     'slug'  => 'blue',
-  //     'color'	=> '#0000ff'
+  //     'color' => '#0000ff'
   //   ), array(
   //     'name'  => 'Black',
   //     'slug'  => 'black',
-  //     'color'	=> '#000000'
+  //     'color' => '#000000'
   //   ), array(
   //     'name'  => 'White',
   //     'slug'  => 'white',
-  //     'color'	=> '#ffffff'
+  //     'color' => '#ffffff'
   //   )
   // ));
 

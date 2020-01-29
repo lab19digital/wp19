@@ -74,6 +74,8 @@ class Site extends Timber\Site {
   public function register_taxonomies() {}
 
   public function add_to_context($context) {
+    global $cache_var;
+
     $context['site'] = $this;
     $context['ajax_url'] = admin_url('admin-ajax.php');
 
@@ -87,6 +89,7 @@ class Site extends Timber\Site {
     $context['debug_object'] = new FunctionWrapper('debug_object');
 
     $context['wp_debug'] = WP_DEBUG;
+    $context['cache_var'] = $cache_var;
 
     if (function_exists('acf_add_options_page')) {
       $context['options'] = get_fields('option');

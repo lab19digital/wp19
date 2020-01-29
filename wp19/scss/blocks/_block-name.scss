@@ -1,0 +1,15 @@
+.block-name {
+  $this: &;
+
+  &__element {
+    &--modifier {
+
+    }
+  }
+
+  &--modifier {
+    #{$this}__element {
+
+    }
+  }
+}

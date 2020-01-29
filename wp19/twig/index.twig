@@ -11,7 +11,7 @@
     {% for post in posts %}
       <article class="{{ post.class }}" id="post-{{ post.id }}">
         <h2><a href="{{ post.link }}">{{ post.title }}</a></h2>
-        <p>{{ post.get_preview }}</p>
+        <p>{{ post.preview }}</p>
       </article>
     {% endfor %}
 

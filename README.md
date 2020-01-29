@@ -43,6 +43,7 @@ This generator includes:
 After installation the server will run automatically. A theme called "default" is generated. To start the server in future, run `gulp php` from the root.
 
 #### Wordpress Plugins
+
 Automatically installs the following plugins:
 
 * timber-library (Twig templating)
@@ -61,6 +62,7 @@ Edit `package.json` if you want to install any of the following:
 Also removes the hello and akismet plugins and standard themes
 
 #### JavaScript Plugins
+
 Comes with jQuery, several other plugins are available but may not be imported by default:
 - mustache
 - parsleyjs
@@ -77,7 +79,12 @@ for GSAP for this purpose. You can uncomment these to get GSAP/Scrollmagic worki
 
 You may require a similar approach for other JavaScript libraries.
 
+#### BEM (Block Element Modifier)
+
+A bem linter has been setup and will run when the `scss` code is compiled. Add your **blocks (components)** inside the `scss/blocks` folder and **utilities** inside `scss/utils` folder. For more info about how to define components/utilities check the documentation https://github.com/postcss/postcss-bem-linter#define-componentsutilities-with-a-comment.
+
 # A word about the built in PHP server for Mac users
+
 Mac users have reported issues with the built in PHP server not connecting to the MySQL database correctly.
 This seems to happen for MAMP users. A php.ini file is not defined for MAMP users when using the built
 in server. You should copy your MAMP php.ini file to /etc/
@@ -98,12 +105,13 @@ you need to confirm your socket files exists and is configured correctly in the 
     mysql.default_socket = /Applications/MAMP/tmp/mysql/mysql.sock
     pdo_mysql.default_socket = /Applications/MAMP/tmp/mysql/mysql.sock
 
-
-Created by <a href="http://lab19digital.com">Lab19 Digital</a>.
-
 # Available gulp tasks
 
 `gulp wp_init` - install wordpress / setup project  
 `gulp build` - compile production ready files (minified & autoprefixed)  
 `gulp proxy` - run BrowserSync proxying a local url, you need to modify `browserSyncProxy` setting  
 `gulp php` - (default task) run the server and watch for files changes  
+
+
+
+Created by <a href="https://lab19.dev/" target="_blank">Lab19 Digital</a>.

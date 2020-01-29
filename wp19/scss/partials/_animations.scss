@@ -1,0 +1,101 @@
+.animate,
+.animate-in-view,
+.animate-multiple [data-animation] {
+  visibility: hidden;
+  animation-duration: 1s;
+  will-change: transform, opacity;
+
+  &.animated {
+    visibility: visible;
+    animation-fill-mode: both;
+    will-change: unset;
+  }
+}
+
+
+// fadeIn
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  animation-name: fadeIn;
+}
+
+
+// fadeInUp
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 3.25rem, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.fadeInUp {
+  animation-name: fadeInUp;
+}
+
+
+// fadeInDown
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -3.25rem, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.fadeInDown {
+  animation-name: fadeInDown;
+}
+
+
+// fadeInLeft
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(3.25rem, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.fadeInLeft {
+  animation-name: fadeInLeft;
+}
+
+
+// fadeInRight
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translate3d(-3.25rem, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.fadeInRight {
+  animation-name: fadeInRight;
+}

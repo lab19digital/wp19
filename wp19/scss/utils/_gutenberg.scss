@@ -1,0 +1,23 @@
+// Colors
+@each $color, $value in $colors {
+  .has-#{$color}-color,
+  .u-color-#{$color} {
+    color: $value;
+  }
+
+  .has-#{$color}-background-color,
+  .u-bg-color-#{$color} {
+    background-color: $value;
+  }
+}
+
+
+// Font Sizes
+@each $font-size, $properties in $font-sizes {
+  .has-#{$font-size}-font-size,
+  .u-font-size-#{$font-size} {
+    @each $property, $value in $properties {
+      #{$property}: $value;
+    }
+  }
+}

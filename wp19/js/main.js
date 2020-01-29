@@ -24,9 +24,10 @@ import 'jquery-easing/jquery.easing.1.3';
 // import 'bootstrap/js/dist/tab';
 // import 'bootstrap/js/dist/tooltip';
 
-// import Sliders from "./components/sliders";
-// import ScrollTo from './components/scroll-to';
+// import Animations from './components/animations';
 // import MailchimpSubscibe from './components/mailchimp-subscribe';
+// import ScrollTo from './components/scroll-to';
+// import Sliders from './components/sliders';
 
 const Site = {};
 
@@ -46,9 +47,10 @@ $(document).ready(() => {
 
   const s = Site.vars;
 
-  // Sliders(s, $sliders);
-  // ScrollTo(s, id);
+  // Animations(s);
   // MailchimpSubscibe(s, formId);
+  // ScrollTo(s, id);
+  // Sliders(s, $sliders);
 });
 
 export default Site;
