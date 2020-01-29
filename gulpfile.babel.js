@@ -169,7 +169,7 @@ function wp_setup() {
     `gulp build`,
 
     // Change Permalinks
-    `php wp-cli.phar rewrite structure '/%postname%/'`
+    `php wp-cli.phar rewrite structure '/%postname%/'`,
 
     `echo All set! Thanks for waiting.`,
     `echo IMPORTANT: You need to remove several files from your installation.`,
