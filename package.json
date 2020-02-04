@@ -6,6 +6,9 @@
     "type": "git",
     "url": "git+ssh://git@github.com:lab19digital/wp19.git"
   },
+  "scripts": {
+    "build": "gulp build"
+  },
   "author": "Lab19 Digital Limited",
   "license": "ISC",
   "homepage": "https://github.com/lab19digital/wp19",
