@@ -28,7 +28,8 @@ Thumbs.db
 *~
 
 node_modules
-
+wp-content/plugins
+wp-content/uploads
 # WP19
 wp-cli.yml
 wp-cli.phar
