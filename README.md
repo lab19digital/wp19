@@ -12,6 +12,8 @@ If cloning existing project:
 
 `npm run get-wp` or `yarn run get-wp` (Download WP & copy git hook)
 
+Then:
+
 `npm run dev` or `yarn run dev`
 
 # wp19
