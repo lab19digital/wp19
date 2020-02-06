@@ -40,11 +40,11 @@ const destPath = `${themePath}/dist`;
 
 const baseName = path.basename(basePath);
 
-console.log(colors.bold('Base name: ') + baseName);
-console.log(colors.bold('Base path: ') + basePath);
-console.log(colors.bold('Theme name: ') + theme);
-console.log(colors.bold('Theme path: ') + themePath);
-console.log(colors.bold('Build path: ') + destPath);
+// console.log(colors.bold('Base name: ') + baseName);
+// console.log(colors.bold('Base path: ') + basePath);
+// console.log(colors.bold('Theme name: ') + theme);
+// console.log(colors.bold('Theme path: ') + themePath);
+// console.log(colors.bold('Build path: ') + destPath);
 
 const browserSync = browserSyncCreate();
 const browserSyncProxy = `${baseName}.test`;
@@ -191,9 +191,10 @@ function wp_setup() {
     // Setting up new repo Git
     `echo ${colors.blue.bold('Setting up new git repository...')}`,
     `git init`,
-    `gulp copy_git_pre_commit_hook`,
     `git add . --all`,
     `git commit -m "Initial commit"`,
+    `gulp copy_git_pre_commit_hook`,
+    `git commit --amend --no-edit`,
 
     // Done
     `echo ${colors.bgGreen.white.bold('All set! Thanks for waiting.')}`
