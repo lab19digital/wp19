@@ -31,6 +31,21 @@
 */
 
 
+// Build Version
+$build_version = '';
+$build_version_file = dirname(__DIR__, 3) . '/build-version.txt';
+
+if (file_exists($build_version_file)) {
+  $file_contents = trim(file_get_contents($build_version_file));
+
+  if (isset($file_contents) && !empty($file_contents)) {
+    $build_version = $file_contents;
+  }
+}
+
+define('THEME_BUILD_VERSION', $build_version);
+
+
 // Imports
 require_once 'functions/general.php';
 require_once 'functions/menus.php';
@@ -88,8 +103,11 @@ class Site extends Timber\Site {
     $context['get_primary_term'] = new FunctionWrapper('get_primary_term');
     $context['debug_object'] = new FunctionWrapper('debug_object');
 
-    $context['wp_debug'] = WP_DEBUG;
-    $context['cache_var'] = $cache_var;
+    $context['PAGE_FOR_POSTS_ID'] = get_option('page_for_posts');
+    $context['PAGE_FOR_POSTS_LINK'] = get_permalink($context['PAGE_FOR_POSTS_ID']);
+
+    $context['WP_DEBUG'] = WP_DEBUG;
+    $context['THEME_BUILD_VERSION'] = THEME_BUILD_VERSION;
 
     if (function_exists('acf_add_options_page')) {
       $context['options'] = get_fields('option');

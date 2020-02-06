@@ -13,11 +13,9 @@
 
 
 // Font Sizes
-@each $font-size, $properties in $font-sizes {
+@each $font-size, $value in $font-sizes {
   .has-#{$font-size}-font-size,
   .u-font-size-#{$font-size} {
-    @each $property, $value in $properties {
-      #{$property}: $value;
-    }
+    font-size: $value;
   }
 }

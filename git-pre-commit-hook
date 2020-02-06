@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Create a build version file for caching
+BRANCH_NAME=`git rev-parse --abbrev-ref HEAD`
+EPOCH=`date +'%s'`
+
+VERSION=$BRANCH_NAME-$EPOCH
+
+echo $VERSION > build-version.txt
+
+git add build-version.txt

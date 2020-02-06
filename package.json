@@ -6,12 +6,16 @@
     "type": "git",
     "url": "git+ssh://git@github.com:lab19digital/wp19.git"
   },
+  "scripts": {
+    "build" : "gulp build",
+    "dev" : "gulp php"
+  },
   "author": "Lab19 Digital Limited",
   "license": "ISC",
   "homepage": "https://github.com/lab19digital/wp19",
   "devDependencies": {
-    "@babel/core": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
     "@babel/register": "^7.8.3",
     "autoprefixer": "^9.7.4",
     "babel-loader": "^8.0.6",
@@ -35,7 +39,7 @@
     "postcss-bem-linter": "^3.3.0",
     "postcss-scss": "^2.0.0",
     "request": "^2.88.0",
-    "terser-webpack-plugin": "^2.3.3",
+    "terser-webpack-plugin": "^2.3.4",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "vinyl-source-stream": "^2.0.0",
     "webpack": "^4.41.5",
@@ -48,7 +52,7 @@
     "flickity-fade": "^1.0.0",
     "font-awesome": "^4.7.0",
     "gsap": "^3.1.1",
-    "handlebars": "^4.7.2",
+    "handlebars": "^4.7.3",
     "jquery": "^3.4.1",
     "jquery-easing": "^0.0.1",
     "lazysizes": "^5.2.0",

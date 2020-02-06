@@ -49,6 +49,15 @@ console.log(colors.bold('Build path: ') + destPath);
 const browserSync = browserSyncCreate();
 const browserSyncProxy = `${baseName}.test`;
 
+const bemUtilitySelectors = /^\.u-/;
+const bemIgnoreSelectors = [
+  /^\.has-/,
+  /\.container/,
+  /\.row/,
+  /\.col/,
+  /#{\$this}/
+];
+
 
 
 // PROJECT SETUP
@@ -71,7 +80,7 @@ function wp_init() {
 
   return src('wp-config.template.php').pipe(
     prompt.prompt(promptConfig, (res) => {
-      src('wp-config.template.php')
+      src(['wp-config.template.php', 'wp-config-staging.php'])
         .pipe(replace('{DB_NAME}', res.db))
         .pipe(replace('{DB_USER}', res.user))
         .pipe(replace('{DB_PASSWORD}', res.password))
@@ -109,16 +118,17 @@ function wp_init() {
   );
 }
 
-// Copy WP Configuration File
-function copy_wp_config() {
-  return src('wp-config.php')
-    .pipe(dest('./'));
-}
-
 // Copy WP Base Theme
 function copy_wp_base_theme() {
   return src(['wp19/**/*'])
     .pipe(dest(themePath));
+}
+
+// Copy 'pre-commit' git hook
+function copy_git_pre_commit_hook() {
+  return src('git-pre-commit-hook')
+    .pipe(rename('pre-commit'))
+    .pipe(dest('./.git/hooks'));
 }
 
 // Main WP Setup Task
@@ -146,7 +156,6 @@ function wp_setup() {
     `php wp-cli.phar core install`,
 
     // Copy the config
-    // `gulp copy_wp_config`,
     `gulp copy_wp_base_theme`,
     `php wp-cli.phar theme activate ${theme}`,
 
@@ -155,29 +164,34 @@ function wp_setup() {
     `php wp-cli.phar menu location assign Primary primary-nav`,
     `php wp-cli.phar menu item add-custom Primary Home / --porcelain`,
 
-    `echo Download and install plugins...`
-  ])
-  .concat(`php wp-cli.phar plugin install${pluginsString} --activate`)
-  .concat(
-    `echo Cleaning up the installation...`,
+    // Install plugins
+    `echo Download and install plugins...`,
+    `php wp-cli.phar plugin install${pluginsString} --activate`,
 
-    // Post install cleanup
+    // Remove unused themes and plugins
+    `echo Removing unused themes and plugins...`,
     `php wp-cli.phar plugin uninstall hello akismet`,
     `php wp-cli.phar theme delete twentysixteen twentyseventeen twentynineteen twentytwenty`,
 
-    // Build dist files
-    `gulp build`,
-
     // Change Permalinks
+    `echo Saving permalinks...`,
     `php wp-cli.phar rewrite structure '/%postname%/'`,
 
-    `echo All set! Thanks for waiting.`,
-    `echo IMPORTANT: You need to remove several files from your installation.`,
-    `echo Please run ${colors.bold('gulp cleanup')}. This will remove the .git folder and other setup files.`
-  );
+    // Clean up
+    `echo Cleaning the project...`,
+    `gulp cleanup`,
+    `gulp build`,
 
-  // Disabled
-  // cmd.push('gulp cleanup');
+    // Setting up new repo Git
+    `echo Setting up new git repository...`,
+    `git init`,
+    `gulp copy_git_pre_commit_hook`,
+    `git add . --all`,
+    `git commit -m "Initial commit"`,
+
+    // Done
+    `echo All set! Thanks for waiting.`
+  ]);
 
   // Run these tasks
   return shell.task(cmd)();
@@ -222,10 +236,10 @@ function scss() {
     .pipe(postcss([
       postcssBemLinter({
         preset: 'bem',
-        implicitComponents: `wp-content/themes/${theme}/scss/components/**/*.scss`,
+        implicitComponents: `wp-content/themes/${theme}/scss/blocks/**/*.scss`,
         implicitUtilities: `wp-content/themes/${theme}/scss/utils/**/*.scss`,
-        utilitySelectors: '.u-*',
-        ignoreSelectors: ['.has-*']
+        utilitySelectors: bemUtilitySelectors,
+        ignoreSelectors: bemIgnoreSelectors
       })
     ], {
       syntax: postcssScss
@@ -248,10 +262,10 @@ function scss_prod() {
     .pipe(postcss([
       postcssBemLinter({
         preset: 'bem',
-        implicitComponents: `wp-content/themes/${theme}/scss/components/**/*.scss`,
+        implicitComponents: `wp-content/themes/${theme}/scss/blocks/**/*.scss`,
         implicitUtilities: `wp-content/themes/${theme}/scss/utils/**/*.scss`,
-        utilitySelectors: '.u-*',
-        ignoreSelectors: ['.has-*']
+        utilitySelectors: bemUtilitySelectors,
+        ignoreSelectors: bemIgnoreSelectors
       })
     ], {
       syntax: postcssScss

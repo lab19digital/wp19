@@ -1,0 +1,17 @@
+{% if pagination.pages is not empty %}
+  <nav class="posts-pagination">
+    <ul>
+      {% if pagination.prev %}
+        <li class="posts-pagination__prev">
+          <a href="{{ pagination.prev.link }}" class="posts-pagination__prev-link">Previous</a>
+        </li>
+      {% endif %}
+
+      {% if pagination.next %}
+        <li class="posts-pagination__next">
+          <a href="{{ pagination.next.link }}" class="posts-pagination__next-link">Next</a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}

@@ -39,9 +39,6 @@ definitions:
               git init . &&
               git pull $BITBUCKET_GIT_SSH_ORIGIN $BITBUCKET_BRANCH ;
 
-              echo \"Create utility file build-version.php\" ;
-              echo \"<?php define('BUILD_VERSION', '$BITBUCKET_BRANCH-$BITBUCKET_COMMIT'); ?>\" > build-version.php ;
-
               echo \"Copy latest WordPress files to project \" ;
               cd /var/opt/wordpress && git pull origin master &&
               git archive master | tar -x -C $SITE_DIR/ &&

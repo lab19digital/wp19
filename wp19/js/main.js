@@ -12,6 +12,7 @@
 
 import $ from 'jquery';
 import 'jquery-easing/jquery.easing.1.3';
+// import 'waypoints/lib/jquery.waypoints.min';
 
 // import 'bootstrap/js/dist/alert';
 // import 'bootstrap/js/dist/button';

@@ -5,7 +5,7 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="{{ site.theme.uri }}/dist/main.css?v={{ cache_var }}">
+  <link rel="stylesheet" href="{{ site.theme.uri }}/dist/main.css?ver={{ THEME_BUILD_VERSION }}">
 
   <script>
     window.siteUrl  = '{{ site.url }}';
@@ -21,11 +21,11 @@
   {% endblock %}
 </head>
 
-<body class="{{ wp_debug ? 'wp-debug' }} {{ body_class }}">
+<body class="{{ WP_DEBUG ? 'wp-debug' }} {{ body_class }}">
   <div id="main-wrapper">
     <!-- Header -->
     {% block header %}
-      {% include 'partials/header.twig' %}
+      {% include 'blocks/header.twig' %}
     {% endblock %}
 
     <!-- Page Content -->
@@ -36,7 +36,7 @@
 
     <!-- Footer -->
     {% block footer %}
-      {% include 'partials/footer.twig' %}
+      {% include 'blocks/footer.twig' %}
     {% endblock %}
   </div> <!-- end #main-wrapper -->
 
@@ -44,28 +44,30 @@
   {{ function('wp_footer') }}
   <!-- end WP Footer -->
 
-  <!-- Google Analytics -->
-  {% if options.google_analytics_code %}
-    <script>
-      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-      ga('create', '{{ options.google_analytics_code }}', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <script async src='https://www.google-analytics.com/analytics.js'></script>
-  {% endif %}
-  <!-- end Google Analytics -->
+  {% if not WP_DEBUG %}
+    <!-- Google Analytics -->
+    {% if options.google_analytics_code %}
+      <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', '{{ options.google_analytics_code }}', 'auto');
+        ga('send', 'pageview');
+      </script>
+      <script async src='https://www.google-analytics.com/analytics.js'></script>
+    {% endif %}
+    <!-- end Google Analytics -->
 
-  <!-- Browser Update -->
-  <script>
-    var $buoop = {required:{e:-4,f:-3,o:-3,s:-1,c:-3},insecure:true,api:2019.09 };
-    function $buo_f(){
-      var e = document.createElement("script");
-      e.src = "//browser-update.org/update.min.js";
-      document.body.appendChild(e);
-    };
-    try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
-    catch(e){window.attachEvent("onload", $buo_f)}
-  </script>
-  <!-- end Browser Update -->
+    <!-- Browser Update -->
+    <script>
+      var $buoop = {required:{e:-4,f:-3,o:-3,s:-1,c:-3},insecure:true,api:2020.02 };
+      function $buo_f(){
+       var e = document.createElement("script");
+       e.src = "//browser-update.org/update.min.js";
+       document.body.appendChild(e);
+      };
+      try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
+      catch(e){window.attachEvent("onload", $buo_f)}
+    </script>
+    <!-- end Browser Update -->
+  {% endif %}
 </body>
 </html>

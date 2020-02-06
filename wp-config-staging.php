@@ -26,10 +26,10 @@ define( 'WPCF7_AUTOP', false );
 define( 'WP_HOME', 'http://' . $_SERVER["HTTP_HOST"] );
 define( 'WP_SITEURL', 'http://' . $_SERVER["HTTP_HOST"] );
 define( 'DB_NAME', '{DB_NAME}' );
-define( 'DB_USER', '{DB_USER}' );
-define( 'DB_PASSWORD', '{DB_PASSWORD}' );
-define( 'DB_HOST', '{DB_HOST}' );
-define( 'WP_DEBUG', true );
+define( 'DB_USER', getenv('DB_USER') );
+define( 'DB_PASSWORD', getenv('DB_PASSWORD') );
+define( 'DB_HOST', 'localhost' );
+define( 'WP_DEBUG', false );
 
 // define( 'WP_USER', '{WP_USER}' );
 // define( 'WP_PASSWORD', '{WP_PASSWORD}' );

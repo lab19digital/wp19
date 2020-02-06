@@ -1,14 +1,10 @@
 <?php
 
-$cache_var = 1;
-
-
 // Load Main JS
 function register_theme_scripts() {
   if (!is_admin()) {
-    global $cache_var;
     wp_deregister_script('jquery');
-    wp_register_script('jquery', get_template_directory_uri() . '/dist/main.js', array(), $cache_var, true);
+    wp_register_script('jquery', get_template_directory_uri() . '/dist/main.js', array(), THEME_BUILD_VERSION, true);
     wp_enqueue_script('jquery');
   }
 }
