@@ -80,7 +80,7 @@ function wp_init() {
 
   return src('wp-config.template.php').pipe(
     prompt.prompt(promptConfig, (res) => {
-      src(['wp-config.template.php', 'wp-config-staging.php'])
+      src('wp-config.template.php')
         .pipe(replace('{DB_NAME}', res.db))
         .pipe(replace('{DB_USER}', res.user))
         .pipe(replace('{DB_PASSWORD}', res.password))
@@ -88,6 +88,12 @@ function wp_init() {
         .pipe(replace('{WP_USER}', res.wpuser))
         .pipe(replace('{WP_PASSWORD}', res.wppass))
         .pipe(rename('wp-config.php'))
+        .pipe(dest('./'));
+
+      src('wp-config-staging.php')
+        .pipe(replace('{DB_NAME}', res.db))
+        .pipe(replace('{WP_USER}', res.wpuser))
+        .pipe(replace('{WP_PASSWORD}', res.wppass))
         .pipe(dest('./'));
 
       src('wp-cli.template.yml')
@@ -144,10 +150,10 @@ function wp_setup() {
   }
 
   cmd = cmd.concat([
-    `echo Wordpress download, installation, and configuration will take a few minutes...`,
+    `echo ${colors.blue.bold('Wordpress download, installation, and configuration will take a few minutes...')}`,
 
     // Get the CLI tool
-    `echo Fetching the CLI tool...`,
+    `echo ${colors.blue.bold('Fetching the CLI tool...')}`,
     `gulp get_wp_cli`,
 
     // Install WP
@@ -165,32 +171,32 @@ function wp_setup() {
     `php wp-cli.phar menu item add-custom Primary Home / --porcelain`,
 
     // Install plugins
-    `echo Download and install plugins...`,
+    `echo ${colors.blue.bold('Download and install plugins...')}`,
     `php wp-cli.phar plugin install${pluginsString} --activate`,
 
     // Remove unused themes and plugins
-    `echo Removing unused themes and plugins...`,
+    `echo ${colors.blue.bold('Removing unused themes and plugins...')}`,
     `php wp-cli.phar plugin uninstall hello akismet`,
     `php wp-cli.phar theme delete twentysixteen twentyseventeen twentynineteen twentytwenty`,
 
     // Change Permalinks
-    `echo Saving permalinks...`,
+    `echo ${colors.blue.bold('Saving permalinks...')}`,
     `php wp-cli.phar rewrite structure '/%postname%/'`,
 
     // Clean up
-    `echo Cleaning the project...`,
+    `echo ${colors.blue.bold('Cleaning the project...')}`,
     `gulp cleanup`,
     `gulp build`,
 
     // Setting up new repo Git
-    `echo Setting up new git repository...`,
+    `echo ${colors.blue.bold('Setting up new git repository...')}`,
     `git init`,
     `gulp copy_git_pre_commit_hook`,
     `git add . --all`,
     `git commit -m "Initial commit"`,
 
     // Done
-    `echo All set! Thanks for waiting.`
+    `echo ${colors.bgGreen.white.bold('All set! Thanks for waiting.')}`
   ]);
 
   // Run these tasks
