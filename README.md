@@ -4,7 +4,13 @@
 
 `npm install` or `yarn` (Install dependencies)
 
+If setting up for the first time:
+
 `npm run setup` or `yarn run setup` (Setup boilerplate)
+
+If cloning existing project:
+
+`npm run get-wp` or `yarn run get-wp` (Download WP & copy git hook)
 
 `npm run dev` or `yarn run dev`
 
@@ -14,8 +20,7 @@ Scaffold a Wordpress project with a minimal starter theme in Bootstrap using Gul
 
 Make sure you're running the latest version of NodeJS: [https://nodejs.org/en/download/](https://nodejs.org/en/download/). You should also have gulp installed.
 
-  `npm install -g gulp` or `yarn global add gulp`
-  
+  `npm install -g gulp` or `yarn global add gulp`  
   `git clone https://github.com/lab19digital/wp19.git . && npm install`
 
 To build an installation from scratch
