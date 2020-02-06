@@ -9,7 +9,8 @@
   "scripts": {
     "build" : "gulp build",
     "dev" : "gulp php",
-    "setup" : "gulp wp_init"
+    "setup" : "gulp wp_init",
+    "get-wp" : "gulp download_wp"
   },
   "author": "Lab19 Digital Limited",
   "license": "ISC",

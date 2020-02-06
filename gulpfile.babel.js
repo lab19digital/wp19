@@ -168,7 +168,7 @@ function wp_setup() {
     // Create basic menu
     `php wp-cli.phar menu create Primary`,
     `php wp-cli.phar menu location assign Primary primary-nav`,
-    `php wp-cli.phar menu item add-custom Primary Home / --porcelain`,
+    `php wp-cli.phar menu item add-custom Primary Home /`,
 
     // Install plugins
     `echo ${colors.blue.bold('Download and install plugins...')}`,
@@ -195,6 +195,27 @@ function wp_setup() {
     `git commit -m "Initial commit"`,
     `gulp copy_git_pre_commit_hook`,
     `git commit --amend --no-edit`,
+
+    // Done
+    `echo ${colors.bgGreen.white.bold('All set! Thanks for waiting.')}`
+  ]);
+
+  // Run these tasks
+  return shell.task(cmd)();
+}
+
+function download_wp() {
+  let cmd = [];
+
+  cmd = cmd.concat([
+    `echo ${colors.blue.bold('Downloading Wordpress...')}`,
+
+    // Download WP
+    `php wp-cli.phar core download --skip-content --force`,
+
+    // Copy git hook
+    `echo ${colors.blue.bold('Copying git hook...')}`,
+    `gulp copy_git_pre_commit_hook`,
 
     // Done
     `echo ${colors.bgGreen.white.bold('All set! Thanks for waiting.')}`
@@ -348,6 +369,7 @@ export {
   wp_init,
   wp_setup,
   get_wp_cli,
+  download_wp,
   copy_wp_base_theme,
   copy_git_pre_commit_hook,
   cleanup,
