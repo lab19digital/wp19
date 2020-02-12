@@ -24,7 +24,7 @@ definitions:
           caches:
             - node
           artifacts:
-            - wp-content/themes/$THEME/dist/**
+            - wp-content/themes/**/dist/**
       - step:
           name: Deploy using git
           script:
