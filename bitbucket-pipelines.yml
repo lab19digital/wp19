@@ -8,9 +8,9 @@ definitions:
           - THEME=$(node -e "process.stdout.write(JSON.parse(fs.readFileSync('theme.json', 'utf8')).theme)")
           - SITE_DIR="/var/www/$BITBUCKET_BRANCH-$BITBUCKET_REPO_SLUG"
           - COMMIT_MESSAGE=`git log --format=%B -n 1 $BITBUCKET_COMMIT`
-          - echo "export THEME=$THEME ; " >> set_env.sh
-          - echo "export SITE_DIR=$SITE_DIR ; " >> set_env.sh
-          - echo "export COMMIT_MESSAGE=$COMMIT_MESSAGE ; " >> set_env.sh
+          - echo "export THEME=\"$THEME\" ; " >> set_env.sh
+          - echo "export SITE_DIR=\"$SITE_DIR\" ; " >> set_env.sh
+          - echo "export COMMIT_MESSAGE=\"$COMMIT_MESSAGE\" ; " >> set_env.sh
         artifacts:
           - set_env.sh
     - parallel:
