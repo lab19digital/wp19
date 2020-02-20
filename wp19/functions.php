@@ -47,6 +47,7 @@ define('THEME_BUILD_VERSION', $build_version);
 
 
 // Imports
+require_once 'functions/commands.php';
 require_once 'functions/general.php';
 require_once 'functions/menus.php';
 require_once 'functions/shortcodes.php';
