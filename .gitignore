@@ -88,4 +88,6 @@ wp-content/cache/supercache/*
 /wp-content/themes/twentynineteen
 /wp-content/themes/twentytwenty
 /wp-content/themes/index.php
-/wp-content/themes/**/dist/**
+
+wp-content/themes/*/dist/*
+!wp-content/themes/*/dist/.gitkeep
