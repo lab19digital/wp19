@@ -38,9 +38,10 @@ definitions:
               git pull $BITBUCKET_GIT_SSH_ORIGIN $BITBUCKET_BRANCH ;
 
               echo \"Copy latest WordPress files to project \" ;
-              cd /var/opt/wordpress && git pull origin master &&
-              git archive master | tar -x -C $SITE_DIR/ &&
-              cp $SITE_DIR/wp-config-staging.php $SITE_DIR/wp-config.php ;
+              sudo curl https://wordpress.org/latest.zip -o /var/opt/wordpress/latest.zip ;
+              sudo unzip /var/opt/wordpress/latest.zip -d /var/opt/wordpress/ ;
+              sudo cp -r /var/opt/wordpress/wordpress/* $SITE_DIR ;
+              sudo cp $SITE_DIR/wp-config-staging.php $SITE_DIR/wp-config.php ;
 
               echo \"Create database\" ;
               bash /var/opt/scripts/create-db.sh $BITBUCKET_REPO_SLUG ;
