@@ -403,7 +403,12 @@ function wp_test( done ){
 
   return test_prompt().then(( res ) => {
     return wp_preflight( res );
-  }).then( done )
+  }).then(() => {
+    return wp_setup();
+  }).catch(( err ) => {
+    process.stderr.write( colors.red.bold(err) + "\n" )
+    done();
+  })
 }
 
 export {
