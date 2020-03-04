@@ -12,12 +12,12 @@ export default () => {
     db: 'wp19_test',
     user: 'root',
     password: null,
-    host: 'localhost',
+    host: '127.0.0.1',
     wpuser: 'wp19-user',
     wppass: 'wp19-pass',
     wpemail: 'admin@example.com',
     wpsitetitle: 'test site title',
-    wpbase: 'http://localhost',
+    wpbase: 'http://127.0.0.1',
     wptheme: 'wp19test'
   }
 
