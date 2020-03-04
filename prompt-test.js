@@ -11,7 +11,7 @@ export default () => {
   const res = {
     db: 'wp19_test',
     user: 'root',
-    password: 'incorrect',
+    password: '',
     host: '127.0.0.1',
     wpuser: 'wp19-user',
     wppass: 'wp19-pass',
