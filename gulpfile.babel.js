@@ -1,5 +1,5 @@
 // Dependencies
-import { series, parallel, watch, src, dest } from 'gulp';
+import gulp, { series, parallel, watch, src, dest } from 'gulp';
 import path              from 'path';
 import shell             from 'gulp-shell';
 import prompt            from 'gulp-prompt';
@@ -398,8 +398,15 @@ const build = parallel(scss_prod, js_prod);
 // Used for automated tests
 function wp_test( done ){
   let {
-    test_prompt
+    test_prompt,
+    test_theme
   } = require('./prompt-test.js').default()
+
+  theme = test_theme
+
+  gulp.on('err', function(){
+    process.exit(1);
+  });
 
   return test_prompt().then(( res ) => {
     return wp_preflight( res );
