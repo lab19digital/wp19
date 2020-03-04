@@ -46,8 +46,8 @@ This generator includes:
 After installation the server will run automatically. A theme called "default" is generated. To start the server in future, run `npm run dev` from the root.
 
 ### Commands
-  `php wp-cli.phar generate_block block-name`
-This will generate all the required boilerplate for a block using the block-name specified. Once generated you can immediately start editing the custom fields to target this block. 
+`yarn run block block-name` or  `php wp-cli.phar generate_block block-name`
+This will generate all the required boilerplate for a block using the block-name specified, and also include the new .scss file in the main.scss file. Once generated you can immediately start editing the custom fields to target this block. 
 
 
 #### Wordpress Plugins
