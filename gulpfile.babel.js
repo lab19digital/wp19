@@ -180,16 +180,16 @@ function wp_setup() {
   }
 
   cmd = cmd.concat([
-    // `echo ${colors.blue.bold('Wordpress download, installation, and configuration will take a few minutes...')}`,
+    `echo ${colors.blue.bold('Wordpress download, installation, and configuration will take a few minutes...')}`,
 
-    // // Get the CLI tool
-    // `echo ${colors.blue.bold('Fetching the CLI tool...')}`,
-    // `gulp get_wp_cli`,
+    // Get the CLI tool
+    `echo ${colors.blue.bold('Fetching the CLI tool...')}`,
+    `gulp get_wp_cli`,
 
-    // // Install WP
-    // `php wp-cli.phar core download`,
-    // `php wp-cli.phar db create`,
-    // `php wp-cli.phar core install`,
+    // Install WP
+    `php wp-cli.phar core download`,
+    `php wp-cli.phar db create`,
+    `php wp-cli.phar core install`,
 
     // Copy the config
     `gulp copy_wp_base_theme`,
