@@ -75,53 +75,67 @@ function get_wp_cli() {
 // finally outputting a wp-config file and a wp-cli template file, used
 // for the remaining installation. You can add more prompt options in
 // prompt-config.js and use the prompt values returned below.
-function wp_init() {
-  let res = {};
+function wp_init( done ){
+  return wp_prompt().then(( res ) => {
+    return wp_preflight( res );
+  }).then(() => {
+    return wp_setup();
+  }).catch(( err ) => {
+    process.stderr.write( colors.red.bold(err) + "\n" )
+    done();
+  })
+}
 
-  return src('wp-config.template.php').pipe(
-    prompt.prompt(promptConfig, (res) => {
-      src('wp-config.template.php')
-        .pipe(replace('{DB_NAME}', res.db))
-        .pipe(replace('{DB_USER}', res.user))
-        .pipe(replace('{DB_PASSWORD}', res.password))
-        .pipe(replace('{DB_HOST}', res.host))
-        .pipe(replace('{WP_USER}', res.wpuser))
-        .pipe(replace('{WP_PASSWORD}', res.wppass))
-        .pipe(rename('wp-config.php'))
-        .pipe(dest('./'));
+function wp_prompt() {
+  let result = {};
+  return new Promise(( resolve, reject ) => {
+    src('wp-config.template.php').pipe(
+      prompt.prompt(promptConfig, (res) => {
+        result = res;
+        src('wp-config.template.php')
+          .pipe(replace('{DB_NAME}', res.db))
+          .pipe(replace('{DB_USER}', res.user))
+          .pipe(replace('{DB_PASSWORD}', res.password))
+          .pipe(replace('{DB_HOST}', res.host))
+          .pipe(replace('{WP_USER}', res.wpuser))
+          .pipe(replace('{WP_PASSWORD}', res.wppass))
+          .pipe(rename('wp-config.php'))
+          .pipe(dest('./'));
 
-      src('wp-config-staging.php')
-        .pipe(replace('{DB_NAME}', res.db))
-        .pipe(replace('{WP_USER}', res.wpuser))
-        .pipe(replace('{WP_PASSWORD}', res.wppass))
-        .pipe(dest('./'));
+        src('wp-config-staging.php')
+          .pipe(replace('{DB_NAME}', res.db))
+          .pipe(replace('{WP_USER}', res.wpuser))
+          .pipe(replace('{WP_PASSWORD}', res.wppass))
+          .pipe(dest('./'));
 
-      src('wp-cli.template.yml')
-        .pipe(replace('{DB_NAME}', res.db))
-        .pipe(replace('{DB_USER}', res.user))
-        .pipe(replace('{DB_PASSWORD}', res.password))
-        .pipe(replace('{DB_HOST}', res.host))
-        .pipe(replace('{WP_USER}', res.wpuser))
-        .pipe(replace('{WP_PASSWORD}', res.wppass))
-        .pipe(replace('{WP_EMAIL}', res.wpemail))
-        .pipe(replace('{WP_SITE_TITLE}', res.wpsitetitle))
-        .pipe(replace('{WP_BASE_URL}', res.wpbase))
-        .pipe(rename('wp-cli.yml'))
-        .pipe(dest('./'));
+        src('wp-cli.template.yml')
+          .pipe(replace('{DB_NAME}', res.db))
+          .pipe(replace('{DB_USER}', res.user))
+          .pipe(replace('{DB_PASSWORD}', res.password))
+          .pipe(replace('{DB_HOST}', res.host))
+          .pipe(replace('{WP_USER}', res.wpuser))
+          .pipe(replace('{WP_PASSWORD}', res.wppass))
+          .pipe(replace('{WP_EMAIL}', res.wpemail))
+          .pipe(replace('{WP_SITE_TITLE}', res.wpsitetitle))
+          .pipe(replace('{WP_BASE_URL}', res.wpbase))
+          .pipe(rename('wp-cli.yml'))
+          .pipe(dest('./'));
 
-      src('wp19/style.css')
-        .pipe(replace('wp19', res.wpsitetitle))
-        .pipe(dest('./wp19'));
+        src('wp19/style.css')
+          .pipe(replace('wp19', res.wpsitetitle))
+          .pipe(dest('./wp19'));
 
-      src('theme.json')
-        .pipe(replace(theme, res.wptheme))
-        .pipe(dest('./'));
+        src('theme.json')
+          .pipe(replace(theme, res.wptheme))
+          .pipe(dest('./'));
 
-      theme = res.wptheme;
+        theme = res.wptheme;
+      })
+    ).on('end', () => {
+      resolve( result );
+    }).on('error', reject);
+  })
 
-      shell.task(['gulp wp_setup'])();
-    })
-  );
 }
 
 // Copy WP Base Theme
@@ -135,6 +149,22 @@ function copy_git_pre_commit_hook() {
   return src('git-pre-commit-hook')
     .pipe(rename('pre-commit'))
     .pipe(dest('./.git/hooks'));
+}
+
+// Check if requirements are met
+function wp_preflight( res ){
+  const exec = require('child_process').execSync;
+  const mysqlCheckPath = exec(`mysql --version || echo 'NO_MYSQL'`);
+  const mysqlCheckCred = exec(`mysql -u${res.user} ${ res.password && res.password != '""' ? `-p${res.password}` : '' } -e "SHOW DATABASES" || echo 'NO_MYSQL'`);
+  return new Promise(( resolve, reject ) => {
+    if( mysqlCheckPath.toString().indexOf('NO_MYSQL') > -1 ){
+      reject('mysql not available on PATH and required by wp-cli');
+    } else if( mysqlCheckCred.toString().indexOf('NO_MYSQL') > -1 ){
+      reject('mysql credentials invalid or server not started');
+    } else {
+      resolve();
+    }
+  })
 }
 
 // Main WP Setup Task
@@ -365,9 +395,22 @@ const php = parallel(php_fn, watch_files);
 const proxy = parallel(proxy_fn, watch_files);
 const build = parallel(scss_prod, js_prod);
 
+// Used for automated tests
+function wp_test( done ){
+  let {
+    test_prompt
+  } = require('./prompt-test.js').default()
+
+  return test_prompt().then(( res ) => {
+    return wp_preflight( res );
+  }).then( done )
+}
+
 export {
   wp_init,
   wp_setup,
+  wp_preflight,
+  wp_test,
   get_wp_cli,
   download_wp,
   copy_wp_base_theme,

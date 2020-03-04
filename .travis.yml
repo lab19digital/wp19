@@ -1,0 +1,18 @@
+dist: xenial
+language: php
+
+services:
+  - mysql
+
+matrix:
+  fast_finish: true
+  include:
+    - php: 7.3
+      env: SETUP=lowest
+
+cache: npm
+
+install:
+  - yarn install
+
+script: yarn run test

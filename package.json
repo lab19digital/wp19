@@ -7,10 +7,11 @@
     "url": "git+ssh://git@github.com:lab19digital/wp19.git"
   },
   "scripts": {
-    "build" : "gulp build",
-    "dev" : "gulp php",
-    "setup" : "gulp wp_init",
-    "get-wp" : "gulp download_wp"
+    "build": "gulp build",
+    "dev": "gulp php",
+    "setup": "gulp wp_init",
+    "get-wp": "gulp download_wp",
+    "test": "gulp wp_test"
   },
   "author": "Lab19 Digital Limited",
   "license": "ISC",
@@ -58,6 +59,7 @@
     "jquery": "^3.4.1",
     "jquery-easing": "^0.0.1",
     "lazysizes": "^5.2.0",
+    "merge-stream": "^2.0.0",
     "mustache": "^4.0.0",
     "parsleyjs": "^2.9.2",
     "popper.js": "^1.16.1",
