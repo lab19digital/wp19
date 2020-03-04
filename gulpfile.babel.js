@@ -404,10 +404,6 @@ function wp_test( done ){
 
   theme = test_theme
 
-  gulp.on('err', function(){
-    process.exit(1);
-  });
-
   return test_prompt().then(( res ) => {
     return wp_preflight( res );
   }).then(() => {
@@ -417,8 +413,9 @@ function wp_test( done ){
       'yarn run block test-block-create'
     ])();
   }).catch(( err ) => {
-    process.stderr.write( colors.red.bold(err) + "\n" )
     done();
+    process.stderr.write( colors.red.bold(err) + "\n" )
+    process.exit(1)
   })
 }
 
