@@ -11,7 +11,7 @@
     "dev": "gulp php",
     "setup": "gulp wp_init",
     "get-wp": "gulp download_wp",
-    "test": "gulp wp_test"
+    "block": "php wp-cli.phar generate_block"
   },
   "author": "Lab19 Digital Limited",
   "license": "ISC",

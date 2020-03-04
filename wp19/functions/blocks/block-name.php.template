@@ -1,0 +1,19 @@
+<?php
+
+  add_action('acf/init', 'acf_block_{block_func}');
+
+  function acf_block_{block_func}() {
+    acf_register_block(array(
+      'name'            => '{block_name}',
+      'title'           => '{block_title}',
+      'render_callback' => 'acf_block_render_{block_func}',
+      'category'        => 'custom-blocks',
+      'keywords'        => array('block', 'name')
+    ));
+  }
+
+  function acf_block_render_{block_func}() {
+    $context = Timber::context();
+    $context['fields'] = get_fields();
+    Timber::render('blocks/{block_name}.twig', $context);
+  }

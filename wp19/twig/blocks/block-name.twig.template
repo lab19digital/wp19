@@ -1,0 +1,4 @@
+{# Block: {block_title} #}
+<div class="{block_name}">
+
+</div>
