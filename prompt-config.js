@@ -1,30 +1,30 @@
 import crypto from 'crypto';
 
-let password = (crypto.randomBytes(20).toString('hex')).substr(0, 15);
+let password = (crypto.randomBytes(256).toString('hex')).substr(0, 20);
 
 export default [
   {
     type: 'input',
-    name: 'db',
+    name: 'dbname',
     message: 'Database Name',
     validate: function (value) {
       return value.length > 0;
     }
   }, {
     type: 'input',
-    name: 'user',
+    name: 'dbuser',
     message: 'Database User',
     default: 'root'
   }, {
     type: 'input',
-    name: 'password',
+    name: 'dbpassword',
     message: 'Database Password',
     default: 'root'
   }, {
     type: 'input',
-    name: 'host',
+    name: 'dbhost',
     message: 'Database Host',
-    default: 'localhost'
+    default: '127.0.0.1'
   }, {
     type: 'input',
     name: 'wpuser',
@@ -32,14 +32,14 @@ export default [
     default: 'admin'
   }, {
     type: 'input',
-    name: 'wppass',
+    name: 'wppassword',
     message: 'WP-Admin Password',
     default: password
   }, {
     type: 'input',
     name: 'wpemail',
     message: 'WP-Admin Email',
-    default: 'admin@example.com'
+    default: 'admin@domain.com'
   }, {
     type: 'input',
     name: 'wptheme',
@@ -47,7 +47,7 @@ export default [
     default: 'default'
   }, {
     type: 'input',
-    name: 'wpbase',
+    name: 'wpbaseurl',
     message: 'Base URL',
     default: 'http://localhost:8000'
   }, {

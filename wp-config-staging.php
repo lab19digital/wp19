@@ -23,13 +23,12 @@ define( 'WP_POST_REVISIONS', 2 );
 define( 'WPCF7_AUTOP', false );
 
 /** DB */
-define( 'WP_HOME', 'http://' . $_SERVER["HTTP_HOST"] );
-define( 'WP_SITEURL', 'http://' . $_SERVER["HTTP_HOST"] );
+define( 'WP_HOME', 'https://' . $_SERVER["HTTP_HOST"] );
+define( 'WP_SITEURL', 'https://' . $_SERVER["HTTP_HOST"] );
 define( 'DB_NAME', '{DB_NAME}' );
 define( 'DB_USER', getenv('DB_USER') );
 define( 'DB_PASSWORD', getenv('DB_PASSWORD') );
-define( 'DB_HOST', 'localhost' );
-define( 'WP_DEBUG', false );
+define( 'DB_HOST', '127.0.0.1' );
 
 // define( 'WP_USER', '{WP_USER}' );
 // define( 'WP_PASSWORD', '{WP_PASSWORD}' );
@@ -80,7 +79,7 @@ $table_prefix = 'wp_';
  *
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
-// define( 'WP_DEBUG', false );
+define( 'WP_DEBUG', false );
 
 /* That's all, stop editing! Happy publishing. */
 

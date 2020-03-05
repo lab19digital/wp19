@@ -46,6 +46,8 @@ wp-content/advanced-cache.php
 wp-content/wp-cache-config.php
 wp-content/cache/*
 wp-content/cache/supercache/*
+wp-content/themes/*/dist/*
+!wp-content/themes/*/dist/.gitkeep
 
 # wp core (as of 4.9.5)
 /db-config.php
@@ -88,6 +90,3 @@ wp-content/cache/supercache/*
 /wp-content/themes/twentynineteen
 /wp-content/themes/twentytwenty
 /wp-content/themes/index.php
-
-wp-content/themes/*/dist/*
-!wp-content/themes/*/dist/.gitkeep
