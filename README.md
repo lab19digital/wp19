@@ -62,18 +62,18 @@ This boilerplate includes:
 
 Automatically installs the following plugins:
 
-* timber-library (Twig templating)
-* advanced-custom-fields
-* wordpress-seo
-* wp-migrate-db
+- timber-library (Twig templating)
+- advanced-custom-fields
+- wordpress-seo
+- wp-migrate-db
 
 Edit `package.json` if you want to install any of the following:
 
-* contact-form-7
-* custom-post-type-ui
-* duplicate-post
-* manual-image-crop
-* wordfence
+- contact-form-7
+- custom-post-type-ui
+- duplicate-post
+- manual-image-crop
+- wordfence
 
 Also removes the hello and akismet plugins and standard themes.
 

@@ -13,7 +13,7 @@
     "get-wp": "gulp download_wp",
     "block": "php wp-cli.phar generate_block",
     "version-hook": "gulp copy_git_pre_commit_hook",
-    "test": "gulp wp_test"
+    "wp19-test": "gulp wp19_test"
   },
   "author": "Lab19 Digital Limited",
   "license": "ISC",

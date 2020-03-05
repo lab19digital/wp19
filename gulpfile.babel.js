@@ -237,7 +237,7 @@ function wp_setup() {
 }
 
 // Used for automated tests
-async function wp_test(done) {
+async function wp19_test(done) {
   let { test_prompt, test_theme } = require('./prompt-test.js').default();
 
   theme = test_theme;
@@ -424,7 +424,7 @@ export {
   wp_init,
   wp_setup,
   wp_preflight,
-  wp_test,
+  wp19_test,
   get_wp_cli,
   download_wp,
   copy_wp_base_theme,

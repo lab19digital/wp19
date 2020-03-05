@@ -22,47 +22,52 @@ export default () => {
     wpsitetitle: 'Test Site Title'
   }
 
-  const createPromise = () => new Promise((resolve, reject) => {
-    return promiseAll([
-      gulp.src('./wp-config.template.php')
-        .pipe(replace('{DB_NAME}', res.dbname))
-        .pipe(replace('{DB_USER}', res.dbuser))
-        .pipe(replace('{DB_PASSWORD}', res.dbpassword))
-        .pipe(replace('{DB_HOST}', res.dbhost))
-        .pipe(replace('{WP_USER}', res.wpuser))
-        .pipe(replace('{WP_PASSWORD}', res.wppassword))
-        .pipe(rename('wp-config.php'))
-        .pipe(dest('./')),
+  const createPromise = () => new Promise(async (resolve, reject) => {
+    try {
+      await promiseAll([
+        gulp.src('./wp-config.template.php')
+          .pipe(replace('{DB_NAME}', res.dbname))
+          .pipe(replace('{DB_USER}', res.dbuser))
+          .pipe(replace('{DB_PASSWORD}', res.dbpassword))
+          .pipe(replace('{DB_HOST}', res.dbhost))
+          .pipe(replace('{WP_USER}', res.wpuser))
+          .pipe(replace('{WP_PASSWORD}', res.wppassword))
+          .pipe(rename('wp-config.php'))
+          .pipe(gulp.dest('./')),
 
-      gulp.src('./wp-config-staging.php')
-        .pipe(replace('{DB_NAME}', res.dbname))
-        .pipe(replace('{WP_USER}', res.wpuser))
-        .pipe(replace('{WP_PASSWORD}', res.wppassword))
-        .pipe(dest('./')),
+        gulp.src('./wp-config-staging.php')
+          .pipe(replace('{DB_NAME}', res.dbname))
+          .pipe(replace('{WP_USER}', res.wpuser))
+          .pipe(replace('{WP_PASSWORD}', res.wppassword))
+          .pipe(gulp.dest('./')),
 
-      gulp.src('./wp-cli.template.yml')
-        .pipe(replace('{DB_NAME}', res.dbname))
-        .pipe(replace('{DB_USER}', res.dbuser))
-        .pipe(replace('{DB_PASSWORD}', res.dbpassword))
-        .pipe(replace('{DB_HOST}', res.dbhost))
-        .pipe(replace('{WP_USER}', res.wpuser))
-        .pipe(replace('{WP_PASSWORD}', res.wppassword))
-        .pipe(replace('{WP_EMAIL}', res.wpemail))
-        .pipe(replace('{WP_BASE_URL}', res.wpbase))
-        .pipe(replace('{WP_SITE_TITLE}', res.wpsitetitle))
-        .pipe(rename('wp-cli.yml'))
-        .pipe(dest('./')),
+        gulp.src('./wp-cli.template.yml')
+          .pipe(replace('{DB_NAME}', res.dbname))
+          .pipe(replace('{DB_USER}', res.dbuser))
+          .pipe(replace('{DB_PASSWORD}', res.dbpassword))
+          .pipe(replace('{DB_HOST}', res.dbhost))
+          .pipe(replace('{WP_USER}', res.wpuser))
+          .pipe(replace('{WP_PASSWORD}', res.wppassword))
+          .pipe(replace('{WP_EMAIL}', res.wpemail))
+          .pipe(replace('{WP_BASE_URL}', res.wpbase))
+          .pipe(replace('{WP_SITE_TITLE}', res.wpsitetitle))
+          .pipe(rename('wp-cli.yml'))
+          .pipe(gulp.dest('./')),
 
-      gulp.src('./wp19/style.css')
-        .pipe(replace('wp19', res.wpsitetitle))
-        .pipe(dest('./wp19')),
+        gulp.src('./wp19/style.css')
+          .pipe(replace('wp19', res.wpsitetitle))
+          .pipe(gulp.dest('./wp19')),
 
-      gulp.src('./theme.json')
-        .pipe(replace(theme, res.wptheme))
-        .pipe(dest('./'))
-    ])
-    .then(() => resolve(res))
-    .catch(err => reject(err));
+        gulp.src('./theme.json')
+          .pipe(replace(theme, res.wptheme))
+          .pipe(gulp.dest('./'))
+      ]);
+
+      return resolve(res);
+    }
+    catch (err) {
+      return reject(err);
+    }
   });
 
   return {
