@@ -70,12 +70,12 @@
   },
   "wpcli": {
     "plugins": [
+      "advanced-custom-fields",
       "timber-library",
       "wordpress-seo",
       "wp-migrate-db"
     ],
     "// Move these plugins above if required //": [
-      "advanced-custom-fields",
       "contact-form-7",
       "custom-post-type-ui",
       "duplicate-post",

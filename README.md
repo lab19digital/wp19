@@ -1,73 +1,81 @@
-# Quick start
+## Table of contents
 
-`npm install -g gulp` or `yarn global add gulp` (You can skip this step if you already have gulp installed)
+- [Quick start](#quick-start)
+- [WP19](#wp19)
+- [Generate New Blocks](#generate-new-blocks)
+- [BEM Linter](#bem-linter)
+- [Versioning / Caching](#versioning--caching)
 
-`npm install` or `yarn` (Install dependencies)
+## Quick start
+
+- `npm install -g gulp` _or_ `yarn global add gulp` _(Skip if you already have gulp installed)_
+
+- `npm install` _or_ `yarn` _(Install dependencies)_
 
 If setting up for the first time:
 
-`npm run setup` or `yarn run setup` (Setup boilerplate)
+- `npm run setup` _or_ `yarn run setup` _(Run boilerplate setup)_
 
 If cloning existing project:
 
-`npm run get-wp` or `yarn run get-wp` (Download WP & copy git hook)
+- `npm run get-wp` _or_ `yarn run get-wp` _(Download latest WP & copy git hook for [versioning](#versioning--caching))_
 
 Then:
 
-`npm run dev` or `yarn run dev`
+- `npm run dev` _or_ `yarn run dev` _(Run dev environment)_
 
-# wp19
+## WP19
 
-Scaffold a Wordpress project with a minimal starter theme in Bootstrap using Gulp.
+Scaffold a WordPress project with a minimal starter theme using Timber/Twig, Bootstrap and Gulp.
 
-Make sure you're running the latest version of NodeJS: [https://nodejs.org/en/download/](https://nodejs.org/en/download/). You should also have gulp installed.
+Make sure you're running the latest version of NodeJS: [https://nodejs.org/en/download/](https://nodejs.org/en/download/).
 
-  `npm install -g gulp` or `yarn global add gulp`
-  
-  `git clone https://github.com/lab19digital/wp19.git . && npm install`
+- `yarn global add gulp` _(Skip if you already have gulp installed)_
 
-To build an installation from scratch
+- `git clone https://github.com/lab19digital/wp19.git . && yarn`
 
-  `npm run setup`
+To setup a project from scratch:
 
-To run the server after build or on an existing project. This starts browsersync. By default the site will serve from http://localhost:3000. You may need to wait a few seconds for browsersync to open the tab.
+- `yarn run setup`
 
-  `npm run dev`
+If you are cloning an existing project:
 
-### Out the box
+- `yarn run get-wp`
 
-This generator includes:
+To run a local development server after setting up or on cloning an existing project. This will start BrowserSync and watch for file changes. By default the site will serve from http://localhost:3000. You may need to wait a few seconds for BrowserSync to open the browser tab.
 
-* Latest wordpress
-* Latest wp-cli
-* Gulp for compiling JavaScript, SCSS
-* Webpack for compiling JavaScript
+- `yarn run dev`
 
-After installation the server will run automatically. A theme called "default" is generated. To start the server in future, run `npm run dev` from the root.
+#### Out the box
 
-### Commands
-`yarn run block block-name` or  `php wp-cli.phar generate_block block-name`
-This will generate all the required boilerplate for a block using the block-name specified, and also include the new .scss file in the main.scss file. Once generated you can immediately start editing the custom fields to target this block. 
+This boilerplate includes:
 
+- Latest WordPress
+- Latest WP-CLI
+- Timber/Twig
+- Gulp and webpack for compiling JavaScript and SCSS
+- BEM Linter for SCSS
+- New build version number on every commit
+- Easy way to generate new WP Blocks
 
 #### Wordpress Plugins
 
 Automatically installs the following plugins:
 
 * timber-library (Twig templating)
+* advanced-custom-fields
 * wordpress-seo
 * wp-migrate-db
 
 Edit `package.json` if you want to install any of the following:
 
-* advanced-custom-fields
 * contact-form-7
 * custom-post-type-ui
 * duplicate-post
 * manual-image-crop
 * wordfence
 
-Also removes the hello and akismet plugins and standard themes
+Also removes the hello and akismet plugins and standard themes.
 
 #### JavaScript Plugins
 
@@ -78,45 +86,49 @@ Comes with jQuery, several other plugins are available but may not be imported b
 - scrollmagic
 - slick-carousel
 
-### A note about JavaScript implementation
+## Generate New Blocks
 
-We use Babel/ES6/Webpack to transpile ES6 JavaScript. This means it's easy to import modules
-into your code, but may have some issues with older libraries or libraries without commonJS
-implementation. You will see inside webpack.config.js that several aliases have been setup
-for GSAP for this purpose. You can uncomment these to get GSAP/Scrollmagic working correctly.
+`yarn run block block-name` _or_  `php wp-cli.phar generate_block block-name`
 
-You may require a similar approach for other JavaScript libraries.
+This will generate all the required boilerplate for a block using the _block-name_ specified, and also include the new _.scss_ file in the `main.scss` file. Once generated you can immediately start editing the custom fields to target this block.
 
-### BEM (Block Element Modifier)
+## BEM Linter
 
-A bem linter has been setup and will run when the `scss` code is compiled. Add your **blocks (components)** inside the `scss/blocks` folder and **utilities** inside `scss/utils` folder. You can also enable the linter on files outside of this default folders by adding the comment `/** @define MyComponent */` at the top of the file. For more info about how to define components and utilities check the documentation https://github.com/postcss/postcss-bem-linter#define-componentsutilities-with-a-comment.
+A BEM (Block Element Modifier) linter has been setup and will run when the `scss` code is compiled. Add your __blocks (components)__ inside the `scss/blocks` folder and __utilities__ inside `scss/utils` folder. You can also enable the linter on files outside of this default folders by adding the comment `/** @define my-component */` at the top of the file. For more info about how to define components and utilities check the [documentation](https://github.com/postcss/postcss-bem-linter#define-componentsutilities-with-a-comment).
 
-### Caching / Build Version
+## Versioning / Caching
 
 A git hook is added when setting up the boilerplate for the first time that will create a file with the _build version_ every time a new commit is made.
 
-If you are cloning this repository after the boilerplate was setup you will need to run the task `gulp copy_git_pre_commit_hook` to copy the hook to your git hooks folder, so next time you make a new commit the build version will be updated.
+If you are cloning this repository after the boilerplate was setup or you need to set the hook again, run the task `gulp copy_git_pre_commit_hook` to copy the hook to your git hooks folder, next time you make a new commit the build version will be updated.
+
+---
+
+### A note about JavaScript implementation
+
+We use Babel/ES6/Webpack to transpile ES6 JavaScript. This means it's easy to import modules into your code, but may have some issues with older libraries or libraries without commonJS implementation. You will see inside webpack.config.js that several aliases have been setup. You can uncomment these to get them working correctly.
+
+You may require a similar approach for other JavaScript libraries.
 
 ### A word about the built in PHP server for Mac users
 
-Mac users have reported issues with the built in PHP server not connecting to the MySQL database correctly.
-This seems to happen for MAMP users. A php.ini file is not defined for MAMP users when using the built
-in server. You should copy your MAMP php.ini file to /etc/
+Mac users have reported issues with the built in PHP server not connecting to the MySQL database correctly. This seems to happen for MAMP users. A php.ini file is not defined for MAMP users when using the built in server. You should copy your MAMP php.ini file to /etc/
 
 The command `php --ini` should tell you where to find the file you need.
 
 For example:
 
-  `/Applications/MAMP/bin/php/phpX.X.XX/conf`
+- `/Applications/MAMP/bin/php/phpX.X.XX/conf`
 
 Should be copied to:
 
-  `/etc/`
+- `/etc/`
 
-Once this is done, the socket file for MySQL socket connections will be found. If this is not the case
-you need to confirm your socket files exists and is configured correctly in the PHP.ini file being used.
+Once this is done, the socket file for MySQL socket connections will be found. If this is not the case you need to confirm your socket files exists and is configured correctly in the PHP.ini file being used.
 
-  `mysql.default_socket = /Applications/MAMP/tmp/mysql/mysql.sock`
-  `pdo_mysql.default_socket = /Applications/MAMP/tmp/mysql/mysql.sock`
+- `mysql.default_socket = /Applications/MAMP/tmp/mysql/mysql.sock`
+- `pdo_mysql.default_socket = /Applications/MAMP/tmp/mysql/mysql.sock`
 
-Created by <a href="https://lab19.dev/" target="_blank">Lab19 Digital</a>.
+---
+
+Created by [Lab19](https://lab19.dev/).
