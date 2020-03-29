@@ -1,70 +1,94 @@
-name: Deploy to Production
+definitions:
+  script: &ssh_prepare mkdir -p ~/.ssh && echo $KNOWNHOSTS > ~/.ssh/known_hosts && (umask  077 ; echo $LAB19_STAGE_KEY_B64 | base64 --decode > ~/.ssh/id_rsa)
+  steps: &steps
+    - step:
+        name: Set environment variables
+        image: node:10.15.0
+        script:
+          - THEME=$(node -e "process.stdout.write(JSON.parse(fs.readFileSync('theme.json', 'utf8')).theme)")
+          - SITE_DIR="/var/www/$BITBUCKET_BRANCH-$BITBUCKET_REPO_SLUG"
+          - echo "export THEME=\"$THEME\" ; " >> set_env.sh
+          - echo "export SITE_DIR=\"$SITE_DIR\" ; " >> set_env.sh
+        artifacts:
+          - set_env.sh
+    - parallel:
+      - step:
+          name: Yarn install
+          image: node:10.15.0
+          script:
+            - source set_env.sh
+            - yarn install
+            - yarn run build
+          caches:
+            - node
+          artifacts:
+            - wp-content/themes/**/dist/**
+      - step:
+          name: Deploy using git
+          script:
+            - source set_env.sh
+            - *ssh_prepare
+            - >
+              ssh lab19@$LAB19_STAGE_IP "echo \"Create site directory at $SITE_DIR \" ;
+              mkdir -p $SITE_DIR ;
 
-on:
-  push:
-    branches: [ master ]
+              echo \"Git pull from origin\" ;
+              cd $SITE_DIR/ ;
+              git init . &&
+              git pull $BITBUCKET_GIT_SSH_ORIGIN $BITBUCKET_BRANCH ;
 
-jobs:
-  build:
-    runs-on: ubuntu-18.04
+              echo \"Copy latest WordPress files to project \" ;
+              curl https://wordpress.org/latest.zip -o /var/opt/wordpress/latest.zip ;
+              unzip /var/opt/wordpress/latest.zip -d /var/opt/wordpress/ ;
+              /bin/cp -rf /var/opt/wordpress/wordpress/* $SITE_DIR ;
+              cp $SITE_DIR/wp-config-staging.php $SITE_DIR/wp-config.php ;
 
-    steps:
-      - uses: actions/checkout@v2
+              echo \"Create database\" ;
+              bash /var/opt/scripts/create-db.sh $BITBUCKET_REPO_SLUG ;
 
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12.16'
+              echo \"Set directory group permissions\" ;
+              sudo chown -R lab19:www $SITE_DIR ;
+              sudo chmod g+s . ;
 
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+              echo \"Completed deployment!\" ; "
 
-      - uses: actions/cache@v1
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+    - step:
+        name: Deploy artifacts
+        script:
+          - source set_env.sh
+          - *ssh_prepare
+          - scp -r wp-content/themes/$THEME/dist lab19@$LAB19_STAGE_IP:$SITE_DIR/wp-content/themes/$THEME
 
-      - name: Install Dependencies
-        run: yarn install
 
-      - name: Build
-        run: yarn run build
-
-      - uses: actions/upload-artifact@v1
-        with:
-          name: dist-files
-          path: dist
-
-  deploy:
-    needs: [ build ]
-    runs-on: ubuntu-18.04
-
-    steps:
-      - name: Set up SSH
-        run: |
-          mkdir -pv ~/.ssh
-          echo ${{ secrets.KNOWN_HOSTS }} | base64 --decode > ~/.ssh/known_hosts
-          (umask 077; echo ${{ secrets.DEPLOY_PRIVATE_KEY }} | base64 --decode > ~/.ssh/id_rsa)
-
-      - name: Connect to server and get files from Github
-        run: |
-          ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_IP }} "echo \"Start deploy...\";
-            mkdir -pv ${{ secrets.SITE_PATH }};
-            cd ${{ secrets.SITE_PATH }};
-            git init;
-            git config remote.origin.url >&- || git remote add origin git@github.com:vtimbuc/vtimbuc.git;
-            git fetch --verbose --depth=1;
-            git reset --hard origin/master;
-          "
-
-      - uses: actions/download-artifact@v1
-        with:
-          name: dist-files
-          path: artifacts/dist
-
-      - name: Deploy dist files
-        run: |
-          scp -r artifacts/dist ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_IP }}:${{ secrets.SITE_PATH }}
+pipelines:
+  branches:
+    master: *steps
+    develop: *steps
+  custom:
+    create-ftp:
+      - step:
+          script:
+            - *ssh_prepare
+            - ssh lab19@$LAB19_STAGE_IP "bash /var/opt/scripts/create-ftp.sh $BITBUCKET_BRANCH $BITBUCKET_REPO_SLUG $BB_AUTH_STRING "
+            - echo "FTP details should now be available under the repo downloads in xml"
+    import-db:
+      - variables:
+        - name: ZipFilename
+      - step:
+          script:
+            - *ssh_prepare
+            - ssh lab19@$LAB19_STAGE_IP "bash /var/opt/scripts/import-db.sh $BITBUCKET_BRANCH $BITBUCKET_REPO_SLUG $ZipFilename $BB_AUTH_STRING "
+    import-plugins:
+      - variables:
+        - name: ZipFilename
+      - step:
+          script:
+            - *ssh_prepare
+            - ssh lab19@$LAB19_STAGE_IP "bash /var/opt/scripts/import-plugins.sh $BITBUCKET_BRANCH $BITBUCKET_REPO_SLUG $ZipFilename $BB_AUTH_STRING "
+    import-uploads:
+      - variables:
+        - name: ZipFilename
+      - step:
+          script:
+            - *ssh_prepare
+            - ssh lab19@$LAB19_STAGE_IP "bash /var/opt/scripts/import-uploads.sh $BITBUCKET_BRANCH $BITBUCKET_REPO_SLUG $ZipFilename $BB_AUTH_STRING "
