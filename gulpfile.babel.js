@@ -379,11 +379,11 @@ function js_prod() {
 
 // Watch
 function watch_files() {
-  watch(`${themePath}/scss/**/*.scss`, scss);
-  watch(`${themePath}/js/**/*.js`, gulp.series(js, reload));
-  watch(`${themePath}/**/*.twig`, reload);
-  watch(`${themePath}/**/*.php`, reload);
-  watch(`${themePath}/**/*.html`, reload);
+  gulp.watch(`${themePath}/scss/**/*.scss`, scss);
+  gulp.watch(`${themePath}/js/**/*.js`, gulp.series(js, reload));
+  gulp.watch(`${themePath}/**/*.twig`, reload);
+  gulp.watch(`${themePath}/**/*.php`, reload);
+  gulp.watch(`${themePath}/**/*.html`, reload);
 }
 
 // PHP
