@@ -47,8 +47,7 @@ definitions:
               bash /var/opt/scripts/create-db.sh $BITBUCKET_REPO_SLUG ;
 
               echo \"Set directory group permissions\" ;
-              sudo chown -R www-data:www-data $SITE_DIR ;
-              sudo chmod g+s . ;
+              sudo bash /var/opt/scripts/set-permissions.sh $BITBUCKET_BRANCH $BITBUCKET_REPO_SLUG ;
 
               echo \"Completed deployment!\" ; "
 
