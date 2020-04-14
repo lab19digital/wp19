@@ -34,8 +34,10 @@ definitions:
 
               echo \"Git pull from origin\" ;
               cd $SITE_DIR/ ;
-              git init . &&
-              git pull $BITBUCKET_GIT_SSH_ORIGIN $BITBUCKET_BRANCH ;
+              git init . ;
+              git remote -v | grep "origin" || git remote add origin $BITBUCKET_GIT_SSH_ORIGIN ;
+              git fetch origin;
+              git reset --hard origin/$BITBUCKET_BRANCH ;
 
               echo \"Copy latest WordPress files to project \" ;
               curl https://wordpress.org/latest.zip -o /var/opt/wordpress/latest.zip ;
