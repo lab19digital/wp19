@@ -3,7 +3,7 @@ definitions:
   steps: &steps
     - step:
         name: Set environment variables
-        image: node:10.15.0
+        image: node:12.18.0
         script:
           - THEME=$(node -e "process.stdout.write(JSON.parse(fs.readFileSync('theme.json', 'utf8')).theme)")
           - SITE_DIR="/var/www/$BITBUCKET_BRANCH-$BITBUCKET_REPO_SLUG"
@@ -14,7 +14,7 @@ definitions:
     - parallel:
       - step:
           name: Yarn install
-          image: node:10.15.0
+          image: node:12.18.0
           script:
             - source set_env.sh
             - yarn install
