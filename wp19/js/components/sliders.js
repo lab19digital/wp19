@@ -1,8 +1,7 @@
 import 'slick-carousel/slick/slick';
 import 'flickity/dist/flickity.pkgd';
 
-export default function(s, $sliders) {
-
+export default function (s, $sliders) {
   // $sliders.slick({
   //   // http://kenwheeler.github.io/slick/
   // });
@@ -10,5 +9,4 @@ export default function(s, $sliders) {
   // $sliders.flickity({
   //   // https://flickity.metafizzy.co/options.html
   // });
-
 }

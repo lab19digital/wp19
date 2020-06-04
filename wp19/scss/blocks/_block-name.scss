@@ -1,15 +1,15 @@
 .block-name {
-  $this: &;
+  $block: &;
 
   &__element {
     &--modifier {
-
+      color: blue;
     }
   }
 
   &--modifier {
-    #{$this}__element {
-
+    #{$block}__element {
+      color: red;
     }
   }
 }

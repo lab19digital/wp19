@@ -1,5 +1,4 @@
 export default function (s, formId) {
-
   let $form, $resultElement, $fname_input, $email_input;
 
   // Hijack the submission. We'll submit the form manually.
@@ -30,7 +29,6 @@ export default function (s, formId) {
     }
   });
 
-
   // Validate the email address in the form
   function isValidEmail($input) {
     var email = $input.val();
@@ -51,7 +49,6 @@ export default function (s, formId) {
     }
   }
 
-
   // Submit the form with an ajax/jsonp request.
   // Based on http://stackoverflow.com/a/15120409/215821
   function submitSubscribeForm($form, $resultElement) {
@@ -71,7 +68,7 @@ export default function (s, formId) {
           var message = data.msg || 'Sorry, unable to subscribe. Please try again later.';
 
           if (data.msg && data.msg.indexOf('already subscribed') >= 0) {
-            message = 'You\'re already subscribed. Thank you.';
+            message = "You're already subscribed. Thank you.";
           }
 
           $resultElement.html(message).removeClass('error').addClass('visible');

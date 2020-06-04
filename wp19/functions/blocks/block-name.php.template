@@ -15,5 +15,5 @@
   function acf_block_render_{block_func}() {
     $context = Timber::context();
     $context['fields'] = get_fields();
-    Timber::render('blocks/{block_name}.twig', $context);
+    Timber::render('blocks/block-{block_name}.twig', $context);
   }

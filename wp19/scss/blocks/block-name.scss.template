@@ -1,3 +1,3 @@
-.{block_name} {
-  $this: &;
+.block-{block_name} {
+
 }
