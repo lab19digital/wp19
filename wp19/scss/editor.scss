@@ -21,8 +21,12 @@ body {
 .wp-block {
   max-width: 100%;
 
-  a.btn {
-    pointer-events: none;
+  .acf-block-preview {
+    [class*="block-"] {
+      a {
+        pointer-events: none;
+      }
+    }
   }
 }
 
