@@ -34,8 +34,8 @@ const wpCli = 'https://github.com/wp-cli/wp-cli/releases/download/v2.4.0/wp-cli-
 
 let theme = themeJSON.theme;
 const basePath = __dirname;
-const themePath = path.resolve(__dirname, `wp-content/themes/${theme}`);
-const nodePath = path.resolve(__dirname, 'node_modules');
+const themePath = path.resolve(__dirname, `wp-content/themes/${theme}`).replace(/\\/g, '/');
+const nodePath = path.resolve(__dirname, 'node_modules').replace(/\\/g, '/');
 const destPath = `${themePath}/dist`;
 
 const baseName = path.basename(basePath);
