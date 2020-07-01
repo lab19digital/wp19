@@ -30,6 +30,7 @@ class Generate_Block extends WP_CLI_Command {
       $this->write_file( $dir . '/twig/blocks/block-' . $name . '.twig', $twigTemplate, $replace );
       $this->write_file( $dir . '/scss/blocks/_block-' . $name . '.scss', $scssTemplate, $replace );
       $this->replace_file( $dir . '/scss/main.scss', '// BLOCKS', "@import 'blocks/block-" . $name . "';" );
+      $this->replace_file( $dir . '/functions/blocks.php', '// BLOCKS', "require('blocks/block-" . $name . ".php');" );
     }
 
     public function write_file( $path, $template, $replace ){

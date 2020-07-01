@@ -18,8 +18,6 @@ if (function_exists('acf_register_block')) {
 
 
   // BLOCKS
-  // ===============================================
-
   require_once 'blocks/block-name.php';
 
 }
