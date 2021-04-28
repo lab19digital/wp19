@@ -12,47 +12,47 @@ definitions:
         artifacts:
           - set_env.sh
     - parallel:
-      - step:
-          name: Yarn install
-          image: node:12.18.0
-          script:
-            - source set_env.sh
-            - yarn install
-            - yarn run build
-          caches:
-            - node
-          artifacts:
-            - wp-content/themes/**/dist/**
-      - step:
-          name: Deploy using git
-          script:
-            - source set_env.sh
-            - *ssh_prepare
-            - >
-              ssh lab19@$LAB19_STAGE_IP "echo \"Create site directory at $SITE_DIR \" ;
-              mkdir -p $SITE_DIR ;
+        - step:
+            name: Yarn install
+            image: node:12.18.0
+            script:
+              - source set_env.sh
+              - yarn install
+              - yarn run build
+            caches:
+              - node
+            artifacts:
+              - wp-content/themes/**/dist/**
+        - step:
+            name: Deploy using git
+            script:
+              - source set_env.sh
+              - *ssh_prepare
+              - >
+                ssh lab19@$LAB19_STAGE_IP "echo \"Create site directory at $SITE_DIR \" ;
+                mkdir -p $SITE_DIR ;
 
-              echo \"Git pull from origin\" ;
-              cd $SITE_DIR/ ;
-              sudo chown -R lab19:lab19 $SITE_DIR ;
-              git init . ;
-              git remote -v | grep "origin" || git remote add origin $BITBUCKET_GIT_SSH_ORIGIN ;
-              git fetch origin;
-              git reset --hard origin/$BITBUCKET_BRANCH ;
+                echo \"Git pull from origin\" ;
+                cd $SITE_DIR/ ;
+                sudo chown -R lab19:lab19 $SITE_DIR ;
+                git init . ;
+                git remote -v | grep "origin" || git remote add origin $BITBUCKET_GIT_SSH_ORIGIN ;
+                git fetch origin;
+                git reset --hard origin/$BITBUCKET_BRANCH ;
 
-              echo \"Copy latest WordPress files to project \" ;
-              curl https://wordpress.org/latest.zip -o /var/opt/wordpress/latest.zip ;
-              unzip /var/opt/wordpress/latest.zip -d /var/opt/wordpress/ ;
-              /bin/cp -rf /var/opt/wordpress/wordpress/* $SITE_DIR ;
-              cp $SITE_DIR/wp-config-staging.php $SITE_DIR/wp-config.php ;
+                echo \"Copy latest WordPress files to project \" ;
+                curl https://wordpress.org/latest.zip -o /var/opt/wordpress/latest.zip ;
+                unzip /var/opt/wordpress/latest.zip -d /var/opt/wordpress/ ;
+                /bin/cp -rf /var/opt/wordpress/wordpress/* $SITE_DIR ;
+                cp $SITE_DIR/wp-config-staging.php $SITE_DIR/wp-config.php ;
 
-              echo \"Create database\" ;
-              bash /var/opt/scripts/create-db.sh $BITBUCKET_REPO_SLUG ;
+                echo \"Create database\" ;
+                bash /var/opt/scripts/create-db.sh $BITBUCKET_REPO_SLUG ;
 
-              echo \"Set directory group permissions\" ;
-              sudo bash /var/opt/scripts/set-permissions.sh $BITBUCKET_BRANCH $BITBUCKET_REPO_SLUG ;
+                echo \"Set directory group permissions\" ;
+                sudo bash /var/opt/scripts/set-permissions.sh $BITBUCKET_BRANCH $BITBUCKET_REPO_SLUG ;
 
-              echo \"Completed deployment!\" ; "
+                echo \"Completed deployment!\" ; "
 
     - step:
         name: Deploy artifacts
@@ -60,7 +60,6 @@ definitions:
           - source set_env.sh
           - *ssh_prepare
           - scp -r wp-content/themes/$THEME/dist lab19@$LAB19_STAGE_IP:$SITE_DIR/wp-content/themes/$THEME
-
 
 pipelines:
   branches:
@@ -75,21 +74,21 @@ pipelines:
             - echo "FTP details should now be available under the repo downloads in xml"
     import-db:
       - variables:
-        - name: ZipFilename
+          - name: ZipFilename
       - step:
           script:
             - *ssh_prepare
             - ssh lab19@$LAB19_STAGE_IP "bash /var/opt/scripts/import-db.sh $BITBUCKET_BRANCH $BITBUCKET_REPO_SLUG $ZipFilename $BB_AUTH_STRING "
     import-plugins:
       - variables:
-        - name: ZipFilename
+          - name: ZipFilename
       - step:
           script:
             - *ssh_prepare
             - ssh lab19@$LAB19_STAGE_IP "bash /var/opt/scripts/import-plugins.sh $BITBUCKET_BRANCH $BITBUCKET_REPO_SLUG $ZipFilename $BB_AUTH_STRING "
     import-uploads:
       - variables:
-        - name: ZipFilename
+          - name: ZipFilename
       - step:
           script:
             - *ssh_prepare

@@ -80,6 +80,7 @@ Also removes the hello and akismet plugins and standard themes.
 #### JavaScript Plugins
 
 Comes with jQuery, several other plugins are available but may not be imported by default:
+
 - mustache
 - parsleyjs
 - gsap
@@ -88,13 +89,13 @@ Comes with jQuery, several other plugins are available but may not be imported b
 
 ## Generate New Blocks
 
-`yarn run block block-name` _or_  `php wp-cli.phar generate_block block-name`
+`yarn run block block-name` _or_ `php wp-cli.phar generate_block block-name`
 
 This will generate all the required boilerplate for a block using the _block-name_ specified, and also include the new _.scss_ file in the `main.scss` file. Once generated you can immediately start editing the custom fields to target this block.
 
 ## BEM Linter
 
-A BEM (Block Element Modifier) linter has been setup and will run when the `scss` code is compiled. Add your __blocks (components)__ inside the `scss/blocks` folder and __utilities__ inside `scss/utils` folder. You can also enable the linter on files outside of this default folders by adding the comment `/** @define my-component */` at the top of the file. For more info about how to define components and utilities check the [documentation](https://github.com/postcss/postcss-bem-linter#define-componentsutilities-with-a-comment).
+A BEM (Block Element Modifier) linter has been setup and will run when the `scss` code is compiled. Add your **blocks (components)** inside the `scss/blocks` folder and **utilities** inside `scss/utils` folder. You can also enable the linter on files outside of this default folders by adding the comment `/** @define my-component */` at the top of the file. For more info about how to define components and utilities check the [documentation](https://github.com/postcss/postcss-bem-linter#define-componentsutilities-with-a-comment).
 
 ## Versioning / Caching
 

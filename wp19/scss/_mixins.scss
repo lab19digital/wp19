@@ -4,8 +4,8 @@
     margin-right: -($width / 2);
 
     & > .col,
-    & > [class^="col-"],
-    & > [class*=" col-"] {
+    & > [class^='col-'],
+    & > [class*=' col-'] {
       padding-left: ($width / 2);
       padding-right: ($width / 2);
     }

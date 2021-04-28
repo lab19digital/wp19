@@ -25,13 +25,13 @@ define( 'WPCF7_AUTOP', false );
 /** DB */
 define( 'WP_HOME', 'http://' . $_SERVER["HTTP_HOST"] );
 define( 'WP_SITEURL', 'http://' . $_SERVER["HTTP_HOST"] );
-define( 'DB_NAME', '{DB_NAME}' );
-define( 'DB_USER', '{DB_USER}' );
-define( 'DB_PASSWORD', '{DB_PASSWORD}' );
-define( 'DB_HOST', '{DB_HOST}' );
+define( 'DB_NAME', '{ DB_NAME }' );
+define( 'DB_USER', '{ DB_USER }' );
+define( 'DB_PASSWORD', '{ DB_PASSWORD }' );
+define( 'DB_HOST', '{ DB_HOST }' );
 
-// define( 'WP_USER', '{WP_USER}' );
-// define( 'WP_PASSWORD', '{WP_PASSWORD}' );
+// define( 'WP_USER', '{ WP_USER }' );
+// define( 'WP_PASSWORD', '{ WP_PASSWORD }' );
 
 /** Database Charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );

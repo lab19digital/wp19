@@ -1,2 +1,13 @@
 node_modules
 dist
+
+/wp-admin
+/wp-includes
+/wp-content
+/wp-*.php
+/index.php
+/license.txt
+/readme.html
+/xmlrpc.php
+
+!wp-content/themes/{ THEME_NAME }

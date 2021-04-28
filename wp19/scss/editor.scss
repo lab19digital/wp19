@@ -7,7 +7,6 @@
 @import 'bootstrap/scss/mixins';
 @import 'mixins';
 
-
 // BASE
 body {
   background-color: $body-bg;
@@ -22,7 +21,7 @@ body {
   max-width: 100%;
 
   .acf-block-preview {
-    [class*="block-"] {
+    [class*='block-'] {
       a {
         pointer-events: none;
       }
@@ -30,12 +29,9 @@ body {
   }
 }
 
-
 // BOOTSTRAP
 @import 'bootstrap/scss/grid';
 
-
 // UTILITIES
-
 
 // BLOCKS

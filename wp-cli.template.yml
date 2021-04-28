@@ -1,21 +1,22 @@
 path: ./
-url: {WP_BASE_URL}
-user: {WP_USER}
+url: { WP_BASE_URL }
+user: { WP_USER }
 skip-plugins:
   - hello
   - akismet
 skip-themes:
+  - twentytwentyone
   - twentytwenty
   - twentynineteen
   - twentyseventeen
   - twentysixteen
 core config:
-  dbname: {DB_NAME}
-  dbuser: {DB_USER}
-  dbpass: {DB_PASSWORD}
-  dbhost: {DB_HOST}
+  dbname: { DB_NAME }
+  dbuser: { DB_USER }
+  dbpass: { DB_PASSWORD }
+  dbhost: { DB_HOST }
 core install:
-  title: {WP_SITE_TITLE}
-  admin_user: {WP_USER}
-  admin_password: {WP_PASSWORD}
-  admin_email: {WP_EMAIL}
+  title: { WP_SITE_TITLE }
+  admin_user: { WP_USER }
+  admin_password: { WP_PASSWORD }
+  admin_email: { WP_EMAIL }

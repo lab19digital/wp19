@@ -7,7 +7,6 @@
 @import 'bootstrap/scss/mixins';
 @import 'mixins';
 
-
 // BOOTSTRAP
 // @import 'bootstrap/scss/print';
 @import 'bootstrap/scss/reboot';
@@ -41,27 +40,19 @@
 // @import 'bootstrap/scss/carousel';
 @import 'bootstrap/scss/utilities';
 
-
 // VENDOR
 // @import 'vendor/flickity';
-// @import 'vendor/slick';
-
 
 // UTILITIES
 @import 'utils/gutenberg';
 
-
 // PARTIALS
-// @import 'partials/animations';
 @import 'partials/scaffolding';
-
 
 // BLOCKS
 
-
 // PAGES
 @import 'pages/home';
-
 
 body.wp-debug {
   &:after {
