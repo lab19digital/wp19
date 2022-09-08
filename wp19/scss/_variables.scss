@@ -13,6 +13,8 @@ $colors: (
   'white': $white
 );
 
+$theme-colors: ();
+
 // Layout
 $spacer: 1rem;
 $paragraph-margin-bottom: $spacer;
@@ -24,11 +26,8 @@ $link-hover-color: currentColor;
 $link-hover-decoration: underline;
 
 // Typography
-$font-family-sans-serif: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
-  Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+$font-family-sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans',
+  'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
   'Noto Color Emoji';
-$font-family-base: $font-family-sans-serif;
 
-$font-sizes: (
-  'regular': $font-size-base
-);
+$font-family-base: $font-family-sans-serif;

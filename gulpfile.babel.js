@@ -12,7 +12,8 @@ import connectPHP from 'gulp-connect-php'
 import plumber from 'gulp-plumber'
 import notify from 'gulp-notify'
 import colors from 'colors/safe'
-import sass from 'gulp-sass'
+import dartSass from 'sass'
+import gulpSass from 'gulp-sass'
 import postcss from 'gulp-postcss'
 // import postcssScss from 'postcss-scss'
 // import postcssBemLinter from 'postcss-bem-linter'
@@ -26,6 +27,8 @@ import promptConfig from './prompt-config'
 import packageJSON from './package.json'
 import themeJSON from './theme.json'
 import { create as browserSyncCreate } from 'browser-sync'
+
+const sass = gulpSass(dartSass)
 
 // Settings
 const wpCli = 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar'
