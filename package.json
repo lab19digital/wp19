@@ -26,7 +26,7 @@
     "autoprefixer": "^10.4.8",
     "babel-loader": "^8.2.5",
     "browser-sync": "^2.27.10",
-    "colors": "^1.4.0",
+    "colors": "1.4.0",
     "core-js": "^3.25.1",
     "del": "6",
     "expose-loader": "^4.0.0",
