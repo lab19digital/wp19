@@ -5,6 +5,9 @@ skip-plugins:
   - hello
   - akismet
 skip-themes:
+  - twentytwentyfour
+  - twentytwentythree
+  - twentytwentytwo
   - twentytwentyone
   - twentytwenty
   - twentynineteen
